@@ -1,0 +1,108 @@
+.jcarousel-wrapper {
+    margin: 20px auto;
+    position: relative;
+    border: 10px solid #fff;
+    /*
+    (4 * width: 150px) + (3 * margin-right: 1px) = 603px
+    */
+    width: 603px;
+    height: 200px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 0 2px #999;
+    -moz-box-shadow: 0 0 2px #999;
+    box-shadow: 0 0 2px #999;
+}
+
+/** Carousel **/
+
+.jcarousel {
+    position: relative;
+    overflow: hidden;
+}
+
+.jcarousel ul {
+    width: 20000em;
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.jcarousel li {
+    float: left;
+    width: 197px;
+    height: 200px;
+    margin-right: 4px;
+    text-align: center;
+}
+
+.jcarousel img {
+    max-height: 100px;
+}
+
+.jcarousel .loading {
+    text-align: center;
+    line-height: 90px; /* Fake vertical aligning */
+}
+
+/** Carousel Controls **/
+
+.jcarousel-control-prev,
+.jcarousel-control-next {
+    position: absolute;
+    top: 77px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    background: #4E443C;
+    color: #fff;
+    text-decoration: none;
+    text-shadow: 0 0 1px #000;
+    font: 24px/27px Arial, sans-serif;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    border-radius: 30px;
+    -webkit-box-shadow: 0 0 2px #999;
+    -moz-box-shadow: 0 0 2px #999;
+    box-shadow: 0 0 2px #999;
+}
+
+.jcarousel-control-prev {
+    left: -50px;
+}
+
+.jcarousel-control-next {
+    right: -50px;
+}
+
+.jcarousel-control-prev:hover span,
+.jcarousel-control-next:hover span {
+    display: block;
+}
+
+.jcarousel-control-prev.inactive,
+.jcarousel-control-next.inactive {
+    opacity: .5;
+    cursor: default;
+}
+
+.jcarousel .plan-box{
+    background: #e0e0e0;
+    border-radius: 15px;
+    border: 1px solid #808080;
+    padding: 25px 0;
+    height: 147px;
+    text-align: center;
+    width: 98%;
+}
+
+.jcarousel .plan-box h4{ color: #000;}
+.jcarousel .plan-box:hover { background-color: #767676; color: #ffffff; box-shadow: 1px; cursor: pointer;}
+.jcarousel .plan-box:hover h1{ color: #ffffff; }
+.jcarousel .plan-box:hover h4{ color: #ffffff;}
+
+.jcarousel .selected  { background-color: #339ec1; color: #ffffff; box-shadow: 1px; cursor: pointer;}
+.jcarousel .selected  h1{ color: #ffffff; }
+.jcarousel .selected h4{ color: #ffffff;}
