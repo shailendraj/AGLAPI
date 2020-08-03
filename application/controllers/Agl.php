@@ -60,6 +60,10 @@ class Agl extends CI_Controller {
 		if($this->session->userdata('set_token')){
             $data['token_msg'] = $this->session->userdata('set_token');            
         }
+		
+		//$data = array();
+		//$data = array_merge($data, array_jkendo_ui());
+		//$data['javascript'][] =  base_url('assets/js/extra/getalldata.js');
 		// Get rows
         $data['agldata'] = $this->aglupload->getRows();
 	    $this->common_view('agl', $data);		
@@ -291,9 +295,10 @@ class Agl extends CI_Controller {
         redirect('/');
     }
 	
-	public function validateSalesData($token) {		
+	public function validateSalesData($token) {	
+        echo "sfsd";exit;	
 		$this->load->library('EXTApi');
-		// Parse data from CSV file
+		
 		$customconfig = get_instance();  
 		$url = $customconfig->config->item('sales_url');		
 		$configOCP = $customconfig->config->item('ocp_primary_key');		
@@ -412,7 +417,7 @@ class Agl extends CI_Controller {
 							\"siteAdditionalDetail\": null
 						}
 					}";
-		}					
+		}		
 		$result = $this->extapi->validate_sales($url, $strHeader, $token, $configOCP);
 		print_r($result);
 		exit;

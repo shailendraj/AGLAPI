@@ -1,4 +1,4 @@
-<?php
+f<?php
 
 if ( ! function_exists('country'))
 {

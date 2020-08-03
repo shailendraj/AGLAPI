@@ -38,7 +38,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<?php } 
 		} ?>
 		<hr/>
-		<!-- Data list table -->
+		<!-- Data list table -->		
         <table class="table table-striped table-bordered">
             <thead class="thead-dark">
                 <tr>
