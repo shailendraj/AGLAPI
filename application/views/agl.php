@@ -57,7 +57,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <td><?php echo $row['NAME_FIRST']; ?></td>
                     <td><?php echo $row['EMAIL']; ?></td>
                     <td><?php echo $row['PHONE_MOBILE']; ?></td>
-                    <td><?php echo $row['AGL_STATUS']; ?></td>
+                    <td><?php echo $row['AGL_STATUS']!='' : $row['AGL_STATUS'] : 'N/A' ; ?></td>
                 </tr>
                 <?php }
 					} else 

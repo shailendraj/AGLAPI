@@ -85,21 +85,19 @@ class Agl extends CI_Controller {
                 
                 // If file uploaded
                 if(is_uploaded_file($_FILES['file']['tmp_name'])){
+				   
                     // Load CSV reader library
                     $this->load->library('CSVReader');
                     
                     // Parse data from CSV file
-                    $csvData = $this->csvreader->parse_csv($_FILES['file']['tmp_name']);
-					
-                    
+                    $csvData = $this->csvreader->parse_csv($_FILES['file']['tmp_name']);                   
                     // Insert/update CSV data into database
                     if(!empty($csvData)){
                         foreach($csvData as $row){ 
-						   $rowCount++;
-                            
+						   $rowCount++;                           
                             // Prepare data for DB insertion
                             $memData = array(
-							    'VENDOR' => $row['VENDOR'],
+							    'VENDOR' => "MLB",
 								'VENDOR_BP' => $row['VENDOR_BP'],
 								'CHANNEL' => $row['CHANNEL'],
 								'BATCH_NUMBER' => $row['BATCH_NUMBER'],
@@ -219,7 +217,7 @@ class Agl extends CI_Controller {
 								'CHANGE_REQUEST' => $row['CHANGE_REQUEST'],
 								'CHANGE_REQUEST_DATE' => $row['CHANGE_REQUEST_DATE'],
 								'COMMENTS' => $row['COMMENTS']
-                            );                           
+                            );							
                             // Check whether leadid already exists in the database
                             $con = array(
                                 'where' => array(
@@ -245,8 +243,7 @@ class Agl extends CI_Controller {
                                     $insertCount++;
                                 }
                             }
-                        }
-                        
+                        }						
                         // Status message with imported data count
                         $notAddCount = ($rowCount - ($insertCount + $updateCount));
                         $successMsg = 'CAF Data imported successfully. Total Rows ('.$rowCount.') | Inserted ('.$insertCount.') | Updated ('.$updateCount.') | Not Inserted ('.$notAddCount.')';
@@ -424,13 +421,15 @@ class Agl extends CI_Controller {
     /*
      * Callback function to check file value and type during validation
      */
-    public function file_check($str){         
+    public function file_check($str){        
         $allowed_mime_types = array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain');
         if(isset($_FILES['file']['name']) && $_FILES['file']['name'] != "") {
             $mime = get_mime_by_extension($_FILES['file']['name']);
+			
             $fileAr = explode('.', $_FILES['file']['name']);
             $ext = end($fileAr);
-            if(($ext == 'csv') && in_array($mime, $allowed_mime_types)) {
+			
+            if(($ext == 'csv') && in_array($mime, $allowed_mime_types)) {			    
                 return true;
             } else {
                 $this->form_validation->set_message('file_check', 'Please select only CSV file to upload.');
