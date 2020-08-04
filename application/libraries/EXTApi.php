@@ -55,12 +55,12 @@ class EXTApi {
 		$curl = curl_init();
 		curl_setopt($curl,CURLOPT_POST, count($data));
 		if ($data)
-		curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+		curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
 	   
 	   // OPTIONS:
 	   curl_setopt($curl, CURLOPT_URL, $url);
 	   curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-		"ersion: v1",
+		"Api-Version: v1",
 		"Authorization:" . $token,
 		"Ocp-Apim-Subscription-Key:" . $ocp,
 		"Correlation-Id:" . $uniquenum,

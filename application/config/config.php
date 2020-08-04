@@ -525,7 +525,7 @@ $config['proxy_ips'] = '';
 // AGL API Details [token] //
 
 $config['token_url'] = "https://secure-qtruat.digital.agl.com.au/oauth/token";
-$config['sales_url'] = "https://qtruat-api.platform.agl.com.au/partners/shared/sales/customerValidation/residential/sales";
+$config['sales_url'] = "https://qtruat-api.platform.agl.com.au/partners/shared/sales/customerValidation/business/sales";
 
 $config['client_id_prod'] = "Ng6IAe05r1oXAQSZFcm84vLidLrHoe6R";
 $config['client_secret_prod'] = "2pdzelSwW3bRzZ7Og9pIBPBYr37f4Ng_yh4WzwLPeY7x4DK7HIfPWXgoZX5LfoNG";

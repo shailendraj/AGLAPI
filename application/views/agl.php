@@ -50,7 +50,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </tr>
             </thead>
             <tbody>
-                <?php if(!empty($agldata)){ foreach($agldata as $row){ ?>
+                <?php if(!empty($agldata))	{ 
+						foreach($agldata as $row)	{ ?>
                 <tr>
                     <td><?php echo $row['LEAD_ID']; ?></td>
                     <td><?php echo $row['NAME_FIRST']; ?></td>
@@ -58,9 +59,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <td><?php echo $row['PHONE_MOBILE']; ?></td>
                     <td><?php echo $row['AGL_STATUS']; ?></td>
                 </tr>
-                <?php } }else{ ?>
-                <tr><td colspan="5">No records(s) found...</td></tr>
-                <?php } ?>
+                <?php }
+					} else 
+				{ ?>
+					<tr><td colspan="5">No records(s) found...</td></tr>
+                <?php 
+				} ?>
             </tbody>
         </table>
 	  <hr>

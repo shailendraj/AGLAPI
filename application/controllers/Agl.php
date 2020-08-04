@@ -21,8 +21,8 @@ class Agl extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->helper('common');
-		$this->load->helper('db');
+		//$this->load->helper('common');
+		//this->load->helper('db');
         
         $this->load->model('aglupload');
         
@@ -60,10 +60,7 @@ class Agl extends CI_Controller {
 		if($this->session->userdata('set_token')){
             $data['token_msg'] = $this->session->userdata('set_token');            
         }
-		
-		//$data = array();
-		//$data = array_merge($data, array_jkendo_ui());
-		//$data['javascript'][] =  base_url('assets/js/extra/getalldata.js');
+				
 		// Get rows
         $data['agldata'] = $this->aglupload->getRows();
 	    $this->common_view('agl', $data);		
@@ -270,7 +267,7 @@ class Agl extends CI_Controller {
         $data = array();
         
         // If validate request is submitted
-        if($this->input->post('validateSubmit')){
+        if($this->input->post('validateSubmit')){		   
             $msg = array();		
 			$this->load->library('EXTApi');
 			// Parse data from CSV file
@@ -284,8 +281,9 @@ class Agl extends CI_Controller {
 			$data['grant_type'] = "client_credentials";
 			$data['content_type'] = "application/json";
 			$result = $this->extapi->api_token('POST', $url, $data);			
-			$result = json_decode($result, true);		
-			if($result['access_token']) { // this function may change 			
+			$result = json_decode($result, true);
+			
+			if($result['access_token']) { // this function may change				
 			    $this->session->set_userdata('api_token_result', $result['access_token']);
 				$this->validateSalesData($result['access_token']);
 			} else {			
@@ -296,7 +294,7 @@ class Agl extends CI_Controller {
     }
 	
 	public function validateSalesData($token) {	
-        echo "sfsd";exit;	
+        	
 		$this->load->library('EXTApi');
 		
 		$customconfig = get_instance();  
@@ -371,54 +369,54 @@ class Agl extends CI_Controller {
 				"state"=> $agldata[$i]['MAILING_STATE'],
 				"postcode"=> $agldata[$i]['MAILING_POSTCODE']
 			);			
-									
-			$strHeader = "{\"header\":" . json_encode($header) . ",
-						\"payload\": { 
-							\"personDetail\": ". json_encode($personDetail) .",
-							\"contactDetail\": ". json_encode($contactDetail) .",
-							\"identification\":{
-								\"medicare\": ". json_encode($mediCare) .",
-								\"passport\": ". json_encode($passport) .",
-								\"driversLicense\": ". json_encode($driversLicense) ."
-							},
-							\"concessionCardDetail\": ". json_encode($concessionCardDetail) .",
-							\"siteAddress\": ". json_encode($siteAddress) .",
-							\"mailingAddress\":{
-								\"streetAddress\": ". json_encode($siteMailingAddress) ."
-							},
-							\"siteMeterDetail\":{
-								\"electricity\": {
-										\"nmi\":". $agldata[$i]['NMI'] ."
-									},
-									\"gas\": {
-										\"mirn\":". $agldata[$i]['DPI_MIRN'] ."
-									}
-							},
-							\"moveDetail\":{
-								\"moveIn\": {
-									\"electricity\": {
-										\"date\":". $agldata[$i]['MOVEIN_DATE_E'] ."
-									},
-									\"gas\": {
-										\"date\":". $agldata[$i]['MOVEIN_DATE_G'] ."
-									}
-								}
-							},
-							\"customerConsent\": {
-								\"hasGivenCreditCheckConsent\": ".$agldata[$i]['CREDIT_CONSENT'].",
-								\"hasGivenEBillingConsent\": ".$agldata[$i]['ECOMM_CONSENT']."
-							},
-							\"businessDetail\": null,
-							\"businessIdentification\": null,
-							\"authorisedContactPersonDetail\": null,
-							\"authorisedPersonContact\": null,
-							\"authorisedPersonIdentification\": null,
-							\"cancellationDetail\": null,
-							\"siteAdditionalDetail\": null
-						}
-					}";
-		}		
-		$result = $this->extapi->validate_sales($url, $strHeader, $token, $configOCP);
+			$headerArray = array(
+			'header'=> $header,
+				'payload'=> array(
+					'personDetail'=>$personDetail,
+					'contactDetail'=>$contactDetail,
+					'identification'=>array(
+						'medicare'=>$mediCare,
+						'passport'=>$passport,
+						'driversLicense'=>$driversLicense
+					),
+					'concessionCardDetail'=>$concessionCardDetail,
+					'siteAddress'=>$siteAddress,
+					'mailingAddress'=>array(
+						'streetAddress'=>$siteMailingAddress
+					),
+					'siteMeterDetail'=>array(
+						'electricity'=>array(
+							'nmi'=>$agldata[$i]['NMI']
+						),
+						'gas'=>array(
+							'mirn'=>$agldata[$i]['DPI_MIRN']
+						)
+					),
+					'moveDetail'=>array(
+						'moveIn'=>array(
+							'electricity'=>array(
+								'date'=>$agldata[$i]['MOVEIN_DATE_E']
+							),
+							'gas'=>array(
+								'date'=>$agldata[$i]['MOVEIN_DATE_G']
+							)
+						)
+					),
+					'customerConsent'=>array(
+						'hasGivenCreditCheckConsent'=>$agldata[$i]['CREDIT_CONSENT'],
+						'hasGivenEBillingConsent'=>$agldata[$i]['ECOMM_CONSENT']
+					),
+					'businessDetail'=>"",
+					'businessIdentification'=>"",
+					'authorisedContactPersonDetail'=>"",
+					'authorisedPersonContact'=>"",
+					'authorisedPersonIdentification'=>"",
+					'cancellationDetail'=>"",
+					'siteAdditionalDetail'=>""
+				)							
+			);					
+		}			
+		$result = $this->extapi->validate_sales($url, $headerArray, $token, $configOCP);
 		print_r($result);
 		exit;
 	}
