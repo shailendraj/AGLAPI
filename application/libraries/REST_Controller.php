@@ -574,7 +574,8 @@ abstract class REST_Controller extends \CI_Controller {
                     'status '=> FALSE,
                     'message' => $this->lang->line('text_rest_unknown')
                 ], self::HTTP_NOT_ACCEPTABLE);
-            exit();
+            //exit();
+            $this->_force_login();
         }
     }
 
