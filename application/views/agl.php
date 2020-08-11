@@ -11,61 +11,77 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			  <span>Choose file</span>
 			  <input type="file" name="file" />			 
 			</div>
-			<input type="submit" class="btn btn-primary" name="importSubmit" value="IMPORT">			
+			<input type="submit" class="btn btn-primary" name="importSubmit" value="PUSH TO AGL">			
 		  </div>		  
 		</form>
 		<hr>		
 		
-		<?php if(!empty($agldata)){ ?>
-		<form action="<?php echo base_url('/validatetoken'); ?>" class="md-form" method="post">
-		  <div>						
+		<!--<?php //if(!empty($filedata) && !isset($api_process_msg) && !isset($file_exists_msg) && !isset($error_msg)){ ?>
+		<form action="<?php //echo base_url('/validatetoken'); ?>" class="md-form" method="post">
+		  <div>					/	
 			<input type="submit" class="btn btn-primary" name="validateSubmit" value="Push to AGL API">		
 		  </div>		  
 		</form>
-		<?php } ?>
+		<?php //} ?>-->
 	  </div>
 	  <!-- Display status message -->
 	    <?php //echo $fileerror; ?>
 		<br/>
+		<?php if(!empty($file_exists_msg)) {
+			echo "<div class='alert alert-success'>".$file_exists_msg."</div>";
+		}?>
 		<?php if(!empty($success_msg)){ ?>
 			<div class="col-xs-12">
 				<div class="alert alert-success"><?php echo $success_msg; ?></div>
 			</div>
-			<?php if(!empty($error_msg)){ ?>
+			
+		<?php } ?>
+		<?php if(!empty($error_msg)){ ?>
 				<div class="col-xs-12">
 					<div class="alert alert-danger"><?php echo $error_msg; ?></div>
 				</div>
-			<?php } 
-		} ?>
+		<?php } ?>
 		<hr/>
-		<!-- Data list table -->		
+		<!-- Data list table -->
+		<?php if(!empty($filedata)) { ?>
         <table class="table table-striped table-bordered">
             <thead class="thead-dark">
                 <tr>
                     <th>#ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Status</th>
+					<th>FILE NAME</th>
+                    <th>DATE UPLOADED</th>
+                    <th>NO OF RECORDS</th>
+                    <th>EXPORT FILE</th>
+                    <th>EXPORT SUBMISSION RESPONSE</th>					
                 </tr>
             </thead>
             <tbody>
-                <?php if(!empty($agldata))	{ 
-						foreach($agldata as $row)	{ ?>
+                <?php if(!empty($filedata))	{						
+						foreach($filedata as $row)	{
+                        if(array_key_exists('recordsCount', $row)) {						
+						?>
                 <tr>
-                    <td><?php echo $row['LEAD_ID']; ?></td>
-                    <td><?php echo $row['NAME_FIRST']; ?></td>
-                    <td><?php echo $row['EMAIL']; ?></td>
-                    <td><?php echo $row['PHONE_MOBILE']; ?></td>
-                    <td><?php echo $row['AGL_STATUS']!='' : $row['AGL_STATUS'] : 'N/A' ; ?></td>
-                </tr>
-                <?php }
+                    <td><?php echo $row['id']; ?></td>
+					<td><?php echo $row['filename']; ?></td>
+                    <td><?php echo $row['date_uploaded']; ?></td>
+                    <td><?php echo $row['recordsCount']->reccount; ?></td>
+					<form method="post" action="<?php echo base_url('/exportall'); ?>" />
+					    <input type="hidden" name="fileid" value="<?php echo $row['id']; ?>"/>
+						<td><input type="submit" class="btn btn-primary" name="exportfile" id="exportfile" value="Export Uploaded CAF"/></td>						
+					</form>
+					<form method="post" action="<?php echo base_url('/exportcafres'); ?>">
+						<input type="hidden" name="fileidres" value="<?php echo $row['id']; ?>"/>
+						<td><input type="submit" class="btn btn-primary" name="exportcaffile" id="exportcaffile" value="Export CAF Response"/></td>
+					</form>
+					</tr>
+                <?php }  }
 					} else 
 				{ ?>
-					<tr><td colspan="5">No records(s) found...</td></tr>
+					<tr><td colspan="6">No records(s) found...</td></tr>
                 <?php 
 				} ?>
             </tbody>
         </table>
+		<?php } ?>
 	  <hr>
 </div>
