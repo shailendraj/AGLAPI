@@ -52,6 +52,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'agl';
 $route['import'] = "/agl/import";
 $route['validatetoken'] = "/agl/validatetoken";
+
+
+//USER loign
+
+$route['login']['get'] = 'authentication/index';
+$route['login']['post'] = 'authentication/loginSubmit';
+$route['logout']['get'] = 'authentication/logout';
+
+
+
+$route['user']['get'] = 'user/index';
+$route['roles']['get'] = 'admin/roles';
+$route['pages']['get'] = 'admin/pages';
+
+$route['user/(:num)'] = 'user/index';
+$route['user/form'] = 'user/form';
+$route['user/submitted'] = 'user/submitted';
+
+$route['page/form'] = 'admin/page_form';
+$route['page/submitted'] = 'admin/page_submitted';
+
+
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 //print_r($route);
