@@ -570,12 +570,14 @@ abstract class REST_Controller extends \CI_Controller {
                 $this->_check_whitelist_auth();
             }
         } else {    
-            if($this->_allow === false) {        
-                $this->_log_request();
+            if($this->_allow === false) {     
+                if ($this->config->item('rest_enable_logging')) {
+                    $this->_log_request();
+                }
                 $this->response([
                         'status '=> FALSE,
                         'message' => $this->lang->line('text_rest_unknown')
-                    ], self::HTTP_NON_AUTHORITATIVE_INFORMATION);
+                    ], self::HTTP_FORBIDDEN);
                 exit();
             } else {
                 $this->_force_login();
@@ -2143,6 +2145,9 @@ abstract class REST_Controller extends \CI_Controller {
                 .'", opaque="' . md5($rest_realm).'"');
         }
 
+        if ($this->config->item('rest_enable_logging')) {
+            $this->_log_request();
+        }
         // Display an error response
         $this->response([
                 $this->config->item('rest_status_field_name') => FALSE,
