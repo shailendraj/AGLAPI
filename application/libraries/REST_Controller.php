@@ -547,7 +547,7 @@ abstract class REST_Controller extends \CI_Controller {
                     $this->config->item('rest_message_field_name') => $this->lang->line('text_rest_ajax_only')
                 ], self::HTTP_NOT_ACCEPTABLE);
         }
-       
+
         // When there is no specific override for the current class/method, use the default auth value set in the config
         if ($this->auth_override === FALSE &&
             (($this->config->item('rest_enable_keys') && $this->_allow === TRUE) || ($this->config->item('allow_auth_and_keys') === TRUE && $this->_allow === TRUE)))
@@ -569,13 +569,17 @@ abstract class REST_Controller extends \CI_Controller {
             {
                 $this->_check_whitelist_auth();
             }
-        } else {
-            $this->response([
-                    'status '=> FALSE,
-                    'message' => $this->lang->line('text_rest_unknown')
-                ], self::HTTP_NOT_ACCEPTABLE);
-            //exit();
-            $this->_force_login();
+        } else {    
+            if($this->_allow === false) {        
+                $this->_log_request();
+                $this->response([
+                        'status '=> FALSE,
+                        'message' => $this->lang->line('text_rest_unknown')
+                    ], self::HTTP_NON_AUTHORITATIVE_INFORMATION);
+                exit();
+            } else {
+                $this->_force_login();
+            }    
         }
     }
 
