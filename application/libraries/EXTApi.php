@@ -50,18 +50,19 @@ class EXTApi {
 		return $result;
 	}
 	
-	function validate_sales($url, $data, $token, $ocp){        
-		$uniquenum = $this->random_strings(10);				
+	function validate_sales($url, $uniquenum, $dataE, $token, $ocp){
+		$postData = json_encode($dataE);				
 		$curl = curl_init();
-		curl_setopt($curl,CURLOPT_POST, count($data));
-		if ($data)
-		curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+		curl_setopt($curl,CURLOPT_POST, 1);
+		if ($dataE)
+		curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
+		//curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
 	   
 	   // OPTIONS:
 	   curl_setopt($curl, CURLOPT_URL, $url);
 	   curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-		"ersion: v1",
-		"Authorization:" . $token,
+		"Api-Version: v1",
+		"Authorization:Bearer " . $token,
 		"Ocp-Apim-Subscription-Key:" . $ocp,
 		"Correlation-Id:" . $uniquenum,
 		"Content-Type: application/json"
@@ -73,21 +74,12 @@ class EXTApi {
 	   // EXECUTE:
 	   
 	   $result = curl_exec($curl);
-		
 		if(!$result){
 			echo 'Curl error: ' . curl_error($curl);
 			die("Connection Failure");
 		}
 		curl_close($curl);
 		return $result;
-	}
-	
-	function random_strings($length_of_string) {
-		// String of all alphanumeric character
-		$str_result = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-		// Shufle the $str_result and returns substring
-		// of specified length
-		return substr("uni".str_shuffle($str_result), 0, $length_of_string);
 	}
 }
 ?>

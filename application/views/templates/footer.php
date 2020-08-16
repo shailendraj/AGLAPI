@@ -1,4 +1,3 @@
- 
 			</main>
 		</div>
 	</div>
@@ -20,6 +19,6 @@
 				echo ' <script src="' . $javascript . '"></script>';
 			}
 		}
-	?>
+	?> 
 </body>
 </html>

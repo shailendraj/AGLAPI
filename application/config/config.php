@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://aglapidev.salesform.com.au/';
+$config['base_url'] = 'https://cafdev.salesform.com.au/';
 
 /*
 |--------------------------------------------------------------------------
@@ -100,7 +100,7 @@ $config['charset'] = 'UTF-8';
 | setting this variable to TRUE (boolean).  See the user guide for details.
 |
 */
-$config['enable_hooks'] = FALSE;
+$config['enable_hooks'] = TRUE;
 
 /*
 |--------------------------------------------------------------------------
@@ -525,7 +525,7 @@ $config['proxy_ips'] = '';
 // AGL API Details [token] //
 
 $config['token_url'] = "https://secure-qtruat.digital.agl.com.au/oauth/token";
-$config['sales_url'] = "https://qtruat-api.platform.agl.com.au/partners/shared/sales/customerValidation/residential/sales";
+$config['sales_url'] = "https://qtruat-api.platform.agl.com.au/partners/shared/sales/customerValidation/residential/sales/";
 
 $config['client_id_prod'] = "Ng6IAe05r1oXAQSZFcm84vLidLrHoe6R";
 $config['client_secret_prod'] = "2pdzelSwW3bRzZ7Og9pIBPBYr37f4Ng_yh4WzwLPeY7x4DK7HIfPWXgoZX5LfoNG";
