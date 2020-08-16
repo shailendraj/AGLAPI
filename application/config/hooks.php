@@ -11,3 +11,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |	https://codeigniter.com/user_guide/general/hooks.html
 |
 */
+
+
+$hook['post_controller_constructor'][] = [
+    'class'    => 'Apiauth',
+    'function' => 'check_status',
+    'filename' => 'Apiauth.php',
+    'filepath' => 'hooks'        
+];
+
