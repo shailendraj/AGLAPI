@@ -115,4 +115,12 @@ class Aglupload extends CI_Model{
 	  $this->db->where('FILE_IMPORT_ID', $iId);	  	  	 
 	  return $this->db->get()->result_array();	 
 	}
+	
+	public function fetch_file_caf_status($iFileId) {
+		$this->db->select("AGL_STATUS");
+	  $this->db->from('aglupload');
+	  $this->db->where('FILE_IMPORT_ID', $iFileId);
+	  return $this->db->get()->result_array();
+	  //echo $this->db->last_query();
+	}
 }

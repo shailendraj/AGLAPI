@@ -35,7 +35,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<div class="col-xs-12">
 					<div class="alert alert-success"><?php echo $success_msg; ?></div>
 				</div>
-				
 			<?php } ?>
 			<?php if(!empty($error_msg)){ ?>> 
 					<div class="col-xs-12">
@@ -43,32 +42,38 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</div>
 
 			<?php } ?>
-			<hr/>
-			<!-- Data list table -->
-			<?php if(!empty($filedata)) { ?>
-	        <table class="table table-striped table-bordered">
-	            <thead class="thead-dark">
-	                <tr>
-	                    <th>#ID</th>
-						<th>FILE NAME</th>
-	                    <th>DATE UPLOADED</th>
-	                    <th>NO OF RECORDS</th>
-	                    <th>EXPORT FILE</th>
-	                    <th>EXPORT SUBMISSION RESPONSE</th>					
-	                </tr>
-	            </thead>
-	            <tbody>
-	                <?php if(!empty($filedata))	{						
-							foreach($filedata as $row)	{
-	                        if(array_key_exists('recordsCount', $row)) {						
-							?>
-	                <tr>
-	                    <td><?php echo $row['id']; ?></td>
+			<hr/> 	 
+		<!-- Data list table -->
+		<?php if(!empty($filedata)) { ?>
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>#ID</th>
+					<th>FILE NAME</th>
+                    <th>DATE UPLOADED</th>
+                    <th>NO OF RECORDS</th>
+                    <th>EXPORT FILE</th>
+                    <th>EXPORT SUBMISSION RESPONSE</th>					
+                </tr>
+            </thead>
+            <tbody>
+                <?php if(!empty($filedata))	{						
+						foreach($filedata as $row)	{						
+                        if(array_key_exists('recordsCount', $row)) {
+						//print_r($row);
+						if($row['addressnotfound'] == '1004') {
+							$cssclass = "style=background-color:#FFBABA !important";
+						} else {
+							$cssclass = "style=background-color:white";
+						}
+						?>
+					<tr <?php echo $cssclass;?> <?php echo $row['addressnotfound'];?>>
+						<td><?php echo $row['id']; ?></td>
 						<td><?php echo $row['filename']; ?></td>
-	                    <td><?php echo $row['date_uploaded']; ?></td>
-	                    <td><?php echo $row['recordsCount']->reccount; ?></td>
+						<td><?php echo $row['date_uploaded']; ?></td>
+						<td><?php echo $row['recordsCount']->reccount; ?></td>
 						<form method="post" action="<?php echo base_url('/exportall'); ?>" />
-						    <input type="hidden" name="fileid" value="<?php echo $row['id']; ?>"/>
+							<input type="hidden" name="fileid" value="<?php echo $row['id']; ?>"/>
 							<td><input type="submit" class="btn btn-primary" name="exportfile" id="exportfile" value="Export Uploaded CAF"/></td>						
 						</form>
 						<form method="post" action="<?php echo base_url('/exportcafres'); ?>">
@@ -90,3 +95,4 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</div>
 </div>
 
+ 
