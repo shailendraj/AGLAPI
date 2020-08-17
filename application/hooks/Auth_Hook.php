@@ -61,6 +61,17 @@ class Auth_Hook
 			}
 		}
 
+		if ($loggedIn) {
+			//FOR FEW DAY REISTRICATION 
+			$users = array('sys.adm', 'sys.adm1', 'sys.adm2', 'sys.adm3', 'sys.adm4');
+			$cUsername = $this->CI->userInfo->username;
+			$firstSegment = $this->CI->uri->segment(1);
+			$bControllers = array('admin', 'roles', 'pages', 'user', 'ipaccess');
+			if((in_array($firstSegment, $bControllers)) && (!in_array($cUsername, $users))) {
+				redirect('/');
+			}
+		}	
+
 		if ($this->CI->uri->segment(1) == 'login') {
 			if ($loggedIn) {
 				redirect('/');

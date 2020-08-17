@@ -264,3 +264,63 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2020-08-03 18:35:29
+
+CREATE TABLE `ip_allow` (
+  `ipID` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(128) NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '1',
+  `ipStart` int(11) unsigned DEFAULT NULL,
+  `ipEnd` int(11) unsigned DEFAULT NULL,
+  `hostname` varchar(512) DEFAULT NULL,
+  PRIMARY KEY (`ipID`),
+  UNIQUE KEY `IP_IDX` (`ipStart`,`ipEnd`)
+) ENGINE=InnoDB AUTO_INCREMENT=1;
+
+CREATE TABLE `pages` (
+  `page_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `page_name` varchar(100) NOT NULL,
+  `page_url_path` varchar(255) NOT NULL,
+  `module` int(11) DEFAULT '0',
+  `parentPageId` int(11) DEFAULT '0',
+  `menuStatus` enum('0','1') DEFAULT '1',
+  `status` enum('0','1') DEFAULT '1',
+  PRIMARY KEY (`page_id`),
+  UNIQUE KEY `page_url_path_UNIQUE` (`page_url_path`)
+) ENGINE=InnoDB;
+
+
+CREATE TABLE `roles` (
+  `role_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `role_name` varchar(45) NOT NULL,
+  `role_description` text NOT NULL,
+  PRIMARY KEY (`role_id`)
+) ENGINE=InnoDB ;
+
+CREATE TABLE `sessions` (
+  `hash` varchar(512) NOT NULL,
+  `username` varchar(64) NOT NULL,
+  `lastActivity` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`hash`)
+) ENGINE=InnoDB;
+
+CREATE TABLE `users` (
+  `username` varchar(64) NOT NULL,
+  `password` varchar(512) NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `alias` varchar(45) DEFAULT NULL,
+  `firstname` varchar(128) NOT NULL,
+  `lastname` varchar(128) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`username`)
+) ENGINE=InnoDB;
+
+CREATE TABLE `user_roles` (
+  `ID` int(64) NOT NULL AUTO_INCREMENT,
+  `username` varchar(64) NOT NULL,
+  `role_id` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `username` (`username`),
+  KEY `role_id` (`role_id`),
+  CONSTRAINT `user_roles_ibfk_1` FOREIGN KEY (`username`) REFERENCES `users` (`username`),
+  CONSTRAINT `user_roles_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `roles` (`role_id`)
+) ENGINE=InnoDB;

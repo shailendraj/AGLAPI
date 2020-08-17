@@ -73,6 +73,12 @@ $route['user/submitted'] = 'user/submitted';
 $route['page/form'] = 'admin/page_form';
 $route['page/submitted'] = 'admin/page_submitted';
 
+$route['ipaccess'] = 'admin/ipaccess';
+$route['ipaccess/form'] = 'admin/ipaccess_form';
+$route['ipaccess/submitted'] = 'admin/ipaccess_submitted';
+$route['ipaccess/update_status'] = 'admin/ipaccess_update_status';
+
+
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 //print_r($route);

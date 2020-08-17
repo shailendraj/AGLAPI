@@ -29,7 +29,8 @@ class Pages_Model extends CI_Model
 		$this->db->insert('pages', $data);
 		return $this->db->insert_id();
 	}
-	function add_page($form_data)
+
+	public function add_page($form_data)
 	{
 		$response = new stdClass();
 		$page_name = (is_array($form_data) && array_key_exists('page_name', $form_data)) ? trim($form_data['page_name']) : '';

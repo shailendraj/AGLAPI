@@ -16,13 +16,13 @@ class Authentication_Model extends CI_Model
 			$response->message = 'Invalid username or password.';
 			return $response;
 		}
-		/*
+		
 		if (!$this->ipAllowed($ipAddress)) {
 			$response->error = 1;
 			$response->message = 'Access from this location is not allowed.';
 			return $response;
 		}
-		*/
+		
 		$userCred = $cred->row();
 
 		if (!password_verify($password, $userCred->password)) {
@@ -69,9 +69,8 @@ class Authentication_Model extends CI_Model
 			return true;
 
 		$this->db->select('hostname')->from('ip_allow')->where('status', 1)->where('hostname != \'\'');
-		$q_hostnames = $this->db->get();
-
-		foreach ($q_hostnames->result() as $row) {
+		$q_hostnames = $this->db->get();		
+		foreach ($q_hostnames->result() as $row) {			
 			if ($ipAddress == gethostbyname($row->hostname))
 				return true;
 		}

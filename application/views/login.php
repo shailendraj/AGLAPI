@@ -194,25 +194,14 @@ a {
 				<form id="loginForm" onsubmit="return false;" autocomplete="off" accept-charset="utf-8">
 				<div class="card2 card border-0 px-4 py-5">
 					<div class="row mb-4 px-3">
-						<h6 class="mb-0 mr-4 mt-2">Sign in </h6>
-						<!--
-						<div class="facebook text-center mr-3">
-							<div class="fa fa-facebook"></div>
-						</div>
-						<div class="twitter text-center mr-3">
-							<div class="fa fa-twitter"></div>
-						</div>
-						<div class="linkedin text-center mr-3">
-							<div class="fa fa-linkedin"></div>
-						</div>
-					-->
+						<h6 class="mb-0 mr-4 mt-2"><strong>Sign in</strong> </h6>					 
 					</div>
-				 
 					<div class="row px-3 mb-4">
 						<div class="line"></div>  
-						<div class="line"></div>
+						<div class="line"></div>												
 					</div>
-					 
+					<div id="error" class="row"> 
+					</div>	
 					<div class="row px-3"> <label class="mb-1">
 							<h6 class="mb-0 text-sm">Username</h6>
 						</label> <input class="mb-4" type="text" id="username" name="email" required placeholder="Enter a valid Username"> </div>
@@ -222,7 +211,9 @@ a {
 					<div class="row px-3 mb-4">
 						<div class="custom-control custom-checkbox custom-control-inline"> <input id="chk1" type="checkbox" name="chk" class="custom-control-input"> <label for="chk1" class="custom-control-label text-sm">Remember me</label> </div>  
 					</div>
-					<div class="row mb-3 px-3"> <button type="submit" class="btn btn-blue text-center" onclick="login()"  >Login</button> </div>
+					<div class="row mb-3 px-3"> 
+						<button type="submit" class="btn btn-blue text-center" onclick="login()" >Login</button> 
+					</div>
 					<div class="row mb-4 px-3">   </div>
 				</div>
 				</form>
@@ -258,10 +249,10 @@ a {
         })
         .fail(function(jqXHR, textStatus, errorThrown) {
             if (jqXHR.status == 500) {
-                $("#error").html('<b>Error: </b>A server error has occured. Please contact your administrator.');
+                $("#error").html('<div class="alert alert-danger" role="alert"><a class="close" data-dismiss="alert">×</a><strong><b>Error: </b>A server error has occured. Please contact your administrator.</strong></div>');
             } else {
                 var data = JSON.parse(jqXHR.responseText);
-                $("#error").html('<b>Error: </b>'+data.message);
+                $("#error").html('<div class="alert alert-danger" role="alert"><a class="close" data-dismiss="alert">×</a><strong><b>Error: </b>'+data.message + '<strong></div>');
             }
             $("#username").val('');
             $("#username").focus();
