@@ -57,22 +57,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </thead>
             <tbody>
                 <?php if(!empty($filedata))	{						
-						foreach($filedata as $row)	{
-                        if(array_key_exists('recordsCount', $row)) {						
+						foreach($filedata as $row)	{						
+                        if(array_key_exists('recordsCount', $row)) {
+						//print_r($row);
+						if($row['addressnotfound'] == '1004') {
+							$cssclass = "style=background-color:#FFBABA !important";
+						} else {
+							$cssclass = "style=background-color:white";
+						}
 						?>
-                <tr>
-                    <td><?php echo $row['id']; ?></td>
-					<td><?php echo $row['filename']; ?></td>
-                    <td><?php echo $row['date_uploaded']; ?></td>
-                    <td><?php echo $row['recordsCount']->reccount; ?></td>
-					<form method="post" action="<?php echo base_url('/exportall'); ?>" />
-					    <input type="hidden" name="fileid" value="<?php echo $row['id']; ?>"/>
-						<td><input type="submit" class="btn btn-primary" name="exportfile" id="exportfile" value="Export Uploaded CAF"/></td>						
-					</form>
-					<form method="post" action="<?php echo base_url('/exportcafres'); ?>">
-						<input type="hidden" name="fileidres" value="<?php echo $row['id']; ?>"/>
-						<td><input type="submit" class="btn btn-primary" name="exportcaffile" id="exportcaffile" value="Export CAF Response"/></td>
-					</form>
+					<tr <?php echo $cssclass;?> <?php echo $row['addressnotfound'];?>>
+						<td><?php echo $row['id']; ?></td>
+						<td><?php echo $row['filename']; ?></td>
+						<td><?php echo $row['date_uploaded']; ?></td>
+						<td><?php echo $row['recordsCount']->reccount; ?></td>
+						<form method="post" action="<?php echo base_url('/exportall'); ?>" />
+							<input type="hidden" name="fileid" value="<?php echo $row['id']; ?>"/>
+							<td><input type="submit" class="btn btn-primary" name="exportfile" id="exportfile" value="Export Uploaded CAF"/></td>						
+						</form>
+						<form method="post" action="<?php echo base_url('/exportcafres'); ?>">
+							<input type="hidden" name="fileidres" value="<?php echo $row['id']; ?>"/>
+							<td><input type="submit" class="btn btn-primary" name="exportcaffile" id="exportcaffile" value="Export CAF Response"/></td>
+						</form>
 					</tr>
                 <?php }  }
 					} else 

@@ -67,38 +67,19 @@ class Agl extends CI_Controller {
 		// Get rows
         $data['filedata'] = $this->fileimport->getRows();
 		if(!empty($data['filedata'])) {
-			foreach($data['filedata'] as $iKey=>$aData) {
-                $cafStatus = $this->getCafStatus($aData['id']);			
+			foreach($data['filedata'] as $iKey=>$aData) {			
 				$data[$iKey]['filearr'] = array(
 					'id'=>$aData['id'],
 					'filename'=>$aData['filename'],
 					'date_uploaded'=>$aData['imported_date'],
-					'addressnotfound'=>$cafStatus,
 					'recordsCount'=>$this->aglupload->getFileDataWithDataCount($aData['id'])
 				);
 			array_push($data['filedata'], $data[$iKey]['filearr']);
 			}
-		}		
+		}
 	    $this->common_view('agl', $data);		
 	}
 	
-	public function getCafStatus($iId) {
-		$aglfilecafstatus = $this->aglupload->fetch_file_caf_status($iId);
-		foreach($aglfilecafstatus as $key=>$value) {
-			foreach($value as $i=>$k) {
-				$status = json_decode($k, true);
-				if(!empty($status['errors'])) {				
-					for($i=0;$i<=count($status['errors'])-1;$i++) {
-						if(isset($status['errors'][$i]['code'])) {
-							if($status['errors'][$i]['code'] == '1004') {
-								return $status['errors'][$i]['code'];
-							}
-						}
-					}
-				}				
-			}
-		}
-	}
 	// import starts here //
 	
 	public function import(){        
@@ -158,7 +139,7 @@ class Agl extends CI_Controller {
 								'NAME_FIRST' => $row['NAME_FIRST'],
 								'NAME_MIDDLE' => $row['NAME_MIDDLE'],
 								'NAME_LAST' => $row['NAME_LAST'],
-								'DOB' => $row['DOB']!='' ? $row['DOB'] : '0000-00-00',
+								'DOB' => $row['DOB']!='' ? date("Y-m-d", strtotime($row['DOB'])) : '0000-00-00',
 								'BUILDING_NAME' => $row['BUILDING_NAME'],
 								'FLOOR' => $row['FLOOR'],
 								'LOT_NUMBER' => $row['LOT_NUMBER'],
@@ -184,9 +165,8 @@ class Agl extends CI_Controller {
 								'AP_PHONE_HOME' => $row['AP_PHONE_HOME'],
 								'AP_PHONE_WORK' => $row['AP_PHONE_WORK'],
 								'AP_PHONE_MOBILE' => $row['AP_PHONE_MOBILE'],
-								'AP_DOB' => $row['AP_DOB']!='' ? $row['AP_DOB'] : '',
+								'AP_DOB' => $row['AP_DOB']!='' ? date("Y-m-d", strtotime($row['AP_DOB'])) : '',
 								'AP_DRIVERS_LICENSE' => $row['AP_DRIVERS_LICENSE'],
-								'AP_EMAILADDRESS' => $row['AP_EMAILADDRESS'],
 								'BUSINESS_NAME' => $row['BUSINESS_NAME'],
 								'LEGAL_NAME' => $row['LEGAL_NAME'],
 								'ABN' => $row['ABN'],
@@ -204,7 +184,7 @@ class Agl extends CI_Controller {
 								'MAILING_POSTCODE' => $row['MAILING_POSTCODE'],
 								'CONCESSION_TYPE' => $row['CONCESSION_TYPE'],
 								'CONCESSION_NUMBER' => $row['CONCESSION_NUMBER'],
-								'VALID_TO' => $row['VALID_TO']!='' ? $row['VALID_TO'] : '',
+								'VALID_TO' => $row['VALID_TO']!='' ? date("Y-m-d", strtotime($row['VALID_TO'])) : '',
 								'DRIVERS_LICENSE' => $row['DRIVERS_LICENSE'],
 								'PASSPORT' => $row['PASSPORT'],
 								'MEDICARE_NUMBER' => $row['MEDICARE_NUMBER'],
@@ -225,7 +205,7 @@ class Agl extends CI_Controller {
 								'SO_REQ' => $row['SO_REQ'],
 								'RETAILER' => $row['RETAILER'],
 								'CAMPAIGN' => $row['CAMPAIGN'],
-								'SALES_DATE' => $row['SALES_DATE']!='' ? $row['SALES_DATE'] : '',
+								'SALES_DATE' => $row['SALES_DATE']!='' ? date("Y-m-d", strtotime($row['SALES_DATE'])) : '',
 								'CONTRACT_NUMBER' => $row['CONTRACT_NUMBER'],
 								'OFFER_TYPE' => $row['OFFER_TYPE'],
 								'PRODUCT_CODE_E' => $row['PRODUCT_CODE_E'],
@@ -248,12 +228,12 @@ class Agl extends CI_Controller {
 								'AGL_ASSIST' => $row['AGL_ASSIST'],
 								'GAS_OFFER' => $row['GAS_OFFER'],
 								'ELEC_OFFER' => $row['ELEC_OFFER'],
-								'MOVEIN_DATE_E' => $row['MOVEIN_DATE_E']!='' ? $row['MOVEIN_DATE_E'] : '',
-								'MOVEIN_DATE_G' => $row['MOVEIN_DATE_G']!='' ? $row['MOVEIN_DATE_G'] : '',
+								'MOVEIN_DATE_E' => $row['MOVEIN_DATE_E']!='' ? date("Y-m-d", strtotime($row['MOVEIN_DATE_E'])) : '',
+								'MOVEIN_DATE_G' => $row['MOVEIN_DATE_G']!='' ? date("Y-m-d", strtotime($row['MOVEIN_DATE_G'])) : '',
 								'MOVEIN_INSTRUCT_E' => $row['MOVEIN_INSTRUCT_E'],
 								'MOVEIN_INSTRUCT_G' => $row['MOVEIN_INSTRUCT_G'],
-								'MOVEOUT_DATE_E' => $row['MOVEOUT_DATE_E']!='' ? $row['MOVEOUT_DATE_E'] : '',
-								'MOVEOUT_DATE_G' => $row['MOVEOUT_DATE_G']!='' ? $row['MOVEOUT_DATE_G'] : '',
+								'MOVEOUT_DATE_E' => $row['MOVEOUT_DATE_E']!='' ? date("Y-m-d", strtotime($row['MOVEOUT_DATE_E'])) : '',
+								'MOVEOUT_DATE_G' => $row['MOVEOUT_DATE_G']!='' ? date("Y-m-d", strtotime($row['MOVEOUT_DATE_G'])) : '',
 								'MOVEOUT_INSTRUCT_E' => $row['MOVEOUT_INSTRUCT_E'],
 								'MOVEOUT_INSTRUCT_G' => $row['MOVEOUT_INSTRUCT_G'],
 								'GREENSALE' => $row['GREENSALE'],
@@ -263,12 +243,12 @@ class Agl extends CI_Controller {
 								'EXISTING_GAS_BP_NUMBER' => $row['EXISTING_GAS_BP_NUMBER'],
 								'EXISTING_ELEC_BP_NUMBER' => $row['EXISTING_ELEC_BP_NUMBER'],
 								'EXISTING_CRN_NUMBER' => $row['EXISTING_CRN_NUMBER'],
-								'CANCELLATION_DATE' => $row['CANCELLATION_DATE']!='' ? $row['CANCELLATION_DATE'] : '',
+								'CANCELLATION_DATE' => $row['CANCELLATION_DATE']!='' ? date("Y-m-d", strtotime($row['CANCELLATION_DATE'])) : '',
 								'CANCELLATION_TYPE' => $row['CANCELLATION_TYPE'],
 								'CANCELLATION_REASON' => $row['CANCELLATION_REASON'],
 								'CANCELLATION_REASON_OTHER' => $row['CANCELLATION_REASON_OTHER'],
 								'CHANGE_REQUEST' => $row['CHANGE_REQUEST'],
-								'CHANGE_REQUEST_DATE' => $row['CHANGE_REQUEST_DATE']!='' ? $row['CHANGE_REQUEST_DATE'] : '',
+								'CHANGE_REQUEST_DATE' => $row['CHANGE_REQUEST_DATE']!='' ? date("Y-m-d", strtotime($row['CHANGE_REQUEST_DATE'])) : '',
 								'COMMENTS' => $row['COMMENTS'],
 								'AGL_API_RESPONSE_CODE'=>'',
 								'AGL_STATUS'=>'Pending',
@@ -363,61 +343,27 @@ class Agl extends CI_Controller {
 		}
 		for($i=0;$i<=count($agldata)-1;$i++) { // prepare payload //
 			$header = array (
-			    "apiName" => "SalesOrder",
+				"offerType" => $agldata[$i]['OFFER_TYPE'], 
+				"dateOfSale" => $agldata[$i]['SALES_DATE'] !== '0000-00-00' ? $agldata[$i]['SALES_DATE'] : '',
 				"vendorBusinessPartnerNumber" => $agldata[$i]['VENDOR_BP'],
 				"vendorName" => $agldata[$i]['VENDOR'],
 				"channel" => $agldata[$i]['CHANNEL'],
 				"retailer" => $agldata[$i]['RETAILER'],
-				"transactionId" => $agldata[$i]['BATCH_NUMBER'],
 				"transactionType" => $agldata[$i]['TRANSACTION_TYPE'],
-				"customerType"  => $agldata[$i]['PROGRAM'],
-				"vendorLeadId" => $agldata[$i]['LEAD_ID'],
-				"resubmissionCount" => "0",
-				"resubmissionComments" => null,
-				"offerType" => $agldata[$i]['OFFER_TYPE'], 
-				"dateOfSale" => $agldata[$i]['SALES_DATE'] !== '0000-00-00' ? $agldata[$i]['SALES_DATE'] : ''
+				"vendorLeadId" => $agldata[$i]['LEAD_ID']
 			);
-			if($agldata[$i]['PROGRAM'] == 'RES') {
-				$personDetail = array (
-					"title" => $agldata[$i]['TITLE'],
-					"firstName" => $agldata[$i]['NAME_FIRST'],
-					"middleName" => $agldata[$i]['NAME_MIDDLE'],
-					"lastName" => $agldata[$i]['NAME_LAST'],
-					"dateOfBirth" => $agldata[$i]['DOB'] !== '0000-00-00' ? $agldata[$i]['DOB'] : ''
-				);
-			} else if($agldata[$i]['PROGRAM'] == 'BUS') {
-				$personDetail = array(
-					"title" => "",
-					"firstName" => "",
-					"middleName" => "",
-					"lastName" => "",
-					"dateOfBirth" => ""
-				);
-			}
+			$personDetail = array (
+				"title" => $agldata[$i]['TITLE'],
+				"firstName" => $agldata[$i]['NAME_FIRST'],
+				"middleName" => $agldata[$i]['NAME_MIDDLE'],
+				"lastName" => $agldata[$i]['NAME_LAST'],
+				"dateOfBirth" => $agldata[$i]['DOB'] !== '0000-00-00' ? $agldata[$i]['DOB'] : ''
+			);
 			$contactDetail = array (
 				"emailAddress" => $agldata[$i]['EMAIL'],
 				"mobilePhone" => $agldata[$i]['PHONE_MOBILE'],
 				"homePhone" => $agldata[$i]['PHONE_HOME'],
 				"WorkPhone" => $agldata[$i]['PHONE_WORK']
-			);
-			$businessDetails = array(			     
-				"name" => $agldata[$i]['BUSINESS_NAME'],
-				"businessName" => $agldata[$i]['LEGAL_NAME'],
-				"type" => $agldata[$i]['PHONE_HOME']
-			);
-			$authorisedContactPersonDetail = array(			     
-				"title" => $agldata[$i]['AP_TITLE'],
-				"firstName" => $agldata[$i]['AP_FIRST_NAME'],
-				"middleName" => $agldata[$i]['AP_MIDDLE_NAME'],
-				"lastName" => $agldata[$i]['AP_LAST_NAME'],
-				"dateOfBirth" => $agldata[$i]['AP_DOB'],
-				"licenseNumber" => $agldata[$i]['AP_DRIVERS_LICENSE']
-			);
-			$authorisedPersonContact = array(			     
-				"emailAddress" => $agldata[$i]['AP_EMAILADDRESS'],
-				"mobilePhone" => $agldata[$i]['AP_PHONE_MOBILE'],
-				"homePhone" => $agldata[$i]['AP_PHONE_HOME'],
-				"workPhone" => $agldata[$i]['AP_PHONE_WORK']
 			);
 			
 			$mediCare = array (
@@ -440,20 +386,18 @@ class Agl extends CI_Controller {
 				"abn" => $agldata[$i]['ABN'],
 				"acn" => $agldata[$i]['ACN']
 			);			
-			$siteAddress = array (				
+			$siteAddress = array (
+				"ignoreAddressValidation" => false,
 				"buildingName" => $agldata[$i]['BUILDING_NAME'],
 				"floorNumber" => $agldata[$i]['FLOOR'],
-				"ignoreAddressValidation" => false,
 				"lotNumber" => $agldata[$i]['LOT_NUMBER'],
-				"postcode" => $agldata[$i]['POSTCODE'],
-				"postOfficeBoxNumber" => null,
-				"state" => $agldata[$i]['STATE'],
-				"streetName" => $agldata[$i]['STREET_NAME'],
+				"unitNumber" => $agldata[$i]['UNIT_NUMBER'],
 				"streetNumber" => $agldata[$i]['STREET_NUMBER'],
+				"streetName" => $agldata[$i]['STREET_NAME'],
 				"suburb" => $agldata[$i]['SUBURB'],
-				"unitNumber" => $agldata[$i]['UNIT_NUMBER']
+				"state" => $agldata[$i]['STATE'],
+				"postcode" => $agldata[$i]['POSTCODE']
 			);
-			
 			$siteMailingAddress = array (
 				"ignoreAddressValidation" => false,
 				"postOfficeBoxNumber" => $agldata[$i]['MAILING_POST_OFFICE_BOX_NUMBER'],
@@ -466,148 +410,53 @@ class Agl extends CI_Controller {
 				"suburb" => $agldata[$i]['MAILING_SUBURB'],
 				"state" => $agldata[$i]['MAILING_STATE'],
 				"postcode" => $agldata[$i]['MAILING_POSTCODE']
-			);	
-			
-			$siteAdditionalDetail = array (
-				"lifeSupportSiteIndicator" => $agldata[$i]['LIFE_SUPPORT'],
-				"meterType" => $agldata[$i]['METER_TYPE'],
-				"serviceOrderRequest" => $agldata[$i]['SO_REQ'],
-				"campaignName" => $agldata[$i]['CAMPAIGN'],
-				"contractNumber" => $agldata[$i]['CONTRACT_NUMBER'],
-				"matrixCode" => $agldata[$i]['MATRIX_CODE'],
-				"tariffType" => $agldata[$i]['TARIFF_TYPE'],
-				"isFlexiPrice" => $agldata[$i]['FLEX_PRICE'],
-				"referrerNumber" => $agldata[$i]['REFERRER_NUMBER'] == 0 ? '' : $agldata[$i]['REFERRER_NUMBER'],
-				"promotionCode" => $agldata[$i]['PROMOTION_CODE'],
-				"merchandisedRequest" => $agldata[$i]['MERCH_REQ'],
-				"aglAssist" => $agldata[$i]['AGL_ASSIST'],
-				"greenSale" => $agldata[$i]['GREENSALE'],
-				"aarhDonation" => $agldata[$i]['AARH_DONATION'],
-				"energyPriceFactSheetRequest" => $agldata[$i]['EPFS_REQ'],
-				"salesAgent" => $agldata[$i]['SALES_AGENT'],
-				"existingCrnNumber" => $agldata[$i]['EXISTING_CRN_NUMBER'],
-				"changeRequest" => $agldata[$i]['CHANGE_REQUEST'],
-				"changeRequestDate" => $agldata[$i]['CHANGE_REQUEST_DATE'] !== '0000-00-00' ? $agldata[$i]['CHANGE_REQUEST_DATE'] : '',
-				"comments" => $agldata[$i]['COMMENTS'],
-				"addressPropertyUse" => $agldata[$i]['OWN_RENT']
-			);
-			if($agldata[$i]['PROGRAM'] == 'BUS') {
-				$campaignCodeE = $agldata[$i]['CAMPAIGN_CODE_SME_ELEC'];
-				$campaignCodeG = $agldata[$i]['CAMPAIGN_CODE_SME_GAS'];
-			} else if($agldata[$i]['PROGRAM'] == 'RES') {
-				$campaignCodeE = $agldata[$i]['CAMPAIGN_CODE_RES_ELEC'];
-				$campaignCodeG = $agldata[$i]['CAMPAIGN_CODE_RES_GAS'];
-			} else {
-				$campaignCodeE = '';
-				$campaignCodeG = '';
-			}
+			);			
 			$headerArray = array (
 			'header' => $header,
 				'payload' => array (
 					'personDetail' => $personDetail,
 					'contactDetail' => $contactDetail,
-					'businessDetail' => $businessDetails,
-					'authorisedContactPersonDetail' => $authorisedContactPersonDetail,
-					'authorisedPersonContact' => $authorisedPersonContact,
-					'siteAddress' => $siteAddress,
-					'mailingAddress' => array (
-						'streetAddress' => $siteMailingAddress
-					),
 					'identification' => array (
 						'medicare' => $mediCare,
 						'passport' => $passport,
 						'driversLicense' => $driversLicense
 					),
-					'authorisedPersonIdentification' => array(
-						"driversLicense" => array(
-							"licenseNumber"=> $agldata[$i]['AP_DRIVERS_LICENCE']
-						),
-						"medicare" => null,
-						"passport"=> null
+					'concessionCardDetail' => $concessionCardDetail,
+					'siteAddress' => $siteAddress,
+					'mailingAddress' => array (
+						'streetAddress' => $siteMailingAddress
 					),
-					'businessIdentification' => $businessIdentification,
-					'concessionCardDetail' => $concessionCardDetail,					
 					'siteMeterDetail' => array (
 						'electricity' => array (
-							'nmi' => $agldata[$i]['NMI'],
-							'meterNumber' => $agldata[$i]['METER_NUMBER_E']
+							'nmi' => $agldata[$i]['NMI']
 						),
 						'gas' => array (
-							'mirn' => $agldata[$i]['DPI_MIRN'],
-							'meterNumber' => $agldata[$i]['METER_NUMBER_G']
-						)
-					),
-					'siteAdditionalDetail' => $siteAdditionalDetail,
-					'orderDetail' => array(
-						'electricity' => array(
-							'productCode' => $agldata[$i]['PRODUCT_CODE_E'],
-							'offerDescription' => $agldata[$i]['ELEC_OFFER'],
-							'campaignCode' => $campaignCodeE,
-							'existingBusinessPartnerNumber'=>$agldata[$i]['EXISTING_ELEC_BP_NUMBER']
-						),
-						'gas' => array(
-							'productCode' => $agldata[$i]['PRODUCT_CODE_G'],
-							'offerDescription' => $agldata[$i]['GAS_OFFER'],
-							'campaignCode' => $campaignCodeG,
-							'existingBusinessPartnerNumber' => $agldata[$i]['EXISTING_GAS_BP_NUMBER']
+							'mirn' => $agldata[$i]['DPI_MIRN']
 						)
 					),
 					'moveDetail' => array (
 						'moveIn' => array (
 							'electricity' => array (
-							    'instructions' => $agldata[$i]['MOVEIN_INSTRUCT_E'],
-								'meterHazardInformation' => $agldata[$i]['METER_HAZARD_E'],
-								'siteAccessInformation' => $agldata[$i]['SITE_ACCESS_E'],
 								'date' => $agldata[$i]['MOVEIN_DATE_E'] !== '0000-00-00' ? $agldata[$i]['MOVEIN_DATE_E'] : ''
 							),
 							'gas' => array (
-							    'instructions' => $agldata[$i]['MOVEIN_INSTRUCT_G'],
-								'siteAccessInformation'=> $agldata[$i]['SITE_ACCESS_G'],
 								'date' => $agldata[$i]['MOVEIN_DATE_G'] !== '0000-00-00' ? $agldata[$i]['MOVEIN_DATE_G'] : ''
 							)
 						),
-						'moveOut' => array(
-							'electricity' => array (
-							    'instructions' => $agldata[$i]['MOVEOUT_INSTRUCT_E'],								
-								'date' => $agldata[$i]['MOVEOUT_DATE_E'] !== '0000-00-00' ? $agldata[$i]['MOVEIN_DATE_E'] : ''
-							),
-							'gas' => array (
-							    'instructions' => $agldata[$i]['MOVEOUT_INSTRUCT_G'],								
-								'date' => $agldata[$i]['MOVEOUT_DATE_G'] !== '0000-00-00' ? $agldata[$i]['MOVEIN_DATE_G'] : ''
-							)
-						)
-					),
-					'billingPreference' => array(
-						'isDirectDebitRequested' => $agldata[$i]['DD_REQ']
-					),
-					'siteMeterAccess' => array(
-						'electricity' => array(
-							'hasCustomerGivenRemoteEnergiseConsent' => $agldata[$i]['RE_EN_REMOTE_SAFETY_CONFIRMATION'],
-							'hasCustomerGivenRemoteDeEnergiseConsent' => $agldata[$i]['DE_EN_REMOTE_SAFETY_CONFIRMATION']
-						),
-						'gas' => array(
-							'dogHazardCode' => $agldata[$i]['DOG_CODE_G']
-						)
-					),
-					'flybuys' => array(
-						'hasCustomerGivenFlybuysLinkConsent' => $agldata[$i]['FLYBUYS_CONSENT'],
-						'flybuysNumber' => $agldata[$i]['FLYBUYS_NUMBER'] == 0 ? '' : $agldata[$i]['FLYBUYS_NUMBER'],
-						'flybuysPointsAllocated' => $agldata[$i]['FLYBUYS_POINTS'] == 0 ? '' : $agldata[$i]['FLYBUYS_POINTS']
+						'moveOut' => ""
 					),
 					'customerConsent' => array (
-						'hasGivenMarketingCommunicationConsent' => $agldata[$i]['MARKETING'],
-						'hasGivenElectronicWelcomePackConsent' => $agldata[$i]['ECONF_PACK_CONSENT'],
-						'hasGivenEBillingConsent' => $agldata[$i]['ECOMM_CONSENT'],
-						'hasGivenBillingUpdateViaSmsConsent' => $agldata[$i]['PRIMARY_SMS_CONSENT'],
 						'hasGivenCreditCheckConsent' => $agldata[$i]['CREDIT_CONSENT'],
-						'hasGivenOnlineAccountRegistrationConsent' => $agldata[$i]['AEO_REG']
+						'hasGivenEBillingConsent' => $agldata[$i]['ECOMM_CONSENT']
 					),
-					'cancellationDetail' => array (
-						'dateOfCancellation' => $agldata[$i]['CANCELLATION_DATE'] !== '0000-00-00' ? $agldata[$i]['CANCELLATION_DATE'] : '',
-						'type' => $agldata[$i]['CANCELLATION_TYPE'],
-						'reason' => $agldata[$i]['CANCELLATION_REASON'],
-						'reasonOther' => $agldata[$i]['CANCELLATION_REASON_OTHER']
-					)					
+					'businessIdentification'=> $businessIdentification,
+					'name' => $agldata[$i]['BUSINESS_NAME'],
+					'businessName' => $agldata[$i]['LEGAL_NAME'],
+					'authorisedContactPersonDetail' => $agldata[$i]['AP_FIRST_NAME'],
+					'authorisedPersonContact' => $agldata[$i]['AP_PHONE_MOBILE'],
+					'authorisedPersonIdentification' => $agldata[$i]['AP_DRIVERS_LICENSE'],
+					'cancellationDetail' => $agldata[$i]['CANCELLATION_REASON'],
+					'siteAdditionalDetail' => ""
 				),							
 			);			
 			
