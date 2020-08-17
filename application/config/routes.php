@@ -55,6 +55,30 @@ $route['validatetoken'] = "/agl/validatetoken";
 $route['getAllData'] = "/agl/getAllData";
 $route['exportall'] = "/agl/exportall";
 $route['exportcafres'] = "/agl/exportcafres";
+
+
+//USER loign
+$route['login']['get'] = 'authentication/index';
+$route['login']['post'] = 'authentication/loginSubmit';
+$route['logout']['get'] = 'authentication/logout';
+
+$route['user']['get'] = 'user/index';
+$route['roles']['get'] = 'admin/roles';
+$route['pages']['get'] = 'admin/pages';
+
+$route['user/(:num)'] = 'user/index';
+$route['user/form'] = 'user/form';
+$route['user/submitted'] = 'user/submitted';
+
+$route['page/form'] = 'admin/page_form';
+$route['page/submitted'] = 'admin/page_submitted';
+
+$route['ipaccess'] = 'admin/ipaccess';
+$route['ipaccess/form'] = 'admin/ipaccess_form';
+$route['ipaccess/submitted'] = 'admin/ipaccess_submitted';
+$route['ipaccess/update_status'] = 'admin/ipaccess_update_status';
+
+
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 //print_r($route);
