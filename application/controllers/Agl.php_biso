@@ -73,7 +73,6 @@ class Agl extends CI_Controller {
 					'id'=>$aData['id'],
 					'filename'=>$aData['filename'],
 					'date_uploaded'=>$aData['imported_date'],
-					'addressnotfound'=>$cafStatus,
 					'recordsCount'=>$this->aglupload->getFileDataWithDataCount($aData['id'])
 				);
 			array_push($data['filedata'], $data[$iKey]['filearr']);
@@ -83,21 +82,18 @@ class Agl extends CI_Controller {
 	}
 	
 	public function getCafStatus($iId) {
-		$aglfilecafstatus = $this->aglupload->fetch_file_caf_status($iId);
+		/*$aglfilecafstatus = $this->aglupload->fetch_file_caf_status($iId);
 		foreach($aglfilecafstatus as $key=>$value) {
 			foreach($value as $i=>$k) {
 				$status = json_decode($k, true);
-				if(!empty($status['errors'])) {				
-					for($i=0;$i<=count($status['errors'])-1;$i++) {
-						if(isset($status['errors'][$i]['code'])) {
-							if($status['errors'][$i]['code'] == '1004') {
-								return $status['errors'][$i]['code'];
-							}
-						}
-					}
-				}				
+				print_r($status);
+				//for($i=0;$i<=count($status)-1;$i++) {
+					//if(!empty($status[$i]['error'])) {
+						//echo $status[$i]['error']['code'];
+					//}
+				//}
 			}
-		}
+		}*/
 	}
 	// import starts here //
 	
