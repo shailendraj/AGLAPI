@@ -55,6 +55,8 @@ $route['validatetoken'] = "/agl/validatetoken";
 $route['getAllData'] = "/agl/getAllData";
 $route['exportall'] = "/agl/exportall";
 $route['exportcafres'] = "/agl/exportcafres";
+$route['exportcafcallres'] = "/agl/exportcafcallres";
+$route['importaddressvalidation'] = "/agl/importaddressvalidation";
 
 
 //USER loign

@@ -106,7 +106,9 @@ class Agl extends CI_Controller {
         $memData = array();
         
         // If import request is submitted
-        if($this->input->post('importSubmit')){		    
+        if($this->input->post('importSubmit')){
+			$siteAddressIsTrue = $this->input->post('siteaddress');
+			$mailingAddressIsTrue = $this->input->post('mailingaddress');		
             // Form field validation rules
             $this->form_validation->set_rules('file', 'CSV file', 'callback_file_check');              	
             // Validate submitted form data	
@@ -129,12 +131,15 @@ class Agl extends CI_Controller {
 				} else {
 					$fileExistsMsg = 'File already exists ! please try another file name';
 					$this->session->set_flashdata('file_exists_msg', $fileExistsMsg);
-					redirect('/');
+					if($siteAddressIsTrue == '' && $mailingAddressIsTrue == '') {
+						redirect('/');
+					} else {
+						redirect('/importaddressvalidation');
+					}
 				}
                 
                 // If file uploaded
-                if(is_uploaded_file($_FILES['file']['tmp_name'])){
-				   
+                if(is_uploaded_file($_FILES['file']['tmp_name'])){				  
                     // Load CSV reader library
                     $this->load->library('CSVReader');
                     
@@ -153,6 +158,8 @@ class Agl extends CI_Controller {
 								'BATCH_NUMBER' => $row['BATCH_NUMBER'],
 								'TRANSACTION_TYPE' => $row['TRANSACTION_TYPE'],
 								'LEAD_ID' => $row['LEAD_ID'],
+								'RESUBMISSION_COUNT' => $row['RESUBMISSION_COUNT'] == '' ? '' : $row['RESUBMISSION_COUNT'],
+								'RESUBMISSION_COMMENT' => $row['RESUBMISSION_COMMENT'] == '' ? '' : $row['RESUBMISSION_COMMENT'],
 								'PROGRAM' => $row['PROGRAM'],
 								'TITLE' => $row['TITLE'],
 								'NAME_FIRST' => $row['NAME_FIRST'],
@@ -307,8 +314,8 @@ class Agl extends CI_Controller {
                         // Status message with imported data count
                         $notAddCount = ($rowCount - ($insertCount + $updateCount));
                         $successMsg = 'CAF Data imported successfully. Total Rows ('.$rowCount.') | Inserted ('.$insertCount.') | Updated ('.$updateCount.') | Not Inserted ('.$notAddCount.')';
-                        $this->session->set_userdata('success_msg', $successMsg);
-						$this->validatetoken();
+                        $this->session->set_userdata('success_msg', $successMsg);												
+						$this->validatetoken($siteAddressIsTrue, $mailingAddressIsTrue);
                     }
                 } else {
                     $this->session->set_userdata('error_msg', 'Error on file upload, please try again.');
@@ -321,7 +328,7 @@ class Agl extends CI_Controller {
     }
 	
 	// AGL API to get access token //
-	public function validatetoken() {	    
+	public function validatetoken($siteAddress, $mailingAddress) {	    
         $data = array();
         
         // If validate request is submitted
@@ -342,7 +349,7 @@ class Agl extends CI_Controller {
 			$result = json_decode($result, true);
 			
 			if($result['access_token']) { // this function may change							    
-				$resultSet = $this->validateSalesData($result['access_token']);				
+				$resultSet = $this->validateSalesData($result['access_token'], $siteAddress, $mailingAddress);				
 			} else {			
 				$this->session->set_userdata('error_msg', 'Error on token assignment.');
 			}			
@@ -350,7 +357,10 @@ class Agl extends CI_Controller {
         redirect('/');
     }
 	
-	public function validateSalesData($token) {	        
+	public function validateSalesData($token, $sa, $ma) {
+        $ignoreSiteAddressValidation = $sa == 1 ? "true" : "false";
+		$ignoreSiteMailingAddressValidation = $ma == 1 ? "true" : "false";
+		
 		$this->load->library('EXTApi');
 		
 		$customconfig = get_instance();  
@@ -372,8 +382,8 @@ class Agl extends CI_Controller {
 				"transactionType" => $agldata[$i]['TRANSACTION_TYPE'],
 				"customerType"  => $agldata[$i]['PROGRAM'],
 				"vendorLeadId" => $agldata[$i]['LEAD_ID'],
-				"resubmissionCount" => "0",
-				"resubmissionComments" => null,
+				"resubmissionCount" => $agldata[$i]['RESUBMISSION_COUNT'],
+				"resubmissionComments" => $agldata[$i]['RESUBMISSION_COMMENT'],
 				"offerType" => $agldata[$i]['OFFER_TYPE'], 
 				"dateOfSale" => $agldata[$i]['SALES_DATE'] !== '0000-00-00' ? $agldata[$i]['SALES_DATE'] : ''
 			);
@@ -443,7 +453,7 @@ class Agl extends CI_Controller {
 			$siteAddress = array (				
 				"buildingName" => $agldata[$i]['BUILDING_NAME'],
 				"floorNumber" => $agldata[$i]['FLOOR'],
-				"ignoreAddressValidation" => false,
+				"ignoreAddressValidation" => $ignoreSiteAddressValidation,
 				"lotNumber" => $agldata[$i]['LOT_NUMBER'],
 				"postcode" => $agldata[$i]['POSTCODE'],
 				"postOfficeBoxNumber" => null,
@@ -455,7 +465,7 @@ class Agl extends CI_Controller {
 			);
 			
 			$siteMailingAddress = array (
-				"ignoreAddressValidation" => false,
+				"ignoreAddressValidation" => $ignoreSiteMailingAddressValidation,
 				"postOfficeBoxNumber" => $agldata[$i]['MAILING_POST_OFFICE_BOX_NUMBER'],
 				"buildingName" => $agldata[$i]['MAILING_BUILDING_NAME'],
 				"floorNumber" => $agldata[$i]['MAILING_FLOOR'],
@@ -466,8 +476,7 @@ class Agl extends CI_Controller {
 				"suburb" => $agldata[$i]['MAILING_SUBURB'],
 				"state" => $agldata[$i]['MAILING_STATE'],
 				"postcode" => $agldata[$i]['MAILING_POSTCODE']
-			);	
-			
+			);				
 			$siteAdditionalDetail = array (
 				"lifeSupportSiteIndicator" => $agldata[$i]['LIFE_SUPPORT'],
 				"meterType" => $agldata[$i]['METER_TYPE'],
@@ -671,8 +680,9 @@ class Agl extends CI_Controller {
 	}
 	
 	public function exportall() {	    
-	    $fileId = $this->input->post('fileid');		
-		$file_name = 'agl_'.date('Ymd').'.csv'; 
+	    $fileId = $this->input->post('fileid');
+		$fileName = explode(".", $this->input->post('filename'));		
+		$file_name = 'aglcaf_'.$fileName[0]."_".date('Ymd').'.csv'; 
 		$agluploaded = $this->aglupload->fetch_agl_data($fileId);
 		header('Pragma: public');
         header('Expires: 0');
@@ -697,11 +707,12 @@ class Agl extends CI_Controller {
 	}
 	
 	public function exportcafres() {	    
-	    $fileId = $this->input->post('fileidres');		
-		$file_name = 'caf_response_'.date('Ymd').'.csv';	
+	    $fileId = $this->input->post('fileidres');
+		$fileName = explode(".", $this->input->post('filename'));		
+		$file_name = 'aglcaf_submitresponse_'.$fileName[0]."_".date('Ymd').'.csv';
+ 		
 		$aglCafResponse = $this->aglupload->fetch_aglcaf_response($fileId);	
         
-		
 		header('Pragma: public');
         header('Expires: 0');
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
@@ -722,16 +733,18 @@ class Agl extends CI_Controller {
 		    $temp = array($aglCafResponse[$i]['CORRELATION_ID'],$aglCafResponse[$i]['LEAD_ID'],$aglCafResponse[$i]['MODIFIED_DATE']);
 			$resultSet = array();			
 			$resultSet2[$i] = json_decode($aglCafResponse[$i]['AGL_STATUS'], true);
-			foreach($resultSet2[$i] as $key=>$val) {
-				if(!is_array($val)) {
-					array_push($temp, $val);
-				} 
-				if(is_array($val)) {
-					for($k=0;$k<=count($val)-1;$k++) {
-					    $temp2 = array($val[$k]['field'], $val[$k]['code'], $val[$k]['message']);
-						$temp3 = array_merge($temp, $temp2);
-						array_push($resultSet, $temp3);						
-					}					
+			if(!empty($resultSet2[$i])) {
+				foreach($resultSet2[$i] as $key=>$val) {
+					if(!is_array($val)) {
+						array_push($temp, $val);
+					} 
+					if(is_array($val)) {
+						for($k=0;$k<=count($val)-1;$k++) {
+							$temp2 = array($val[$k]['field'], $val[$k]['code'], $val[$k]['message']);
+							$temp3 = array_merge($temp, $temp2);
+							array_push($resultSet, $temp3);						
+						}					
+					}
 				}
 			}
             if(!empty($resultSet)) {		
@@ -749,5 +762,80 @@ class Agl extends CI_Controller {
 		}		
 		fclose($file); 
 		exit;
+	}
+	
+	public function exportcafcallres() {	    
+	    $fileId = $this->input->post('fileidcafres');
+		$fileName = explode(".", $this->input->post('filename'));		
+		$file_name = 'aglcaf_cbresponse_'.$fileName[0]."_".date('Ymd').'.csv';
+			
+		$aglCafResponse = $this->aglupload->fetch_aglcafcallback_response($fileId);
+        		
+		header('Pragma: public');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+        header('Content-Disposition: attachment; filename="' . $file_name . '"');        
+        header('Content-Transfer-Encoding: binary');
+		
+		// get data 
+			        
+		// file creation 
+		$file = fopen('php://output', 'w');
+
+		$header = array('CorrelationId','Vendor LeadId','Transaction Type','Date Created','Code','Message','Field','Code','Message'); 
+		
+		fputcsv($file, $header);
+		
+		for($i =0 ; $i<=count($aglCafResponse)- 1; $i++) {
+		    $temp = array($aglCafResponse[$i]['correlation_id'],$aglCafResponse[$i]['vendor_lead_id'],$aglCafResponse[$i]['transaction_type'], $aglCafResponse[$i]['create_datetime'], $aglCafResponse[$i]['code'], $aglCafResponse[$i]['message']);
+			$resultSet = array();			
+			$resultSet2[$i] = json_decode($aglCafResponse[$i]['errors'], true);
+			if(!empty($resultSet2[$i])) {
+				foreach($resultSet2[$i] as $key=>$val) {
+					if(!is_array($val)) {
+						array_push($temp, $val);
+					}				
+					if(is_array($val)) {
+						//for($k=0;$k<=count($val)-1;$k++) {
+							$temp2 = array($val['field'], $val['code'], $val['message']);
+							$temp3 = array_merge($temp, $temp2);
+							array_push($resultSet, $temp3);						
+						//}					
+					}
+				}
+			}
+            if(!empty($resultSet)) {		
+				foreach($resultSet as $key=>$row) {
+					fputcsv($file, $row);
+				}
+			} else {
+				$temp2 = array();
+				$temp3 = array_merge($temp, $temp2);
+				array_push($resultSet, $temp3);	
+				foreach($resultSet as $key=>$row) {
+					fputcsv($file, $row);
+				}
+			}
+		}		
+		fclose($file); 
+		exit;
+	}
+	
+	public function importaddressvalidation()
+	{
+	    $data = array();
+		// Get messages from the session
+        if($this->session->userdata('success_msg')){
+            $data['success_msg'] = $this->session->userdata('success_msg');
+            $this->session->unset_userdata('success_msg');
+        }        
+		if($this->session->userdata('file_exists_msg')){
+            $data['file_exists_msg'] = $this->session->userdata('file_exists_msg');
+			$this->session->unset_userdata('file_exists_msg');
+        }		
+		// Get rows
+        //$data['filedata'] = $this->fileimport->getRows();			
+	    $this->common_view('importAddressValidation', $data);		
 	}
 }

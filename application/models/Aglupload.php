@@ -123,4 +123,14 @@ class Aglupload extends CI_Model{
 	  return $this->db->get()->result_array();
 	  //echo $this->db->last_query();
 	}
+	
+	public function fetch_aglcafcallback_response($iFileId) {
+	 $callbackResQuery = "SELECT correlation_id,vendor_lead_id,transaction_type,code,message,errors,create_datetime FROM response where correlation_id in(select CORRELATION_ID from agldev.aglupload where file_import_id = ".$iFileId.")";	 
+	 if ($this->db->query($callbackResQuery)) {
+			$q = $this->db->query($callbackResQuery);
+			return $q->result_array();
+		} else {
+			echo "Query failed!";
+		}
+	}
 }

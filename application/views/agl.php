@@ -11,19 +11,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					  <span>Choose file</span>
 					  <input type="file" name="file" />			 
 					</div>
-
+					&nbsp;&nbsp;
 					<input type="submit" class="btn btn-primary" name="importSubmit" value="IMPORT">			
 				  </div>		  
 				</form>
 				<hr>		
 				
-				<?php if(!empty($agldata)){ ?>
-				<form action="<?php echo base_url('/validatetoken'); ?>" class="md-form" method="post">
+				
+				<!--<form action="<?php //echo base_url('/validatetoken'); ?>" class="md-form" method="post">
 				  <div>						
 					<input type="submit" class="btn btn-primary" name="validateSubmit" value="Push to AGL API">		
 				  </div>		  
-				</form>
-				<?php } ?>
+				</form>-->
+				
 			  </div>
 			  <!-- Display status message -->
 			    <?php //echo $fileerror; ?>
@@ -36,9 +36,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="alert alert-success"><?php echo $success_msg; ?></div>
 				</div>
 			<?php } ?>
-			<?php if(!empty($error_msg)){ ?>> 
+			<?php if(!empty($error_msg)){ ?>
 					<div class="col-xs-12">
-						<div class="alert alert-success"><?php echo $success_msg; ?></div>
+						<div class="alert alert-success"><?php echo $error_msg; ?></div>
 					</div>
 
 			<?php } ?>
@@ -53,7 +53,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <th>DATE UPLOADED</th>
                     <th>NO OF RECORDS</th>
                     <th>EXPORT FILE</th>
-                    <th>EXPORT SUBMISSION RESPONSE</th>					
+                    <th>EXPORT SUBMISSION RESPONSE</th>
+					<th>EXPORT CALLBACK RESPONSE</th>
                 </tr>
             </thead>
             <tbody>
@@ -74,11 +75,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<td><?php echo $row['recordsCount']->reccount; ?></td>
 						<form method="post" action="<?php echo base_url('/exportall'); ?>" />
 							<input type="hidden" name="fileid" value="<?php echo $row['id']; ?>"/>
+							<input type="hidden" name="filename" value="<?php echo $row['filename']; ?>"/>
 							<td><input type="submit" class="btn btn-primary" name="exportfile" id="exportfile" value="Export Uploaded CAF"/></td>						
 						</form>
 						<form method="post" action="<?php echo base_url('/exportcafres'); ?>">
 							<input type="hidden" name="fileidres" value="<?php echo $row['id']; ?>"/>
+							<input type="hidden" name="filename" value="<?php echo $row['filename']; ?>"/>
 							<td><input type="submit" class="btn btn-primary" name="exportcaffile" id="exportcaffile" value="Export CAF Response"/></td>
+						</form>
+						<form method="post" action="<?php echo base_url('/exportcafcallres'); ?>">
+							<input type="hidden" name="fileidcafres" value="<?php echo $row['id']; ?>"/>
+							<input type="hidden" name="filename" value="<?php echo $row['filename']; ?>"/>
+							<td><input type="submit" class="btn btn-primary" name="exportcafresfile" id="exportcafresfile" value="Export AGL Response"/></td>
 						</form>
 						</tr>
 	                <?php }  }
@@ -94,5 +102,3 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 	</div>
 </div>
-
- 
