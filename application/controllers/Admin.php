@@ -18,17 +18,35 @@ class Admin extends CI_Controller {
 		$this->load->view($page, $data);
 		$this->load->view('templates/footer', $data);
 	}	
-
-	public function roles()	{
-	    $data = array();	 
-	  	$this->common_view('roles', $data);	
-	}
-
+	
 
 	public function pages()	{
-	    $data = array();	 
-	    $data['javascript'][] =  base_url('assets/js/extra/page.js');
-	  	$this->common_view('pages', $data);	
+
+		$data = array();	 			 	    
+		$config = array();
+
+		$config['full_tag_open'] = '<nav aria-label="Page navigation example"><ul class="pagination">';
+		$config['full_tag_close'] = '</ul></nav>';
+		$config['num_tag_open'] = '<li class="page-item">';
+		$config['num_tag_close'] = '</li>';
+		$config['cur_tag_open'] = '<li class="page-item active"><a class="page-link" href="#">';
+		$config['cur_tag_close'] = '</a></li>';
+		$config['attributes'] = array('class' => 'page-link');
+		$config["base_url"] = base_url() . "ipaccess";
+		$config["total_rows"] = $this->pages_model->count_pages();
+		$config["use_page_numbers"] = TRUE;        
+		$config["per_page"] = 10;
+		$config["uri_segment"] = 2;
+		
+		$data['itemsPerPage'] = $config["per_page"];
+
+		$this->pagination->initialize($config);
+		$page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
+		$data['currentPage'] =  empty($page) ? 1 : $page ;
+		$data["links"] = $this->pagination->create_links();
+		$data['data'] = $this->pages_model->get_all('','', 'DESC', $config["per_page"], $page);
+		$data['javascript'][] =  base_url('assets/js/extra/page.js');
+		$this->common_view('pages', $data);	
 	}
 
 	public function page_form() {
@@ -50,7 +68,7 @@ class Admin extends CI_Controller {
 				$form_data = $this->input->post();
 				if(!empty($page_id)) {
 					//UPDATE
-					$page = $this->pages_model->get_page_id($page_id);	
+					$page = $this->pages_model->get_page_by_id($page_id);	
 					$resultData = $this->pages_model->update_page($page_id, $form_data, $page);
 				} else {
 					$resultData = $this->pages_model->add_page($form_data);	
@@ -66,39 +84,59 @@ class Admin extends CI_Controller {
 		redirect(base_url('pages'));
 	}
 
+	public function page_update_status() {
+		$page_id = $this->input->post('ID');
+		$status = false;
+		$message = "";
+		if($this->input->server('REQUEST_METHOD') === 'POST' && !empty($page_id)){				
+			$page = $this->pages_model->get_page_by_id($page_id);		 
+			$res = $this->pages_model->update_status($page_id, $page);
+			$status = $res->error;
+			$message = $res->message;
+			$error = '<div class="alert alert-success" role="alert"><a class="close" data-dismiss="alert">×</a><strong>'.$res->message.'</strong></div>';
+			$this->session->set_flashdata('message', $error);
+		}
+		return $this->output
+					->set_content_type('application/json')
+					->set_status_header(200)
+					->set_output(json_encode(array(
+							'status' => $status,
+							'message' => $message
+					)));
+	}
+
 	public function ipaccess()	{
 		$this->load->model('ip_allow_model');	
 
-	    $data = array();	 	    
-	    $config = array();
+		$data = array();	 	    
+		$config = array();
 
-	    $config['full_tag_open'] = '<nav aria-label="Page navigation example"><ul class="pagination">';
+		$config['full_tag_open'] = '<nav aria-label="Page navigation example"><ul class="pagination">';
 		$config['full_tag_close'] = '</ul></nav>';
 		$config['num_tag_open'] = '<li class="page-item">';
 		$config['num_tag_close'] = '</li>';
 		$config['cur_tag_open'] = '<li class="page-item active"><a class="page-link" href="#">';
-        $config['cur_tag_close'] = '</a></li>';
+		$config['cur_tag_close'] = '</a></li>';
 		$config['attributes'] = array('class' => 'page-link');
-        $config["base_url"] = base_url() . "ipaccess";
-        $config["total_rows"] = $this->ip_allow_model->count_ip_allow();
-        $config["use_page_numbers"] = TRUE;        
-        $config["per_page"] = 10;
-        $config["uri_segment"] = 2;
-        
-        $data['itemsPerPage'] = $config["per_page"];
+		$config["base_url"] = base_url() . "ipaccess";
+		$config["total_rows"] = $this->ip_allow_model->count_ip_allow();
+		$config["use_page_numbers"] = TRUE;        
+		$config["per_page"] = 10;
+		$config["uri_segment"] = 2;
+		
+		$data['itemsPerPage'] = $config["per_page"];
 
-        $this->pagination->initialize($config);
-        $page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
-        $data['currentPage'] =  empty($page) ? 1 : $page ;
-        $data["links"] = $this->pagination->create_links();
-        $data['data'] = $this->ip_allow_model->get_all('','', 'DESC', $config["per_page"], $page);
-	    $data['javascript'][] =  base_url('assets/js/extra/ipaccess.js');
-	  	$this->common_view('admin/ipaccess', $data);	
+		$this->pagination->initialize($config);
+		$page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
+		$data['currentPage'] =  empty($page) ? 1 : $page ;
+		$data["links"] = $this->pagination->create_links();
+		$data['data'] = $this->ip_allow_model->get_all('','', 'DESC', $config["per_page"], $page);
+		$data['javascript'][] =  base_url('assets/js/extra/ipaccess.js');
+		$this->common_view('admin/ipaccess', $data);	
 	}
 
 	public function ipaccess_form() {
-		$this->load->model('ip_allow_model');	
-
+		$this->load->model('ip_allow_model');
 		$aData = array();
 		$oldUserName = $this->input->post('ID', '');
 		$aData['ipaccess'] = $this->ip_allow_model->getObj_ip_by_id($oldUserName);		
@@ -110,8 +148,7 @@ class Admin extends CI_Controller {
 	public function ipaccess_submitted() {
 		$this->load->model('ip_allow_model');	
 		if($this->input->server('REQUEST_METHOD') === 'POST'){
-			$ipID = $this->input->post('ipID');
-			
+			$ipID = $this->input->post('ipID');			
 			$this->load->library('form_validation');
 			$this->form_validation->set_rules('name', 'Name', 'trim|required');
 			$this->form_validation->set_rules('hostname', 'Host Name', 'trim|required');
@@ -158,11 +195,100 @@ class Admin extends CI_Controller {
 			$this->session->set_flashdata('message', $error);
 		}
 		return $this->output
-		            ->set_content_type('application/json')
-		            ->set_status_header(200)
-		            ->set_output(json_encode(array(
-		                    'status' => $status,
-		                    'message' => $message
-		            )));
+					->set_content_type('application/json')
+					->set_status_header(200)
+					->set_output(json_encode(array(
+							'status' => $status,
+							'message' => $message
+					)));
 	}
+
+	public function roles()	{
+		$this->load->model('roles_model');
+		$data = array();	 	    
+		$config = array();
+
+		$config['full_tag_open'] = '<nav aria-label="Page navigation example"><ul class="pagination">';
+		$config['full_tag_close'] = '</ul></nav>';
+		$config['num_tag_open'] = '<li class="page-item">';
+		$config['num_tag_close'] = '</li>';
+		$config['cur_tag_open'] = '<li class="page-item active"><a class="page-link" href="#">';
+		$config['cur_tag_close'] = '</a></li>';
+		$config['attributes'] = array('class' => 'page-link');
+		$config["base_url"] = base_url() . "ipaccess";
+		$config["total_rows"] = $this->roles_model->count_roles();
+		$config["use_page_numbers"] = TRUE;        
+		$config["per_page"] = 10;
+		$config["uri_segment"] = 2;
+		
+		$data['itemsPerPage'] = $config["per_page"];
+
+		$this->pagination->initialize($config);
+		$page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
+		$data['currentPage'] =  empty($page) ? 1 : $page ;
+		$data["links"] = $this->pagination->create_links();
+		$data['data'] = $this->roles_model->get_all('','', 'DESC', $config["per_page"], $page); 		 
+		$data['javascript'][] =  base_url('assets/js/extra/roles.js');
+		$this->common_view('roles', $data);	
+	}
+
+
+	public function roles_form() {
+		$this->load->model('roles_model');
+		$aData = array();
+		$roleId = $this->input->post('ID', '');
+		$aData['pages'] = $this->pages_model->get_main_list();		 
+		$aData['role'] = $this->roles_model->getObj_role_by_id($roleId);	
+		$this->load->view('admin/roles_form', $aData);
+	}
+
+	public function roles_submitted() {
+		$this->load->model('roles_model');	
+		if($this->input->server('REQUEST_METHOD') === 'POST'){
+			$role_id = $this->input->post('role_id');			
+			$this->load->library('form_validation');
+			$this->form_validation->set_rules('role_name', 'Role Name', 'trim|required');			 	 
+			$this->form_validation->set_error_delimiters('<div class="alert alert-danger" role="alert"><a class="close" data-dismiss="alert">×</a><strong>', '</strong></div>');
+			if ($this->form_validation->run()) {				 
+				$form_data = $this->input->post();
+				if(!empty($role_id)) {
+					//UPDATE
+					$role = $this->roles_model->get_role_by_id($role_id);	
+					$resultData = $this->roles_model->update_role($role_id, $form_data, $role);
+				} else {
+					$resultData = $this->roles_model->add_role($form_data);	
+				}
+				$error = '<div class="alert alert-success" role="alert"><a class="close" data-dismiss="alert">×</a><strong>'.$resultData->message.'</strong></div>';				
+			} else {
+				$error = validation_errors();				
+			}
+		}else{
+			$error = " Invalid Method";
+		}
+		$this->session->set_flashdata('message', $error);
+		redirect(base_url('roles'));
+	}
+
+	public function roles_update_status() {	
+		$this->load->model('roles_model');		 
+		$roldId = $this->input->post('ID');
+		$status = false;
+		$message = "";
+		if($this->input->server('REQUEST_METHOD') === 'POST' && !empty($roldId)){				
+			$role = $this->roles_model->get_role_by_id($roldId);	
+			$res = $this->roles_model->update_status($roldId, $role);
+			$status = $res->error;
+			$message = $res->message;
+			$error = '<div class="alert alert-success" role="alert"><a class="close" data-dismiss="alert">×</a><strong>'.$res->message.'</strong></div>';
+			$this->session->set_flashdata('message', $error);
+		}
+		return $this->output
+					->set_content_type('application/json')
+					->set_status_header(200)
+					->set_output(json_encode(array(
+							'status' => $status,
+							'message' => $message
+					)));
+	}
+
 }

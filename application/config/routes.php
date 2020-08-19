@@ -65,20 +65,24 @@ $route['login']['post'] = 'authentication/loginSubmit';
 $route['logout']['get'] = 'authentication/logout';
 
 $route['user']['get'] = 'user/index';
-$route['roles']['get'] = 'admin/roles';
-$route['pages']['get'] = 'admin/pages';
-
 $route['user/(:num)'] = 'user/index';
 $route['user/form'] = 'user/form';
 $route['user/submitted'] = 'user/submitted';
 
+$route['pages']['get'] = 'admin/pages';
 $route['page/form'] = 'admin/page_form';
 $route['page/submitted'] = 'admin/page_submitted';
+$route['page/update_status'] = 'admin/page_update_status';
 
 $route['ipaccess'] = 'admin/ipaccess';
 $route['ipaccess/form'] = 'admin/ipaccess_form';
 $route['ipaccess/submitted'] = 'admin/ipaccess_submitted';
 $route['ipaccess/update_status'] = 'admin/ipaccess_update_status';
+
+$route['roles']['get'] = 'admin/roles';
+$route['roles/form'] = 'admin/roles_form';
+$route['roles/submitted'] = 'admin/roles_submitted';
+$route['roles/update_status'] = 'admin/roles_update_status';
 
 
 $route['404_override'] = '';

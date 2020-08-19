@@ -10,51 +10,59 @@
 	<h3 style="color: #007bff;"> <i class="fa fa-file-text" aria-hidden="true"></i> Manage Pages</h3>
 	<div class="row pt-3">
 		<div class="col-lg-12 pb-3">
-				<div class="col-lg-12 pb-3">				 
+			<div class="col-lg-12 pb-3">				 
 				<button type="button" class="btn btn-success a-btn-slide-tex float-right btn-sm" onclick="AddEditPopUp(0)"> <i class="fa fa-plus" aria-hidden="true"></i><span><strong>Add</strong></span>   
     			</button>    			 
-		</div>
+			</div>
 		</div>	
 		<div class="col-lg-12 ">
-			<div id="wrap ">			          
+			<?php echo validation_errors(); ?>
+			<?php echo $this->session->flashdata('message'); ?>
+			<div id="wrap table-responsive">			          
 				<table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered">
-					<thead>
+					<thead class="table-primary">
 						<tr>
-							<th> Sr. No</th>
-							<th> Name </th>
-							<th> Eamil Id</th>
-							<th> Engine version</th>
-							<th> Action</th>
+							<th width="5%"> Sr. No</th>
+							<th> Page Name </th>
+							<th width="15%"> Page URL  </th>							
+							<th width="15%"> Menu Status </th>
+							<th width="8%"> status </th>
+							<th width="18%"> Action</th>
 						</tr>
 					</thead>
-					<tbody>
-						<tr class="gradeX">
-							<td>Trident</td>
-							<td>
-								Internet
-								 Explorer 
-								4.0
+					<tbody>						 
+						<?php foreach ($data as $index => $row): ?>
+							<tr>
+								<td><?= $itemsPerPage *($currentPage-1)+ $index +1; ?></td>
+								<td><?= $row->page_name ?></td>
+								<td><?= $row->page_url_path ?></td>
+								<td><?= $row->mstatus ?></td>
+								<td><?= $row->vstatus ?></td>
+								<td>                                	
+									<button type="button" class="btn btn-success a-btn-slide-text btn-sm" onclick="AddEditPopUp('<?= $row->page_id  ?>')" > <i class="fa fa-edit" aria-hidden="true" ></i><span><strong>Edit</strong></span>   
+									</button>	    							
+									</button>
+									<?php $option = ($row->status === '1' ) ? 'Disable' : 'Enable'; ?>
+									<button type="button" class="btn btn-success a-btn-slide-text btn-sm" onclick="updatestatus('<?= $row->page_id  ?>')" > <i class="fa fa-exchange" aria-hidden="true" ></i><span><strong>  <?=$option ?></strong></span>   
+									</button>
 								</td>
-							<td>Win 95+</td>
-							<td class="center">4</td>
-							<td class="center">X</td>
-						</tr>
-						<tr class="gradeC">
-							<td>Trident</td>
-							<td>Internet
-								 Explorer 5.0</td>
-							<td>Win 95+</td>
-							<td class="center">5</td>
-							<td class="center">C</td>
-						</tr>						
+							</tr>
+						<?php endforeach; ?>
+						<?php 
+							if(count($data) === 0) {
+								echo '<tr><td colspan="7"> Record not found </td></tr>';
+							}
+						?>							
 					</tbody>
-					<tfoot>
+					<tfoot class="table-secondary">
 						<tr>
-							<th colspan="5"> &nbps;</th>							 
+							<th colspan="7"> 
+								<p><?php echo $links; ?></p>
+							</th>							 
 						</tr>
 					</tfoot>
 				</table>			
 			</div>	
-		</div>	
+		</div>
 	</div>	
 </div>	

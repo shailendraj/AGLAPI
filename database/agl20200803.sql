@@ -293,8 +293,10 @@ CREATE TABLE `roles` (
   `role_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `role_name` varchar(45) NOT NULL,
   `role_description` text NOT NULL,
+  `page_permissions` varchar(45) DEFAULT NULL,
+  `status` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`role_id`)
-) ENGINE=InnoDB ;
+) ENGINE=InnoDB;
 
 CREATE TABLE `sessions` (
   `hash` varchar(512) NOT NULL,
@@ -314,13 +316,6 @@ CREATE TABLE `users` (
   PRIMARY KEY (`username`)
 ) ENGINE=InnoDB;
 
-CREATE TABLE `user_roles` (
-  `ID` int(64) NOT NULL AUTO_INCREMENT,
-  `username` varchar(64) NOT NULL,
-  `role_id` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `username` (`username`),
-  KEY `role_id` (`role_id`),
-  CONSTRAINT `user_roles_ibfk_1` FOREIGN KEY (`username`) REFERENCES `users` (`username`),
-  CONSTRAINT `user_roles_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `roles` (`role_id`)
-) ENGINE=InnoDB;
+
+ALTER TABLE `agl`.`users` 
+ADD COLUMN `roles` TEXT NULL AFTER `lastname`;

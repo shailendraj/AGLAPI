@@ -16,9 +16,9 @@
 		<div class="col-lg-12 ">
 			<?php echo validation_errors(); ?>
 			<?php echo $this->session->flashdata('message'); ?>
-			<div id="wrap ">			          
+			<div id="wrap table-responsive">			          
 				<table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered">
-					<thead>
+					<thead class="table-primary">
 						<tr>
 							<th width="5%"> Id</th>
 							<th> Name </th>
@@ -26,7 +26,7 @@
 							<th width="15%"> IP End </th>
 							<th width="15%"> Host Name </th>
 							<th width="8%"> status </th>
-							<th width="20%"> Action</th>
+							<th width="18%"> Action</th>
 						</tr>
 					</thead>
 					<tbody>						 
@@ -43,7 +43,7 @@
 	    							</button>	    							
 	    							</button>
 	    							<?php $option = ($row->status === '1' ) ? 'Disable' : 'Enable'; ?>
-	    							<button type="button" class="btn btn-success a-btn-slide-text btn-sm" onclick="updatestatus('<?= $row->ipID  ?>')" > <i class="fa fa-edit" aria-hidden="true" ></i><span><strong>  <?=$option ?></strong></span>   
+	    							<button type="button" class="btn btn-success a-btn-slide-text btn-sm" onclick="updatestatus('<?= $row->ipID  ?>')" > <i class="fa fa-exchange" aria-hidden="true" ></i><span><strong>  <?=$option ?></strong></span>   
 	    							</button>
                                 </td>
                             </tr>
@@ -54,7 +54,7 @@
                         	}
                         ?>							
 					</tbody>
-					<tfoot>
+					<tfoot class="table-secondary">
 						<tr>
 							<th colspan="7"> 
 								<p><?php echo $links; ?></p>

@@ -27,7 +27,7 @@ function AddEditPopUp(iId) {
 					$(tag).dialog('destroy').remove();
 				}
 			});
-			$(tag).dialog( "option", "width", 580 );
+			$(tag).dialog( "option", "width", 680 );
 			$(tag).html(result).dialog().dialog('open');
 		}
 	});
