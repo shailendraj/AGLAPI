@@ -338,8 +338,8 @@ class Agl extends CI_Controller {
 			// Parse data from CSV file
 			$customconfig = get_instance();  
 			$url = $customconfig->config->item('token_url');
-			$cid = $customconfig->config->item('client_id_dev');
-			$secret = $customconfig->config->item('client_secret_dev');
+			$cid = $customconfig->config->item('client_id_prod');
+			$secret = $customconfig->config->item('client_secret_prod');
 			$data['client_id'] = $cid;
 			$data['client_secret'] = $secret;
 			$data['audience'] = "https://api.platform.agl.com.au/partners";
