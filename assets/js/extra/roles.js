@@ -1,14 +1,14 @@
 function AddEditPopUp(iId) {
 	var tag = $("<div id=\"dialogbox\"></div>");
 	if(iId!=0)
-		$(tag).attr("title", "Edit Page");
+		$(tag).attr("title", "Edit Role");
 	else
-		$(tag).attr("title", "Add New Page");
+		$(tag).attr("title", "Add New Role");
 	$.ajax({
 		type: "POST",
 		data:{ID: iId},
 		cache:false,
-		url: BASEURL+"page/form",
+		url: BASEURL+"roles/form",
 		success:function(result) {
 			$( "div" ).remove( ".ui-dialog ui-widget ui-widget-content ui-corner-all ui-front ui-dialog-buttons ui-draggable" );
 			$(tag).dialog({
@@ -43,7 +43,7 @@ function updatestatus(userId) {
 		type: "POST",
 		data:{ID: userId},
 		cache:false,
-		url: BASEURL+"page/update_status",
+		url: BASEURL+"roles/update_status",
 		success:function(result) {
 			window.location.reload()	 
 		}

@@ -34,7 +34,8 @@ class User extends CI_Controller {
 		$config['attributes'] = array('class' => 'page-link');
         $config["base_url"] = base_url() . "user";
         $config["total_rows"] = $this->user_model->count_users();
-        $config["use_page_numbers"] = TRUE;        
+        $config["use_page_numbers"] = TRUE;   
+        $config["reuse_query_string"] = TRUE;                
         $config["per_page"] = 10;
         $config["uri_segment"] = 2;
         
@@ -50,8 +51,10 @@ class User extends CI_Controller {
 	}
 
 	public function form() {
+		$this->load->model('roles_model');
 		$aData = array();
 		$oldUserName = $this->input->post('ID', '');
+		$aData['roles'] = $this->roles_model->get_roles();
 		$aData['user'] = $this->user_model->getObj_user_by_id($oldUserName);		
 		$this->load->view('user/form', $aData);
 	}

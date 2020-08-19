@@ -16,16 +16,16 @@
 		<div class="col-lg-12 ">
 			<?php echo validation_errors(); ?>
 			<?php echo $this->session->flashdata('message'); ?>
-			<div id="wrap ">			          
+			<div id="wrap table-responsive">			          
 				<table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered">
-					<thead>
+					<thead class="table-primary">
 						<tr>
-							<th width="5%"> Sr. No</th>
+							<th width="8%"> Sr. No</th>
 							<th> Name </th>
 							<th> Username</th>
-							<th width="12%"> Created Date </th>
+							<th width="16%"> Created Date </th>
 							<th width="8%"> status </th>
-							<th width="20%"> Action</th>
+							<th width="18%"> Action</th>
 						</tr>
 					</thead>
 					<tbody>						 
@@ -38,19 +38,17 @@
                                 <td><?= $user->vstatus ?></td>
                                 <td>                                	
 	                                <button type="button" class="btn btn-success a-btn-slide-text btn-sm" onclick="AddEditPopUp('<?= $user->username  ?>')" > <i class="fa fa-edit" aria-hidden="true" ></i><span><strong>Edit</strong></span>   
-	    							</button>
-	    							<button type="button" class="btn btn-success a-btn-slide-text btn-sm" onclick="AddEditPopUp('<?= $user->username  ?>')" > <i class="fa fa-edit" aria-hidden="true" ></i><span><strong> Set Roles</strong></span>   
-	    							</button>
+	    							</button>	    							
 	    							<?php $option = ($user->status === '1' ) ? 'Disable' : 'Enable'; ?>
-	    							<button type="button" class="btn btn-success a-btn-slide-text btn-sm" onclick="updatestatus('<?= $user->username  ?>')" > <i class="fa fa-edit" aria-hidden="true" ></i><span><strong>  <?=$option ?></strong></span>   
+	    							<button type="button" class="btn btn-success a-btn-slide-text btn-sm" onclick="updatestatus('<?= $user->username  ?>')" > <i class="fa fa-exchange" aria-hidden="true" ></i><span><strong>  <?=$option ?></strong></span>   
 	    							</button>
                                 </td>
                             </tr>
                         <?php endforeach; ?>							
 					</tbody>
-					<tfoot>
+					<tfoot class="table-secondary">
 						<tr>
-							<th colspan="5"> 
+							<th colspan="6"> 
 								<p><?php echo $links; ?></p>
 							</th>							 
 						</tr>

@@ -28,7 +28,8 @@ class Auth_Hook
 		if (isset($hash)) {
 			$this->CI->db->select('users.username');
 			$this->CI->db->select('users.firstName');
-			$this->CI->db->select('users.lastName');			
+			$this->CI->db->select('users.lastName');
+			$this->CI->db->select('users.roles');			
 			$this->CI->db->from('sessions, users');
 			$this->CI->db->where('sessions.hash', $hash);
 			$this->CI->db->where('users.username = sessions.username');
@@ -49,7 +50,8 @@ class Auth_Hook
 				$this->CI->userInfo = (object) array(
 					'hash' => $hash,
 					'username' => $userInfo->username,					 
-					'fullName' => preg_replace('!\s+!', ' ', $fullName)
+					'fullName' => preg_replace('!\s+!', ' ', $fullName),
+					'roles' => $userInfo->roles,
 				);
 
 				$this->CI->db->set('lastActivity', date('Y-m-d H:i:s'));
@@ -63,13 +65,14 @@ class Auth_Hook
 
 		if ($loggedIn) {
 			//FOR FEW DAY REISTRICATION 
+			/*
 			$users = array('sys.adm', 'sys.adm1', 'sys.adm2', 'sys.adm3', 'sys.adm4');
 			$cUsername = $this->CI->userInfo->username;
 			$firstSegment = $this->CI->uri->segment(1);
 			$bControllers = array('admin', 'roles', 'pages', 'user', 'ipaccess');
 			if((in_array($firstSegment, $bControllers)) && (!in_array($cUsername, $users))) {
 				redirect('/');
-			}
+			}*/
 		}	
 
 		if ($this->CI->uri->segment(1) == 'login') {

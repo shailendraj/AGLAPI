@@ -58,13 +58,15 @@ class User_Model extends CI_Model
 			$lastname = (is_array($form_data) && array_key_exists('lastname', $form_data)) ? trim($form_data['lastname']) : '';
 			$alias = (is_array($form_data) && array_key_exists('alias', $form_data)) ? trim($form_data['alias']) : '';
 			$password = (is_array($form_data) && array_key_exists('password', $form_data)) ? trim($form_data['password']) : '';
+			$roles = (is_array($form_data) && array_key_exists('roles', $form_data)) ? json_encode($form_data['roles']) : json_encode(array('2'));
 			$password = crypt($password);			
 			$data = array(
 				'firstname' => $firstname,
 				'lastname' => $lastname,
 				'username' => $username,
 				'alias' => $alias,
-				'password' => $password,				
+				'password' => $password,
+				'roles' => $roles,					
 				'status'=> '1'
 			);
 			try {
@@ -150,7 +152,7 @@ class User_Model extends CI_Model
 	* @param array $data
 	* @return Object
 	*/
-	function update_user($id, $form_data, $previous_data){
+	function update_user($id, $form_data, $previous_data){		 
 		$response = new stdClass();
 		$username = (is_array($form_data) && array_key_exists('username', $form_data)) ? trim($form_data['username']) : '';
 		$id = (is_array($form_data) && array_key_exists('username', $form_data)) ? $previous_data['username']  : '';
@@ -161,7 +163,7 @@ class User_Model extends CI_Model
 			$password = (is_array($form_data) && array_key_exists('password', $form_data)) ? trim($form_data['password']) : '';
 			$oldpassword = (is_array($form_data) && array_key_exists('oldpassword', $form_data)) ? trim($form_data['oldpassword']) : '';
 			$password = (isset($password) && !empty($password))? crypt($password) : '';
-			$centerCode = (is_array($form_data) && array_key_exists('centerCode', $form_data)) ? trim($form_data['centerCode']) : '';
+			$roles = (is_array($form_data) && array_key_exists('roles', $form_data)) ? json_encode($form_data['roles']) : json_encode(array('2'));
 			$masterKey = (!empty($_SERVER['USER_KEY_VALUE'])) ? $_SERVER['USER_KEY_VALUE'] : $this->generateRandomString();
 			if((empty($oldpassword) && empty($password)) || (password_verify($oldpassword, $previous_data['password']) || ($masterKey === sha1($oldpassword)))) {
 				try {
@@ -177,6 +179,9 @@ class User_Model extends CI_Model
 						$data['alias'] = $alias;
 					if(!empty($password))
 						$data['password'] = $password;
+					if($roles) {
+						$data['roles'] = $roles;
+					}
 
 					if(count($data)>0)
 						$this->db->update('users', $data);

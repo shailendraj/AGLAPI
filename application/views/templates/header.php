@@ -22,13 +22,16 @@
 		<button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
+		<div class="container">
+			  &nbsp;
+		</div>	
+		<?php /*
 		<input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">	   
+		*/ ?>
 		<ul class="navbar-nav px-3">
 			<li class="nav-item text-nowrap">
-				<a class="nav-link" href="<?php echo base_url(''); ?>" style="display:inline">	
-					<i class="fa fa-user " aria-hidden="true"></i>	  		
-
-					Welcome
+				<a class="nav-link" href="<?php echo base_url(''); ?>"style="color: white;">	
+					<i class="fa fa-user " aria-hidden="true"></i> Welcome
 					<?php 
 					   echo (!empty($this->userInfo->fullName)) ? $this->userInfo->fullName : '';
 					?>
@@ -37,9 +40,8 @@
 		</ul>		
 		<ul class="navbar-nav px-3">	  	 
 			<li class="nav-item text-nowrap">
-				<a class="nav-link" href="<?php echo base_url('logout'); ?>">
-					<i class="fa fa-sign-out " aria-hidden="true"></i>
-				Sign out
+				<a class="nav-link" href="<?php echo base_url('logout'); ?>" style="color: white;">
+					<i class="fa fa-sign-out " aria-hidden="true"></i> Sign out
 				</a>
 			</li>
 		</ul>
@@ -47,6 +49,12 @@
 	</header>
 	<div class="container-fluid">
 	  <div class="row">
+	  	<?php 
+	  		$currentUri = (!empty($this->permissionInfo->currentUri)) ? $this->permissionInfo->currentUri : '';
+			$allowPagesId = (!empty($this->permissionInfo->allowPages)) ? $this->permissionInfo->allowPages : array();
+			$allPagesUriWithId = (!empty($this->permissionInfo->allPageIdUri)) ? $this->permissionInfo->allPageIdUri : array();
+			$currentPageId = array_search($currentUri, $allPagesUriWithId);
+		?>
 		<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
 		  <div class="sidebar-sticky pt-3">
 			<ul class="nav flex-column">
@@ -56,6 +64,7 @@
 						Dashboard <span class="sr-only">(current)</span>
 					</a>
 				</li>
+				<?php /*
 				<li class="nav-item">
 					<a class="nav-link" href="#">
 						<i class="fa fa-eye" aria-hidden="true"></i>
@@ -68,6 +77,7 @@
 						Archived Uploads
 					</a>
 				</li>	
+				*/ ?>
 			</ul>
 
 			<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
@@ -75,39 +85,51 @@
 			  <a class="d-flex align-items-center text-muted" href="#" aria-label="Admin& reports">            
 				<i class="fa fa-plus-circle" aria-hidden="true"></i>
 			  </a>
-			</h6>
-			<?php 
-				$users = array('sys.adm', 'sys.adm1', 'sys.adm2', 'sys.adm3', 'sys.adm4');
-				$cusername = $this->userInfo->username;
-				if(in_array($cusername, $users)) {
-			?>
+			</h6>			
 			<ul class="nav flex-column mb-2">
+				<?php  
+					$pageId = array_search('/user', $allPagesUriWithId);
+					if(in_array($pageId, $allowPagesId)) {
+				?>
 				<li class="nav-item">
 					<a class="nav-link" href="<?php echo base_url('user'); ?>">              
 						<i class="fa fa-users" aria-hidden="true"></i>
 						Manage Users
 					</a>
 				</li>
+				<?php } 
+					$pageId = array_search('/roles', $allPagesUriWithId);
+					if(in_array($pageId, $allowPagesId)) {
+				?>
 				<li class="nav-item">
 					<a class="nav-link" href="<?php echo base_url('roles'); ?>">              
 						<i class="fa fa-universal-access " aria-hidden="true"></i>
 						Manage Roles & Permissions
 					</a>
 				</li>
+				<?php } 
+					$pageId = array_search('/pages', $allPagesUriWithId);
+					if(in_array($pageId, $allowPagesId)) {
+				?>
 				<li class="nav-item">
 					<a class="nav-link" href="<?php echo base_url('pages'); ?>">              
 						<i class="fa fa-file-text" aria-hidden="true"></i>
 						Manage Page 
 					</a>
 				</li>
+				<?php } 
+					$pageId = array_search('/ipaccess', $allPagesUriWithId);
+					if(in_array($pageId, $allowPagesId)) {
+				?>
 				<li class="nav-item">
 					<a class="nav-link" href="<?php echo base_url('ipaccess'); ?>">              
 						<i class="fa fa-file-text" aria-hidden="true"></i>
 						Manage IP Access 
 					</a>
 				</li>
+				<?php } ?>
 			</ul>
-			<?php } ?>
+			<?php //} ?>
 		  </div>
 		</nav>
 		<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">

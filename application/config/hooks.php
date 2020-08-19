@@ -32,6 +32,7 @@ $hook['post_controller_constructor'][] = array(
 	'filename' => 'roleHook.php',
 	'filepath' => 'hooks'
 );
+*/
 
 $hook['post_controller_constructor'][] = array(
 	'class'    => 'Permission_Hook',
@@ -39,7 +40,7 @@ $hook['post_controller_constructor'][] = array(
 	'filename' => 'permissionHook.php',
 	'filepath' => 'hooks'
 );
-*/
+
 
 
 
