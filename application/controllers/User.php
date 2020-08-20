@@ -23,7 +23,25 @@ class User extends CI_Controller {
 	}	
 
 	public function index()	{
-	    
+	    $srh = $this->input->get('srh', '');
+        $sort = $this->input->get('sort', '');        
+        if(!empty($sort)) {
+        	$field =  explode(':', $sort);
+			$order = trim($field[0]);		
+			$order_type = strtoupper(trim($field[1]));    	
+			if(!(!empty($order) &&  in_array($order_type, array('DESC', 'ASC')))) {
+				$order = '';
+        		$order_type = 'DESC';
+			} else {
+				if($order == 'name') {
+					$order = 'firstname';
+				}
+			}  
+        } else {
+        	$order = '';
+        	$order_type = 'DESC';
+        }
+
 	    $config = array();
 	    $config['full_tag_open'] = '<nav aria-label="Page navigation example"><ul class="pagination">';
 		$config['full_tag_close'] = '</ul></nav>';
@@ -33,7 +51,7 @@ class User extends CI_Controller {
         $config['cur_tag_close'] = '</a></li>';
 		$config['attributes'] = array('class' => 'page-link');
         $config["base_url"] = base_url() . "user";
-        $config["total_rows"] = $this->user_model->count_users();
+        $config["total_rows"] = $this->user_model->count_users($srh);
         $config["use_page_numbers"] = TRUE;   
         $config["reuse_query_string"] = TRUE;                
         $config["per_page"] = 10;
@@ -43,9 +61,13 @@ class User extends CI_Controller {
 
         $this->pagination->initialize($config);
         $page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
+
+        $data['currentUrl'] = current_url();
+        $data['srh'] = urldecode($srh);
+        $data['sort'] = $sort;
         $data['currentPage'] =  empty($page) ? 1 : $page ;
         $data["links"] = $this->pagination->create_links();
-        $data['users'] = $this->user_model->get_users('','', 'DESC', $config["per_page"], $page);
+        $data['users'] = $this->user_model->get_users($srh, $order, $order_type, $config["per_page"], $page);
         $data['javascript'][] =  base_url('assets/js/extra/user.js');
 	  	$this->common_view('user/home', $data);	
 	}
