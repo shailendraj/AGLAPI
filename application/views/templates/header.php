@@ -64,7 +64,19 @@
 						Dashboard <span class="sr-only">(current)</span>
 					</a>
 				</li>
+				<li class="nav-item">
+					<a class="nav-link active" href="<?php echo base_url('importaddressvalidation'); ?>">
+						<i class="fa fa-home" aria-hidden="true"></i>
+						Address Validation <span class="sr-only"></span>
+					</a>
+				</li>
 				<?php /*
+				<li class="nav-item">
+					<a class="nav-link active" href="<?php echo base_url('importaddressvalidation'); ?>">
+						<i class="fa fa-home" aria-hidden="true"></i>
+						Address Validation <span class="sr-only"></span>
+					</a>
+				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="#">
 						<i class="fa fa-eye" aria-hidden="true"></i>
