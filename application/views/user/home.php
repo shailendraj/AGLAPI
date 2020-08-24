@@ -18,10 +18,12 @@ if(!empty($srh)) {
 	$srhName = (!empty($searchOpt['name'])) ? $searchOpt['name'] : '';
 	$srhUsername = (!empty($searchOpt['username'])) ? $searchOpt['username'] : '';
 	$srhStatus = (!empty($searchOpt['status'])) ? $searchOpt['status'] : '';    
+	$srhCreated = (!empty($searchOpt['created'])) ? $searchOpt['created'] : '';
 } else {
 	$srhName = '';
 	$srhUsername =  '';
 	$srhStatus = '';	
+	$srhCreated = '';
 }
 
 $sortOpt = array();
@@ -149,53 +151,55 @@ if(!empty($sort)) {
 									<i class="fa fa-arrow-<?=$css?>" aria-hidden="true"></i>
 							    </a>
 							</th>
-							<th width="16%"> Created Date </th>
-							<th width="8%"> 
-								status 
+							<th width="16%"> 
+								Created Date 
 								<div class="btn-group">								 
 								  <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
 								   &nbsp;<i class="fa fa-search" aria-hidden="true"></i>
 								  </a>
-								  &nbsp;&nbsp;<span id="selectedstatusSearch">
+								  &nbsp;&nbsp;<span id="selectedcreatedSearch">
 									<?php 
-										if(!empty($srhStatus)) {
-											echo $srhStatus .'&nbsp;<a href="javascript:void(0)" onclick="remove_serachopt(\'status\')" ><i class="fa fa-trash" aria-hidden="true"></i></a>';
+										if(!empty($srhCreated)) {
+											echo $srhCreated .'&nbsp;<a href="javascript:void(0)" onclick="remove_serachopt(\'created\')" ><i class="fa fa-trash" aria-hidden="true"></i></a>';
 										}
 									?>
 								  </span>
-								  <div class="dropdown-menu" style="width: 230px;">
+								  <div class="dropdown-menu" style="width: 276px;">
 										<div class="container">
 											<form class="form-horizontal">
 												<div class="form-group row">
-													<label class="col-sm-3 col-form-label" for="Name"> Status: </label>
+													<label class="col-sm-3 col-form-label" for="Name"> Created: </label>
 													<div class="col-sm-9">
-														<div class="input-group">
-														  	<div class="input-group-prepend">
-															    <div class="input-group-text">
-															      <input type="radio" name="status1" value="1" onclick="$('#status').val('Enable'); return 0; " >
-															    </div>
-														  	</div>
-														   	 Enable
-														</div>  	
-														<div class="input-group">
-														  	<div class="input-group-prepend">
-															    <div class="input-group-text">
-															      <input type="radio" name="status1" value="0" onclick="$('#status').val('Disable');" >
-															    </div>
-														  	</div>
-														  	 Disable
-														</div>
+														<input type="date" class="form-control" id="created" name="field_created" placeholder="Enter Created">	
 													</div>
-												</div>
-												<input type="hidden" id="status" name="status" />
-												<button type="button" class="btn btn-primary btn-sm" onclick="search_opt('status')">  
+												</div>												 
+												<button type="button" class="btn btn-primary btn-sm" onclick="search_opt('created')">  
 													<i class="fa fa-search" aria-hidden="true"></i> Search
 												</button>
 											</form>
 										</div>
 								  </div>								  
 								</div>
-								<input type="hidden" name="search[]" id="statusSearch" value="<?= (!empty($srhStatus)) ? 'status:'.$srhStatus : ''; ?>"> 
+								<input type="hidden" name="search[]" id="createdSearch" value="<?= (!empty($srhCreated)) ? 'created:'.$srhCreated : ''; ?>"> 
+								<?php 
+									$sort = 'DESC';
+									$css = 'down';
+									if(!empty($sortOpt['created'])) {
+										if(strtoupper($sortOpt['created']) == 'DESC') {
+											$sort = 'ASC';
+											$css = 'down';
+										} else {
+											$sort = 'DESC';
+											$css = 'up';
+										}	
+									}
+								?>
+								<a href="<?= $currentUrl.'&sort=created:'.$sort ?>" class="float-right"> 
+									<i class="fa fa-arrow-<?=$css?>" aria-hidden="true"></i>
+							    </a>
+							</th>
+							<th width="8%"> 
+								status								
 								<?php 
 									$sort = 'DESC';
 									$css = 'down';
