@@ -49,7 +49,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'agl';
+$route['default_controller'] = 'dashboard';
+
+$route['dashboard'] = "/dashboard/index";
+$route['dashboard/index'] = "/dashboard/index";
+
+$route['agl'] = "/agl/index";
+$route['agl/index'] = "/agl/index";
 $route['import'] = "/agl/import";
 $route['validatetoken'] = "/agl/validatetoken";
 $route['getAllData'] = "/agl/getAllData";
