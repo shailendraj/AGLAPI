@@ -65,8 +65,14 @@
 					</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link active" href="<?php echo base_url('importaddressvalidation'); ?>">
-						<i class="fa fa-home" aria-hidden="true"></i>
+					<a class="nav-link" href="/agl">
+						<i class="fa fa-info-circle" aria-hidden="true"></i>
+						AGL <span class="sr-only">(current)</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="<?php echo base_url('importaddressvalidation'); ?>">
+						<i class="fa fa-info-circle" aria-hidden="true"></i>
 						Address Validation <span class="sr-only"></span>
 					</a>
 				</li>
