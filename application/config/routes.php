@@ -56,6 +56,8 @@ $route['dashboard/index'] = "/dashboard/index";
 
 $route['agl'] = "/agl/index";
 $route['agl/index'] = "/agl/index";
+$route['agl/(:num)'] = '/agl/index';
+
 $route['import'] = "/agl/import";
 $route['validatetoken'] = "/agl/validatetoken";
 $route['getAllData'] = "/agl/getAllData";

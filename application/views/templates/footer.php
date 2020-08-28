@@ -7,7 +7,7 @@
 	<script src="../assets/js/jquery-3.2.1.min.js"></script>	
 	<script src="../assets/js/jquery-ui.js"></script>
 	<script src="../assets/js/popper.min.js"></script>	
-	<script src="../assets/bootstrap/js/bootstrap.min.js"></script>	
+	<script src="../assets/bootstrap/js/bootstrap.min.js"></script>
 	<?php
 		if (isset($javascript) && !empty($javascript)) {
 			if (is_array($javascript)) {
