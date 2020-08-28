@@ -193,12 +193,12 @@ if(!empty($sort)) {
 										} ?>
 									</tbody>	
 									<tfoot class="table-secondary">
-											<tr>
-												<th colspan="7"> 
-													<p><?php echo $links; ?></p>
-												</th>							 
-											</tr>
-										</tfoot>			 
+										<tr>
+											<td colspan="7"> 
+											 	<p><?php echo $links; ?></p>
+											</td>							 
+										</tr>
+									</tfoot>			 
 								</table>								 
 								<?php } ?>							  
 							</div>
