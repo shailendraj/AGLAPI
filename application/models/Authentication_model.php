@@ -1,6 +1,16 @@
 <?php 
 class Authentication_Model extends CI_Model
 {
+
+	public function chkUserName($username) {
+		$this->db->select('count(username) as ucount');
+		$this->db->from('users');
+		$this->db->where('username', $username);
+		$cred = $this->db->get();
+		$userCred = $cred->row();
+		return $userCred->ucount;	 
+	}
+
 	function login($username, $password, $ipAddress)
 	{
 		$response = new stdClass();
