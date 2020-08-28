@@ -42,15 +42,12 @@ if(!empty($sort)) {
 			<li><a href="javascript:void(0)" title="Dashboard">Manages Users </a></li>
 		</ul>
 		<div class="clearfix"></div>
-	</div>
-	<?php /*
-	<h3 style="color: #007bff;"> <i class="fa fa-users" aria-hidden="true"></i> Manage Users</h3>
-	 */ ?>
+	</div>	 
 	<div class="container-fluid pt-2" style="padding:0px;">
 		<div class="card block-border lite-grey-gradient">
 			<div class="card-body card-body-extra">
 				<fieldset>    	
-					<legend class="w-auto"><i class="fa fa-blind " aria-hidden="true"></i> Manages IP access</legend>				
+					<legend class="w-auto"><i class="fa fa-users" aria-hidden="true"></i> Manage Users</legend>				
 					<div class="container-fluid pt-2 main-card-block lite-grey-gradient main-table-block">	 
 							<div class="row">
 								<div class="col-lg-12 pb-2">				 
