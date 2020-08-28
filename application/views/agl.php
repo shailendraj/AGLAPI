@@ -1,5 +1,34 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+
+$pos = strrpos($currentUrl, "?");
+if ($pos === false) { 
+	$currentUrl .= "?"; 
+}
+if(!empty($srh)) {
+	$currentUrl .= "&srh=".$srh; 	
+	$arrayOpt = explode('@', $srh) ;	
+	$searchOpt = array();
+	foreach($arrayOpt as $opt) {
+		$field =  explode(':', $opt);
+		$key = trim($field[0]);		
+		$val = trim($field[1]);
+		if(!empty($field[1]))
+			$searchOpt[$key] = trim($field[1]); 
+	}	
+	$srhFileName = (!empty($searchOpt['filename'])) ? $searchOpt['filename'] : '';
+	$srhImportedDate = (!empty($searchOpt['imported_date'])) ? $searchOpt['imported_date'] : '';	
+} else {
+	$srhFileName = '';
+	$srhImportedDate =  '';	
+}
+$sortOpt = array();
+if(!empty($sort)) {
+	$field =  explode(':', $sort);
+	$key = trim($field[0]);		
+	$val = trim($field[1]);    
+    $sortOpt[$key] = $val;
+}
 ?> 
 <div class="container-fluid pt-5">
 	<div class="row">	
@@ -45,12 +74,69 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<hr/> 	 
 		<!-- Data list table -->
 		<?php if(!empty($filedata)) { ?>
-        <table class="table table-striped table-bordered">
+		<div style="float:right;">
+			<p><?php echo $links; ?></p>
+		</div>
+        <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
             <thead class="thead-dark">
                 <tr>
-                    <th>#ID</th>
-					<th>FILE NAME</th>
-                    <th>DATE UPLOADED</th>
+                    <th>
+						#ID
+						<?php 
+							$sort = 'Asc';
+							$css = 'down';
+							if(!empty($sortOpt['id'])) {
+								if(strtoupper($sortOpt['id']) == 'ASC') {
+									$sort = 'ASC';
+									$css = 'down';
+								} else {
+									$sort = 'DESC';
+									$css = 'up';
+								}	
+							}
+						?>	
+						<a href="<?= $currentUrl.'&sort=id:'.$sort ?>" class="float-right"> 
+							<i class="fa fa-arrow-<?=$css ?>" aria-hidden="true"></i>
+						</a>
+					</th>
+					<th>
+					   FILE NAME
+					   <?php 
+							$sort = 'DESC';
+							$css = 'down';
+							if(!empty($sortOpt['filename'])) {
+								if(strtoupper($sortOpt['filename']) == 'DESC') {
+									$sort = 'ASC';
+									$css = 'down';
+								} else {
+									$sort = 'DESC';
+									$css = 'up';
+								}	
+							}
+						?>	
+						<a href="<?= $currentUrl.'&sort=filename:'.$sort ?>" class="float-right"> 
+							<i class="fa fa-arrow-<?=$css ?>" aria-hidden="true"></i>
+						</a>
+					</th>
+                    <th>
+						DATE UPLOADED
+						<?php 
+							$sort = 'Asc';
+							$css = 'down';
+							if(!empty($sortOpt['imported_date'])) {
+								if(strtoupper($sortOpt['imported_date']) == 'Desc') {
+									$sort = 'ASC';
+									$css = 'down';
+								} else {
+									$sort = 'DESC';
+									$css = 'up';
+								}	
+							}
+						?>	
+						<a href="<?= $currentUrl.'&sort=imported_date:'.$sort ?>" class="float-right"> 
+							<i class="fa fa-arrow-<?=$css ?>" aria-hidden="true"></i>
+						</a>
+					</th>
                     <th>NO OF RECORDS</th>
                     <th>EXPORT FILE</th>
                     <th>EXPORT SUBMISSION RESPONSE</th>
@@ -92,11 +178,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                <?php }  }
 						} else 
 					{ ?>
-						<tr><td colspan="6">No records(s) found...</td></tr>
+						<tr><td colspan="7">No records(s) found...</td></tr>
 	                <?php 
 					} ?>
 	            </tbody>
+				<!--<tfoot>
+					<tr class="table-secondary"  >
+						<th colspan="7"style="padding:0px 5px;"> 
+							<p><?php //echo $links; ?></p>
+						</th>							 
+					</tr>
+				</tfoot>-->
 	        </table>
+			<div style="float:right;">
+				<p><?php echo $links; ?></p>
+			</div>
 			<?php } ?>
 		  <hr>
 		</div>

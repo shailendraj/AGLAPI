@@ -12,7 +12,7 @@ class Fileimport extends CI_Model{
      * Fetch members data from the database
      * @param array filter data based on the passed parameters
      */
-    function getRows($params = array()){
+    function getRows($params = array()){	    
         $this->db->select('*');
         $this->db->from($this->table);
         
@@ -94,5 +94,37 @@ class Fileimport extends CI_Model{
 		$this->db->where('filename', $filename);		
 		$query = $this->db->get();
 		return $query->row();		
+	}
+	
+	public function get_file_data_row($search_string=null, $order=null, $order_type='Desc', $limit_start, $limit_end) {
+		$this->db->select('*');
+        $this->db->from($this->table);
+		
+		if($order) {
+			$this->db->order_by($order, $order_type);
+		} else {
+			$this->db->order_by('id', $order_type);
+		}
+		$this->db->limit($limit_start, $limit_end);
+        $query = $this->db->get();
+		//echo $this->db->last_query();
+        $result = ($query->num_rows() > 0)?$query->result_array():FALSE;       
+        return $result;
+	}
+	
+	public function count_files($search_string=null, $order=null)
+	{
+		$this->db->select('*');
+		$this->db->from('fileimport');
+		if($search_string){
+			$this->db->like('filename', $search_string);
+		}
+		if($order){
+			$this->db->order_by($order, 'Asc');
+		}else{
+			$this->db->order_by('id', 'Asc');
+		}
+		$query = $this->db->get();
+		return $query->num_rows();
 	}
 }

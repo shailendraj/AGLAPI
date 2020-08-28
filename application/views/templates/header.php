@@ -7,7 +7,8 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="../assets/css/jquery-ui.css">
 	<link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" href="../assets/css/global.css">  
+	<link rel="stylesheet" href="../assets/css/global.css">
+
 	<script>
 		 var BASEURL = '<?= base_url(); ?>';
 	</script>	 
