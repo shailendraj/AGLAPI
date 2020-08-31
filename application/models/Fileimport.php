@@ -99,6 +99,37 @@ class Fileimport extends CI_Model{
 	public function get_file_data_row($search_string=null, $order=null, $order_type='Desc', $limit_start, $limit_end) {
 		$this->db->select('*');
         $this->db->from($this->table);
+		$searchString = '';
+		$searchString2 = '';
+		
+		if ($search_string){				
+			$arrayOpt = explode('@', $search_string) ;	
+			$searchOpt = array();
+			foreach($arrayOpt as $opt) {
+				$field =  explode(':', $opt);
+				$fieldName = trim($field[0]);		
+				$fieldVal = trim($field[1]);
+				if(!empty($fieldVal)) {
+					//$searchOpt[$fieldName] = trim($field[1]); 
+					if($fieldName === 'filename') {
+						$searchString =  explode(' ', $fieldVal);						
+						$this->db->like('filename', $searchString[0]);						
+					} elseif($fieldName === 'imported_date' || $fieldName === 'imported_date_to') {
+						if($fieldName === 'imported_date') {
+							$searchString =  explode(' ', $fieldVal);
+						}
+						if($fieldName === 'imported_date_to') {
+							$searchString2 =  explode(' ', $fieldVal);
+						}																
+					} else if($searchString == '' && $searchString2 == '') {
+						$this->db->like($fieldName, $fieldVal);
+					}
+				}
+			}
+			if($searchString != '' && $searchString2 != '') {				
+				$this->db->where("date(imported_date) BETWEEN '" . $searchString[0] . "' AND '" . $searchString2[0] . "'");
+			}
+		}
 		
 		if($order) {
 			$this->db->order_by($order, $order_type);
@@ -113,18 +144,47 @@ class Fileimport extends CI_Model{
 	}
 	
 	public function count_files($search_string=null, $order=null)
-	{
+	{	   
 		$this->db->select('*');
 		$this->db->from('fileimport');
-		if($search_string){
-			$this->db->like('filename', $search_string);
-		}
+		//echo $search_string;
+		if ($search_string){				
+			$arrayOpt = explode('@', $search_string);	
+			$searchOpt = array();
+			$searchString = '';
+			$searchString2 = '';
+			
+			foreach($arrayOpt as $opt) {
+				$field =  explode(':', $opt);				
+				$fieldName = trim($field[0]);		
+				$fieldVal = trim($field[1]);				
+				if(!empty($fieldVal)) {
+					//$searchOpt[$fieldName] = trim($field[1]); 
+					if($fieldName === 'filename') {
+						$searchString =  explode(' ', $fieldVal);						
+						$this->db->like('filename', $searchString[0]);						
+					} elseif($fieldName === 'imported_date' || $fieldName === 'imported_date_to') {
+						if($fieldName === 'imported_date') {
+							$searchString =  explode(' ', $fieldVal);
+						}
+						if($fieldName === 'imported_date_to') {
+							$searchString2 =  explode(' ', $fieldVal);
+						}																
+					} else if($searchString == '' && $searchString2 == '') {
+						$this->db->like($fieldName, $fieldVal);
+					}
+				}
+			}
+			if($searchString != '' && $searchString2 != '') {				
+				$this->db->where("date(imported_date) BETWEEN '" . $searchString[0] . "' AND '" . $searchString2[0] . "'");
+			}
+		}				
 		if($order){
 			$this->db->order_by($order, 'Asc');
-		}else{
+		} else {
 			$this->db->order_by('id', 'Asc');
 		}
-		$query = $this->db->get();
+		$query = $this->db->get();		
 		return $query->num_rows();
 	}
 }

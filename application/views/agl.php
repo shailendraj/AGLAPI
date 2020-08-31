@@ -8,19 +8,21 @@ if ($pos === false) {
 if(!empty($srh)) {
 	$currentUrl .= "&srh=".$srh; 	
 	$arrayOpt = explode('@', $srh) ;	
-	$searchOpt = array();
+	$searchOpt = array();	
 	foreach($arrayOpt as $opt) {
 		$field =  explode(':', $opt);
 		$key = trim($field[0]);		
 		$val = trim($field[1]);
 		if(!empty($field[1]))
 			$searchOpt[$key] = trim($field[1]); 
-	}	
+	}    
 	$srhFileName = (!empty($searchOpt['filename'])) ? $searchOpt['filename'] : '';
-	$srhImportedDate = (!empty($searchOpt['imported_date'])) ? $searchOpt['imported_date'] : '';	
+	$srhImportedDate = (!empty($searchOpt['imported_date'])) ? $searchOpt['imported_date'] : '';
+    $srhImportedDateTo = (!empty($searchOpt['imported_date_to'])) ? $searchOpt['imported_date_to'] : '';	
 } else {
 	$srhFileName = '';
 	$srhImportedDate =  '';	
+	$srhImportedDateTo = '';
 }
 $sortOpt = array();
 if(!empty($sort)) {
@@ -86,7 +88,7 @@ if(!empty($sort)) {
 								<?php } ?>
 								<hr/> 	 
 							<!-- Data list table -->
-							<?php if(!empty($filedata)) { ?>							 
+							<?php //if(!empty($filedata)) { ?>							 
 							<table cellpadding="0" cellspacing="0" border="0" class="datatable table table-sm table-striped table-bordered table-hover">
 								<thead class="table-primary">
 									<tr>
@@ -111,6 +113,32 @@ if(!empty($sort)) {
 										</th>
 										<th>
 										   FILE NAME
+										   <div class="btn-group">								 
+											  <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+											   &nbsp;<i class="fa fa-search" aria-hidden="true"></i>
+											  </a>
+											  &nbsp;&nbsp;<span id="selectednameSearch">
+												<?php 
+													if(!empty($srhFileName)) {
+														echo $srhFileName .'&nbsp<a href="javascript:void(0)" onclick="remove_serachopt(\'filename\')" ><i class="fa fa-trash" aria-hidden="true"></i></a>' ;
+													}
+												?>
+												</span>
+												<div class="dropdown-menu" style="width: 276px;">
+													<div class="container">
+														<form class="form-horizontal">
+															<div class="form-group row">
+																<label class="col-sm-3 col-form-label" for="exampleDropdownFormEmail1"> Name: </label>
+																<div class="col-sm-9">
+																<input type="text" class="form-control" id="filename" name="filename" placeholder="Enter File Name">
+																</div>
+															</div>
+															<button type="button" class="btn btn-primary btn-sm" onclick="search_opt('filename')">  <i class="fa fa-search" aria-hidden="true"></i> Search</button>
+														</form>
+													</div>
+												</div>								  
+											</div>
+											<input type="hidden" name="search[]" id="filenameSearch" value="<?= (!empty($srhFileName)) ? 'filename:'.$srhFileName : ''; ?>">
 										   <?php 
 												$sort = 'DESC';
 												$css = 'down';
@@ -130,6 +158,42 @@ if(!empty($sort)) {
 										</th>
 										<th>
 											DATE UPLOADED
+											<div class="btn-group">								 
+												<a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+												&nbsp;<i class="fa fa-search" aria-hidden="true"></i>
+												</a>
+												  &nbsp;&nbsp;<span id="selectedcreatedSearch">
+													<?php 
+														if(!empty($srhImportedDate)) {
+															echo $srhImportedDate .'&nbsp;<a href="javascript:void(0)" onclick="remove_serachopt(\'imported_date\')" ><i class="fa fa-trash" aria-hidden="true"></i></a>';
+														}
+													?>
+												  </span>
+												  <div class="dropdown-menu" style="width: 276px;">
+														<div class="container">
+															<form class="form-horizontal">
+																<div class="form-group row">
+																	<label class="col-sm-3 col-form-label" for="Name"> From: </label>
+																	<div class="col-sm-9">
+																		<input type="date" class="form-control" id="imported_date" name="imported_date" placeholder="Enter Created">	
+																	</div>
+																</div>
+																<div class="form-group row">
+																	<label class="col-sm-3 col-form-label" for="Name"> To: </label>
+																	<div class="col-sm-9">
+																		<input type="date" class="form-control" id="imported_date_to" name="imported_date_to" placeholder="Enter Created">	
+																	</div>
+																</div>
+																<button type="button" class="btn btn-primary btn-sm" onclick="search_opt('imported_date', 'imported_date_to')">  
+																	<i class="fa fa-search" aria-hidden="true"></i> Search
+																</button>
+															</form>
+														</div>
+												  </div>								  
+											</div>
+											<input type="hidden" name="search[]" id="imported_dateSearch" value="<?= (!empty($srhImportedDate)) ? 'imported_date:'.$srhImportedDate : ''; ?>">
+											
+											<input type="hidden" name="search2[]" id="imported_date_toSearch" value="<?= (!empty($srhImportedDateTo)) ? 'imported_date_to:'.$srhImportedDateTo : ''; ?>">
 											<?php 
 												$sort = 'Asc';
 												$css = 'down';
@@ -200,7 +264,7 @@ if(!empty($sort)) {
 										</tr>
 									</tfoot>			 
 								</table>								 
-								<?php } ?>							  
+								<?php //} ?>							  
 							</div>
 						</div>
 					</div>
