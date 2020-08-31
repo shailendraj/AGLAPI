@@ -6,7 +6,7 @@ LIMIT 0, 200
 */
 
 INSERT INTO `ip_allow`(`name`, `ipStart`, `ipEnd`) VALUES ('Bishwo Home', INET_ATON('149.167.94.71'), INET_ATON('149.167.94.71'));
-Update ip_allow set `ipStart` = INET_ATON('183.87.122.24'),`ipEnd` = INET_ATON('183.87.122.24') where `ipID`='4';
+Update ip_allow set `ipStart` = INET_ATON('183.87.122.91'),`ipEnd` = INET_ATON('183.87.122.91') where `ipID`='4';
 
 INSERT INTO `ip_allow` (`ipID`,`name`,`status`,`ipStart`,`ipEnd`,`hostname`) VALUES (1,'localhost',1,0,0,'127.0.0.1');
 INSERT INTO `ip_allow` (`ipID`,`name`,`status`,`ipStart`,`ipEnd`,`hostname`) VALUES (2,'localhost',1,2130706433,2130706433,'127.0.0.1');

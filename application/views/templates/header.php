@@ -31,7 +31,7 @@
 		*/ ?>
 		<ul class="navbar-nav px-3">
 			<li class="nav-item text-nowrap">
-				<a class="nav-link" href="<?php echo base_url(''); ?>"style="color: white;">	
+				<a class="nav-link" href="<?php echo base_url(''); ?>" style="color: white;">	
 					<i class="fa fa-user " aria-hidden="true"></i> Welcome
 					<?php 
 					   echo (!empty($this->userInfo->fullName)) ? $this->userInfo->fullName : '';
@@ -51,6 +51,7 @@
 	<div class="container-fluid">
 	  <div class="row">
 	  	<?php 
+	  		$ldapUrl = (!empty($this->permissionInfo->ldapUrl)) ? $this->permissionInfo->ldapUrl : '/';
 	  		$currentUri = (!empty($this->permissionInfo->currentUri)) ? $this->permissionInfo->currentUri : '';
 			$allowPagesId = (!empty($this->permissionInfo->allowPages)) ? $this->permissionInfo->allowPages : array();
 			$allPagesUriWithId = (!empty($this->permissionInfo->allPageIdUri)) ? $this->permissionInfo->allPageIdUri : array();
@@ -60,9 +61,9 @@
 		  <div class="sidebar-sticky pt-3">
 			<ul class="nav flex-column">
 				<li class="nav-item">
-					<a class="nav-link active" href="/">
+					<a class="nav-link active" href="<?=$ldapUrl ?>">
 						<i class="fa fa-home" aria-hidden="true"></i>
-						Dashboard <span class="sr-only">(current)</span>
+						Home <span class="sr-only">(current)</span>
 					</a>
 				</li>
 				<li class="nav-item">
@@ -76,29 +77,8 @@
 						<i class="fa fa-info-circle" aria-hidden="true"></i>
 						Address Validation <span class="sr-only"></span>
 					</a>
-				</li>
-				<?php /*
-				<li class="nav-item">
-					<a class="nav-link active" href="<?php echo base_url('importaddressvalidation'); ?>">
-						<i class="fa fa-home" aria-hidden="true"></i>
-						Address Validation <span class="sr-only"></span>
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#">
-						<i class="fa fa-eye" aria-hidden="true"></i>
-						View Uploads
-					</a>
-				</li>		  
-				<li class="nav-item">
-					<a class="nav-link" href="#">
-						<i class="fa fa-archive" aria-hidden="true"></i>
-						Archived Uploads
-					</a>
-				</li>	
-				*/ ?>
+				</li>				
 			</ul>
-
 			<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
 			  <span>Admin & reports</span>
 			  <a class="d-flex align-items-center text-muted" href="#" aria-label="Admin& reports">            
@@ -152,29 +132,3 @@
 		  </div>
 		</nav>
 		<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-
-
-<?php /*  
-<div class="container-fluid">
-  <div class="row content">
-	<div class="col-sm-3 sidenav">
-	  <h4>AGL</h4>
-	  <ul class="nav nav-pills nav-stacked">
-		<li class="active"><a href="#section1">Home</a></li>        
-		<li><a href="#section3">View Uploads</a></li>
-		<li><a href="#section3">Archived Uploads</a></li>
-		<li><a href="#section3"><i class="fa fa-sign-out" aria-hidden="true"></i>
-Log Out</a></li>
-	  </ul><br>
-	  <div class="input-group">
-		<input type="text" class="form-control" placeholder="Search..">
-		<span class="input-group-btn">
-		  <button class="btn btn-default" type="button">
-			<span class="glyphicon glyphicon-search"></span>
-		  </button>
-		</span>
-	  </div>
-	</div>    
-
-*/
-?>

@@ -6,6 +6,7 @@ class Permission_Hook
 		$this->CI->load->helper('url');
 		$this->CI->load->model('pages_model');
 		$this->CI->load->model('roles_model');
+		$this->CI->load->model('config_model');
 	}
 
 	public function chkUriPermission() {
@@ -26,12 +27,13 @@ class Permission_Hook
 				} 
 			}
 		}
-
+		$ldapUrl = Config_Model::get_config_val('LDAP_URL');
 		$this->CI->permissionInfo = (object) array(
 			'currentUri' => $currentUri,
 			'roleIds' => $currentRoles,					 
 			'allowPages' => $allowPages,
-			'allPageIdUri' => $allPage 
+			'allPageIdUri' => $allPage, 
+			'ldapUrl' => $ldapUrl,
 		);		 
 	}
 
