@@ -136,6 +136,7 @@ class Fileimport extends CI_Model{
 		} else {
 			$this->db->order_by('id', $order_type);
 		}
+		//echo $limit_start."---".$limit_end
 		$this->db->limit($limit_start, $limit_end);
         $query = $this->db->get();
 		//echo $this->db->last_query();
@@ -184,7 +185,8 @@ class Fileimport extends CI_Model{
 		} else {
 			$this->db->order_by('id', 'Asc');
 		}
-		$query = $this->db->get();		
+		$query = $this->db->get();
+ 		
 		return $query->num_rows();
 	}
 }

@@ -97,12 +97,11 @@ class Agl extends CI_Controller {
         $config["use_page_numbers"] = TRUE;   
         $config["reuse_query_string"] = TRUE;                
         $config["per_page"] = 10;
-        $config["uri_segment"] = 2;
-        
+        $config["uri_segment"] = 2;        
         $data['itemsPerPage'] = $config["per_page"];
 
         $this->pagination->initialize($config);
-        $page = ($this->uri->segment(2)) ? $this->uri->segment(2)*10 : 0;
+        $page = ($this->uri->segment(2)) ? ($this->uri->segment(2)-1)*10 : 0;
 		$data['currentUrl'] = current_url();
         $data['srh'] = urldecode($srh);
         $data['sort'] = $sort;
