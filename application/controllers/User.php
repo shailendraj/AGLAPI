@@ -60,14 +60,13 @@ class User extends CI_Controller {
         $data['itemsPerPage'] = $config["per_page"];
 
         $this->pagination->initialize($config);
-        $page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
-
+        $offset = ($this->uri->segment(2)) ? ($this->uri->segment(2)-1) * $config["per_page"] : 0;
         $data['currentUrl'] = current_url();
         $data['srh'] = urldecode($srh);
         $data['sort'] = $sort;
-        $data['currentPage'] =  empty($page) ? 1 : $page ;
+        $data['currentPage'] =  empty($offset) ? 0 : $offset ;
         $data["links"] = $this->pagination->create_links();
-        $data['users'] = $this->user_model->get_users($srh, $order, $order_type, $config["per_page"], $page);
+        $data['users'] = $this->user_model->get_users($srh, $order, $order_type, $config["per_page"], $offset);
         $data['javascript'][] =  base_url('assets/js/extra/user.js');
 	  	$this->common_view('user/home', $data);	
 	}

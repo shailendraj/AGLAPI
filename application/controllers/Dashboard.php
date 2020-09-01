@@ -36,8 +36,8 @@ class Dashboard extends CI_Controller {
             $this->session->unset_userdata('api_process_msg');			
         }
         $this->load->model('modules_model');
-        $allowedIds = (!empty($this->permissionInfo->allowPages)) ? $this->permissionInfo->allowPages : array();
-        $data['modules'] = $this->modules_model->get_dashboard_modules($allowedIds);
+        $allowedIds = (!empty($this->permissionInfo->allowPages)) ? $this->permissionInfo->allowPages : array();        
+        $data['modules'] = $this->modules_model->get_dashboard_modules($allowedIds);        
         $this->common_view('dashboard', $data);
     }    
 }	

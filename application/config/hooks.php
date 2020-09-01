@@ -41,6 +41,13 @@ $hook['post_controller_constructor'][] = array(
 	'filepath' => 'hooks'
 );
 
+$hook['post_controller_constructor'][] = array(
+	'class'    => 'Menu_Hook',
+	'function' => 'set_main_menu',
+	'filename' => 'menuHook.php',
+	'filepath' => 'hooks'
+);
+
 
 
 
