@@ -64,7 +64,7 @@ class Agl extends CI_Controller {
             $data['api_process_msg'] = $this->session->userdata('api_process_msg'); 
             $this->session->unset_userdata('api_process_msg');			
         }
-		$srh = $this->input->get('srh', '');
+		$srh = $this->input->get('srh', '');		
         $sort = $this->input->get('sort', '');        
         if(!empty($sort)) {
         	$field =  explode(':', $sort);
@@ -97,17 +97,17 @@ class Agl extends CI_Controller {
         $config["use_page_numbers"] = TRUE;   
         $config["reuse_query_string"] = TRUE;                
         $config["per_page"] = 10;
-        $config["uri_segment"] = 2;
-        
+        $config["uri_segment"] = 2;        
         $data['itemsPerPage'] = $config["per_page"];
 
         $this->pagination->initialize($config);
-        $page = ($this->uri->segment(2)) ? $this->uri->segment(2)*10 : 0;
+        $page = ($this->uri->segment(2)) ? ($this->uri->segment(2)-1)*10 : 0;
 		$data['currentUrl'] = current_url();
         $data['srh'] = urldecode($srh);
         $data['sort'] = $sort;
         $data['currentPage'] =  empty($page) ? 1 : $page ;
         $data["links"] = $this->pagination->create_links();
+		$data['javascript'][] =  base_url('assets/js/extra/aglfiles.js');
         	
 		// Get rows
         $data['filedata'] = $this->fileimport->get_file_data_row($srh, $order, $order_type, $config["per_page"], $page);
