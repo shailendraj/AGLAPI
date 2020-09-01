@@ -36,7 +36,7 @@
 										<tbody>						 
 											<?php foreach ($data as $index => $row): ?>
 												<tr>
-													<td><?= $itemsPerPage *($currentPage-1)+ $index +1; ?></td>
+													<td><?= ($currentPage + 1)+ $index; ?></td>
 													<td><?= $row->page_name ?></td>
 													<td><?= $row->page_url_path ?></td>
 													<td><?= $row->mstatus ?></td>

@@ -25,6 +25,16 @@ class Pages_Model extends CI_Model
 		return $query->row();
 	}
 
+
+	public function get_page_by_uri($page_url_path)
+	{
+		$this->db->select('*');
+		$this->db->from('pages');
+		$this->db->where('page_url_path', $page_url_path);
+		$query = $this->db->get();
+		return $query->row();
+	}
+
 	protected function store_page($data) {
 		$this->db->insert('pages', $data);
 		return $this->db->insert_id();
@@ -193,4 +203,17 @@ class Pages_Model extends CI_Model
 		}
 		return $uri;
 	}	
+
+
+	public function get_active_menus($module = 0) {
+		$this->db->select('pg.page_id, pg.page_name, pg.page_url_path');
+		$this->db->from('pages as pg');				
+		if(!empty($module)) {
+			$this->db->where('pg.module', $module);	
+		}
+		$this->db->where('pg.status', '1');		
+		$this->db->order_by('pg.sequence_order', 'ASC');
+		$query = $this->db->get();
+		return $query->result();
+	}
 }

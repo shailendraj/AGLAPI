@@ -34,7 +34,7 @@
 										<tbody>						 
 											<?php foreach ($data as $index => $row): ?>
 												<tr>
-													<td><?= $itemsPerPage *($currentPage-1)+ $index +1; ?></td>
+													<td><?= ($currentPage + 1)+ $index; ?></td>
 													<td><?= $row->role_name ?></td>								
 													<td><?= $row->vstatus ?></td>
 													<td align="center">                                	

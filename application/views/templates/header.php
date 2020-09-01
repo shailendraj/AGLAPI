@@ -63,9 +63,35 @@
 				<li class="nav-item">
 					<a class="nav-link active" href="<?=$ldapUrl ?>">
 						<i class="fa fa-home" aria-hidden="true"></i>
-						Home <span class="sr-only">(current)</span>
+						Dashboard <span class="sr-only">(current)</span>
 					</a>
 				</li>
+				<?php 
+					$mainMenu = $this->mainMenu;
+					if(!empty($mainMenu)) {
+						foreach($mainMenu as $topMenu) {
+							$module = $topMenu['module'];	
+							if(isset($module) && !empty($module->id)) {
+								echo '<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-1 text-muted"><span>'. $module->name. '</span></h3>';
+							}
+							$pages = $topMenu['pages'];
+							foreach($pages as $row) {
+								$pageId = $row->page_id;
+								if(in_array($pageId, $allowPagesId)) {
+									echo '<li class="nav-item">
+											<a class="nav-link" href=" ' .base_url($row->page_url_path ).'">
+												<i class="fa fa-info-circle" aria-hidden="true"></i>
+												'.$row->page_name.' <span class="sr-only"></span>
+											</a>
+										</li>';
+								}
+							}
+						}
+					}					
+				?>
+
+				<?php /* ?>
+				
 				<li class="nav-item">
 					<a class="nav-link" href="/agl">
 						<i class="fa fa-info-circle" aria-hidden="true"></i>
@@ -127,6 +153,7 @@
 					</a>
 				</li>
 				<?php } ?>
+				<?php */ ?>
 			</ul>
 			<?php //} ?>
 		  </div>

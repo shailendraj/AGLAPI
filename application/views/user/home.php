@@ -82,9 +82,9 @@ if(!empty($sort)) {
 																<div class="container">
 																	<form class="form-horizontal">
 																		<div class="form-group row">
-																			<label class="col-sm-3 col-form-label" for="exampleDropdownFormEmail1"> Name: </label>
-																			<div class="col-sm-9">
-																			<input type="text" class="form-control" id="name" name="field_name" placeholder="Enter Name">
+																			<label class="col-sm-4 col-form-label label-small" for="exampleDropdownFormEmail1"> Name: </label>
+																			<div class="col-sm-8">
+																			<input type="text" class="form-control form-control-sm" id="name" name="field_name" placeholder="Enter Name">
 																			</div>
 																		</div>
 																		<button type="button" class="btn btn-primary btn-sm" onclick="search_opt('name')">  <i class="fa fa-search" aria-hidden="true"></i> Search</button>
@@ -127,9 +127,9 @@ if(!empty($sort)) {
 																<div class="container">
 																	<form class="form-horizontal">
 																		<div class="form-group row">
-																			<label class="col-sm-3 col-form-label" for="Name"> Username: </label>
-																			<div class="col-sm-9">
-																			<input type="text" class="form-control" id="username" name="field_username" placeholder="Enter Username">
+																			<label class="col-sm-4 col-form-label label-small" for="Name"> Username: </label>
+																			<div class="col-sm-8">
+																			<input type="text" class="form-control form-control-sm" id="username" name="field_username" placeholder="Enter Username">
 																			</div>
 																		</div>
 																		<button type="button" class="btn btn-primary btn-sm" onclick="search_opt('username')">  
@@ -174,9 +174,9 @@ if(!empty($sort)) {
 																<div class="container">
 																	<form class="form-horizontal">
 																		<div class="form-group row">
-																			<label class="col-sm-3 col-form-label" for="Name"> Created: </label>
-																			<div class="col-sm-9">
-																				<input type="date" class="form-control" id="created" name="field_created" placeholder="Enter Created">	
+																			<label class="col-sm-4 col-form-label label-small" for="Name"> Created: </label>
+																			<div class="col-sm-8">
+																				<input type="date" class="form-control form-control-sm" id="created" name="field_created" placeholder="Enter Created">	
 																			</div>
 																		</div>												 
 																		<button type="button" class="btn btn-primary btn-sm" onclick="search_opt('created')">  
@@ -229,7 +229,7 @@ if(!empty($sort)) {
 											<tbody>						 
 												<?php foreach ($users as $index => $user): ?>
 													<tr>
-														<td><?= $itemsPerPage *($currentPage-1)+ $index +1; ?></td>
+														<td><?= ($currentPage + 1)+ $index; ?></td>
 														<td><?= $user->firstname . " " . $user->lastname ?></td>
 														<td><?= $user->username  ?></td>
 														<td><?= $user->created ?></td>
@@ -247,7 +247,7 @@ if(!empty($sort)) {
 											<tfoot>
 												<tr class="table-secondary"  >
 													<th colspan="6"style="padding:0px 5px;"> 
-														<p><?php echo $links; ?></p>
+														<?php echo $links; ?>
 													</th>							 
 												</tr>
 											</tfoot>

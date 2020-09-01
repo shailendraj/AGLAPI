@@ -41,10 +41,10 @@ class Admin extends CI_Controller {
 		$data['itemsPerPage'] = $config["per_page"];
 
 		$this->pagination->initialize($config);
-		$page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
-		$data['currentPage'] =  empty($page) ? 1 : $page ;
+		$offset = ($this->uri->segment(2)) ? ($this->uri->segment(2)-1) * $config["per_page"] : 0;
+		$data['currentPage'] =  empty($offset) ? 0 : $offset ;
 		$data["links"] = $this->pagination->create_links();
-		$data['data'] = $this->pages_model->get_all('','', 'DESC', $config["per_page"], $page);
+		$data['data'] = $this->pages_model->get_all('','', 'DESC', $config["per_page"], $offset);
 		$data['javascript'][] =  base_url('assets/js/extra/page.js');
 		$this->common_view('pages', $data);	
 	}
@@ -127,10 +127,10 @@ class Admin extends CI_Controller {
 		$data['itemsPerPage'] = $config["per_page"];
 
 		$this->pagination->initialize($config);
-		$page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
-		$data['currentPage'] =  empty($page) ? 1 : $page ;
+		$offset = ($this->uri->segment(2)) ? ($this->uri->segment(2)-1) * $config["per_page"] : 0;
+		$data['currentPage'] =  empty($offset) ? 0 : $offset ;
 		$data["links"] = $this->pagination->create_links();
-		$data['data'] = $this->ip_allow_model->get_all('','', 'DESC', $config["per_page"], $page);
+		$data['data'] = $this->ip_allow_model->get_all('','', 'DESC', $config["per_page"], $offset);
 		$data['javascript'][] =  base_url('assets/js/extra/ipaccess.js');
 		$this->common_view('admin/ipaccess', $data);	
 	}
@@ -224,10 +224,10 @@ class Admin extends CI_Controller {
 		$data['itemsPerPage'] = $config["per_page"];
 
 		$this->pagination->initialize($config);
-		$page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
-		$data['currentPage'] =  empty($page) ? 1 : $page ;
+		$offset = ($this->uri->segment(2)) ? ($this->uri->segment(2)-1) * $config["per_page"] : 0;
+		$data['currentPage'] =  empty($offset) ? 0 : $offset ;
 		$data["links"] = $this->pagination->create_links();
-		$data['data'] = $this->roles_model->get_all('','', 'DESC', $config["per_page"], $page); 		 
+		$data['data'] = $this->roles_model->get_all('','', 'DESC', $config["per_page"], $offset); 		 
 		$data['javascript'][] =  base_url('assets/js/extra/roles.js');
 		$this->common_view('roles', $data);	
 	}

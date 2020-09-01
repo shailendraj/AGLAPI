@@ -154,9 +154,36 @@ class User_Model extends CI_Model
 	{
 		$this->db->select('*');
 		$this->db->from('users');
-		if($search_string){
-			$this->db->like('firstname', $search_string);
+		
+		if ($search_string){				
+			$arrayOpt = explode('@', $search_string) ;	
+			$searchOpt = array();
+			foreach($arrayOpt as $opt) {
+				$field =  explode(':', $opt);
+				$fieldName = trim($field[0]);		
+				$fieldVal = trim($field[1]);
+				if(!empty($fieldVal)) {
+					//$searchOpt[$fieldName] = trim($field[1]); 
+					if($fieldName === 'name') {
+						$searchString =  explode(' ', $fieldVal);						
+						$this->db->like('firstname', $searchString[0]);
+						if(!empty($searchString[1])) {
+							$this->db->like('lastname', $searchString[1]);
+						}
+					} elseif($fieldName === 'status') {
+						if(strtolower($fieldVal) === 'enable') {							
+							$this->db->where($fieldName, '1');
+						}
+						if(strtolower($fieldVal) === 'disable') {							
+							$this->db->where($fieldName, '0');	
+						}						
+					}else {
+						$this->db->like($fieldName, $fieldVal);
+					}
+				}
+			}
 		}
+
 		if($order){
 			$this->db->order_by($order, 'Asc');
 		}else{

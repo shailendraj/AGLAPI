@@ -319,3 +319,17 @@ CREATE TABLE `users` (
 
 ALTER TABLE `agl`.`users` 
 ADD COLUMN `roles` TEXT NULL AFTER `lastname`;
+
+
+ALTER TABLE `agl`.`pages` 
+ADD COLUMN `sequence_order` INT(11) NULL DEFAULT 0 AFTER `menuStatus`;
+
+CREATE TABLE `modules` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) DEFAULT NULL,
+  `redirect_url_page` int(11) DEFAULT NULL,
+  `sequence_order` int(11) DEFAULT NULL,
+  `status` tinyint(1) DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+
