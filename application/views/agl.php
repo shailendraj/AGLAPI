@@ -40,6 +40,7 @@ if(!empty($sort)) {
 		</ul>
 		<div class="clearfix"></div>
 	</div>
+	
 	<div class="container-fluid pt-2" style="padding:0px;">
 		<div class="card block-border lite-grey-gradient">
 			<div class="card-body card-body-extra">
@@ -88,7 +89,11 @@ if(!empty($sort)) {
 								<?php } ?>
 								<hr/> 	 
 							<!-- Data list table -->
-							<?php //if(!empty($filedata)) { ?>							 
+							<?php //if(!empty($filedata)) { ?>
+							<div class="col-lg-12 pb-3">			
+									<button type="button" class="btn btn-info a-btn-slide-tex btn-sm" onclick="window.location.href='<?= base_url() .'agl' ?>' "> <i class="fa fa-refresh" aria-hidden="true"></i><span><strong> Reset filter & Sort</strong></span>   
+									</button>    			 
+							</div>
 							<table cellpadding="0" cellspacing="0" border="0" class="datatable table table-sm table-striped table-bordered table-hover">
 								<thead class="table-primary">
 									<tr>
