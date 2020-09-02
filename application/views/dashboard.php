@@ -19,7 +19,9 @@
 							  		if($colCount === 0 ) {
 							  			echo '<div class="row">';
 							  		}
-							  		echo '<div class="col-sm-2"> <a href="'.base_url($row->page_url_path).'"><div class="card text-white bg-danger mb-3"> <div class="card-body"><h5 class="card-title text-center">'.$row->name.'</h5></div></div></a> </div>';
+							  		 
+							  		echo '<div class="col-sm-2 mb-3 dashboard-col-block"> <a href="'.base_url($row->page_url_path).'"><div class="card text-white card-dashboard-block shadow card-block d-flex"> <div class="card-body bg-danger card-body-dashboard align-items-center d-flex justify-content-center"> <h5>'.$row->name.'</h5></div></div></a></div>';
+							  		 
 							  		$colCount++;
 							  		if($colCount === 5) {
 							  			echo '</div>';

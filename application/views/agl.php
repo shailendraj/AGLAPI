@@ -133,9 +133,9 @@ if(!empty($sort)) {
 													<div class="container">
 														<form class="form-horizontal">
 															<div class="form-group row">
-																<label class="col-sm-3 col-form-label" for="exampleDropdownFormEmail1"> Name: </label>
-																<div class="col-sm-9">
-																<input type="text" class="form-control" id="filename" name="filename" placeholder="Enter File Name">
+																<label class="col-sm-4 col-form-label label-small" for="exampleDropdownFormEmail1"> Name: </label>
+																<div class="col-sm-8">
+																<input type="text" class="form-control form-control-sm" id="filename" name="filename" placeholder="Enter File Name">
 																</div>
 															</div>
 															<button type="button" class="btn btn-primary btn-sm" onclick="search_opt('filename')">  <i class="fa fa-search" aria-hidden="true"></i> Search</button>
@@ -178,15 +178,15 @@ if(!empty($sort)) {
 														<div class="container">
 															<form class="form-horizontal">
 																<div class="form-group row">
-																	<label class="col-sm-3 col-form-label" for="Name"> From: </label>
-																	<div class="col-sm-9">
-																		<input type="date" class="form-control" id="imported_date" name="imported_date" placeholder="Enter Created">	
+																	<label class="col-sm-4 col-form-label label-small" for="Name"> From: </label>
+																	<div class="col-sm-8">
+																		<input type="date" class="form-control form-control-sm" id="imported_date" name="imported_date" placeholder="Enter Created">	
 																	</div>
 																</div>
 																<div class="form-group row">
-																	<label class="col-sm-3 col-form-label" for="Name"> To: </label>
-																	<div class="col-sm-9">
-																		<input type="date" class="form-control" id="imported_date_to" name="imported_date_to" placeholder="Enter Created">	
+																	<label class="col-sm-4 col-form-label label-small" for="Name"> To: </label>
+																	<div class="col-sm-8">
+																		<input type="date" class="form-control form-control-sm" id="imported_date_to" name="imported_date_to" placeholder="Enter Created">	
 																	</div>
 																</div>
 																<button type="button" class="btn btn-primary btn-sm" onclick="search_opt('imported_date', 'imported_date_to')">  
@@ -234,10 +234,10 @@ if(!empty($sort)) {
 											}
 											?>
 										<tr <?php echo $cssclass;?> <?php echo $row['addressnotfound'];?>>
-											<td><?php echo $row['id']; ?></td>
-											<td><?php echo $row['filename']; ?></td>
-											<td><?php echo $row['date_uploaded']; ?></td>
-											<td><?php echo $row['recordsCount']->reccount; ?></td>
+											<td class="align-middle"><?php echo $row['id']; ?></td>
+											<td class="align-middle"><?php echo $row['filename']; ?></td>
+											<td class="align-middle"><?php echo $row['date_uploaded']; ?></td>
+											<td class="align-middle"><?php echo $row['recordsCount']->reccount; ?></td>
 											<form method="post" action="<?php echo base_url('/exportall'); ?>" />
 												<input type="hidden" name="fileid" value="<?php echo $row['id']; ?>"/>
 												<input type="hidden" name="filename" value="<?php echo $row['filename']; ?>"/>
@@ -251,7 +251,7 @@ if(!empty($sort)) {
 											<form method="post" action="<?php echo base_url('/exportcafcallres'); ?>">
 												<input type="hidden" name="fileidcafres" value="<?php echo $row['id']; ?>"/>
 												<input type="hidden" name="filename" value="<?php echo $row['filename']; ?>"/>
-												<td align="center" ><input type="submit" class="btn btn-primary a-btn-slide-text btn-sm" name="exportcafresfile" id="exportcafresfile" value="Export AGL Response"/></td>
+												<td align="center"  ><input type="submit" class="btn btn-primary a-btn-slide-text btn-sm" name="exportcafresfile" id="exportcafresfile" value="Export AGL Response"/></td>
 											</form>
 											</tr>
 										<?php }  }

@@ -36,12 +36,12 @@
 										<tbody>						 
 											<?php foreach ($data as $index => $row): ?>
 												<tr>
-													<td><?= ($currentPage + 1)+ $index; ?></td>
-													<td><?= $row->page_name ?></td>
-													<td><?= $row->page_url_path ?></td>
-													<td><?= $row->mstatus ?></td>
-													<td><?= $row->vstatus ?></td>
-													<td align="center">                                	
+													<td class="align-middle"><?= ($currentPage + 1)+ $index; ?></td>
+													<td class="align-middle"><?= $row->page_name ?></td>
+													<td class="align-middle"><?= $row->page_url_path ?></td>
+													<td class="align-middle"><?= $row->mstatus ?></td>
+													<td class="align-middle"><?= $row->vstatus ?></td>
+													<td align="center" class="align-middle">                                	
 														<button type="button" class="btn btn-success a-btn-slide-text btn-sm" onclick="AddEditPopUp('<?= $row->page_id  ?>')" > <i class="fa fa-edit" aria-hidden="true" ></i> <span><strong>Edit</strong></span>   
 														</button>
 														<?php $option = ($row->status === '1' ) ? 'Disable' : 'Enable'; ?>
