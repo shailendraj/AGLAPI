@@ -299,6 +299,27 @@ div.ui-dialog {
 	background: #bfbfbf url(../images/block-footer-bg.png) repeat-x top;	
 }
 
+.card-dashboard-block {	
+	padding: 10px;
+	height: 100%;
+	border-radius: 0.617em;
+	border: 1px solid #c5c5c5;
+}
+
+.card-body-dashboard {
+	border: 1px solid #c5c5c5;
+	border-radius: 0.617em;
+	vertical-align: middle;
+	flex: unset !important;
+	min-height: 100px;
+}
+
+.dashboard-col-block a {
+	cursor: pointer;
+  	text-decoration: none;
+}
+
+
 /*
 .block-footer {
  background: #bfbfbf url(../images/old-browsers-bg/block-footer-bg.png) repeat-x top;

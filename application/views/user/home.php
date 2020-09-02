@@ -229,12 +229,12 @@ if(!empty($sort)) {
 											<tbody>						 
 												<?php foreach ($users as $index => $user): ?>
 													<tr>
-														<td><?= ($currentPage + 1)+ $index; ?></td>
-														<td><?= $user->firstname . " " . $user->lastname ?></td>
-														<td><?= $user->username  ?></td>
-														<td><?= $user->created ?></td>
-														<td><?= $user->vstatus ?></td>
-														<td align="center">                                	
+														<td class="align-middle"><?= ($currentPage + 1)+ $index; ?></td>
+														<td class="align-middle"><?= $user->firstname . " " . $user->lastname ?></td>
+														<td class="align-middle"><?= $user->username  ?></td>
+														<td class="align-middle"><?= $user->created ?></td>
+														<td class="align-middle"><?= $user->vstatus ?></td>
+														<td align="center" class="align-middle">                                	
 															<button type="button" class="btn btn-success a-btn-slide-text btn-sm" onclick="AddEditPopUp('<?= $user->username  ?>')" > <i class="fa fa-edit" aria-hidden="true" ></i><span><strong>Edit</strong></span>   
 															</button>	    							
 															<?php $option = ($user->status === '1' ) ? 'Disable' : 'Enable'; ?>

@@ -10,6 +10,7 @@ class Menu_Hook
 	}
 
 	public function set_main_menu()  {
+
 		if(isset($this->CI->userInfo) && !empty($this->CI->userInfo) && (!$this->CI->input->is_ajax_request())) {
 			$cClass = $this->CI->router->fetch_class();
 			$defController = $this->CI->router->default_controller;
@@ -44,6 +45,7 @@ class Menu_Hook
 				$mainMenu[$mid]['pages'] = $pages;
 			}			 
 			$this->CI->mainMenu = $mainMenu;
+			$this->CI->isHome = $isHome;
 		}
 	}
 }	

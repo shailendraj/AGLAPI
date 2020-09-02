@@ -1,8 +1,7 @@
 			</main>
 		</div>
 	</div>
-	<footer class="container-fluid">
-	  	<p>Footer Text</p>
+	<footer class="container-fluid">	  	 
 	</footer>
 	<script src="../assets/js/jquery-3.2.1.min.js"></script>		
 	<script src="../assets/js/popper.min.js"></script>	

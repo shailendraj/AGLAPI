@@ -38,12 +38,12 @@
 										<tbody>						 
 											<?php foreach ($data as $index => $row): ?>
 												<tr>
-													<td><?= $row->ipID ?></td>
-													<td><?= $row->name ?></td>
-													<td><?= long2ip($row->ipStart)  ?></td>
-													<td><?= long2ip($row->ipEnd) ?></td>
-													<td><?= $row->hostname ?></td>
-													<td><?= $row->vstatus ?></td>
+													<td class="align-middle" ><?= $row->ipID ?></td>
+													<td class="align-middle" ><?= $row->name ?></td>
+													<td class="align-middle" ><?= long2ip($row->ipStart)  ?></td>
+													<td class="align-middle" ><?= long2ip($row->ipEnd) ?></td>
+													<td class="align-middle" ><?= $row->hostname ?></td>
+													<td class="align-middle" ><?= $row->vstatus ?></td>
 													<td align="center">                                	
 														<button type="button" class="btn btn-success a-btn-slide-text btn-sm" onclick="AddEditPopUp('<?= $row->ipID  ?>')" > <i class="fa fa-edit" aria-hidden="true" ></i> <span><strong>Edit</strong></span>   
 														</button>	    							

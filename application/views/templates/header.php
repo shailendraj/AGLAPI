@@ -17,7 +17,7 @@
 	<header>
 	<nav class="navbar navbar-dark sticky-top bg-violet flex-md-nowrap p-0 shadow">
 		 <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="/">
-			<img src="../assets/images/icon/form2.png" class="logo" width="24px"> 
+			<img src="../assets/images/agl_logo_primary.png" class="logo" width="24px"> 
 			AGL
 		</a>
 		<button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,7 +56,9 @@
 			$allowPagesId = (!empty($this->permissionInfo->allowPages)) ? $this->permissionInfo->allowPages : array();
 			$allPagesUriWithId = (!empty($this->permissionInfo->allPageIdUri)) ? $this->permissionInfo->allPageIdUri : array();
 			$currentPageId = array_search($currentUri, $allPagesUriWithId);
+
 		?>
+		<?php if(!$this->isHome): ?>
 		<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
 		  <div class="sidebar-sticky pt-3">
 			<ul class="nav flex-column">
@@ -159,3 +161,7 @@
 		  </div>
 		</nav>
 		<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+		<?php else: ?>	
+			<main role="main" class="col-md-12 ml-sm-auto col-lg-12">
+		<?php endif ;?>
+		
