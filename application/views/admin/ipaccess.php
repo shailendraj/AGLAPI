@@ -2,8 +2,7 @@
 <div class="content-fluid pt-2">	 
 	<div class="container-fluid breadcrumb-container lite-grey-gradient">
 		<ul id="breadcrumb">
-			<li><a href="/" title="Dashboard">Home &nbsp;</a></li>
-			<li><a href="/" title="Dashboard">Dashboard&nbsp;</a></li>
+			<li><a href="/" title="Dashboard">Home &nbsp;</a></li>			
 			<li><a href="javascript:void(0)" title="Dashboard">Manages IP access </a></li>
 		</ul>
 		<div class="clearfix"></div>
@@ -16,7 +15,7 @@
 					<div class="container-fluid pt-2 main-card-block lite-grey-gradient main-table-block">	
 						<div class="row">
 							<div class="col-lg-12 pb-2">				 
-									<button type="button" class="btn btn-success a-btn-slide-tex float-right btn-sm" onclick="AddEditPopUp(0)"> <i class="fa fa-plus" aria-hidden="true"></i><span><strong>Add</strong></span>   
+									<button type="button" class="btn btn-success a-btn-slide-tex float-right btn-sm" onclick="AddEditPopUp(0)"> <i class="fa fa-plus" aria-hidden="true"></i> <span><strong>Add</strong></span>   
 									</button>    			 
 							</div>	
 							<div class="col-lg-12 ">
@@ -45,11 +44,11 @@
 													<td class="align-middle" ><?= $row->hostname ?></td>
 													<td class="align-middle" ><?= $row->vstatus ?></td>
 													<td align="center">                                	
-														<button type="button" class="btn btn-success a-btn-slide-text btn-sm" onclick="AddEditPopUp('<?= $row->ipID  ?>')" > <i class="fa fa-edit" aria-hidden="true" ></i> <span><strong>Edit</strong></span>   
+														<button type="button" class="btn btn-info a-btn-slide-text btn-sm" onclick="AddEditPopUp('<?= $row->ipID  ?>')" > <i class="fa fa-edit" aria-hidden="true" ></i> <span><strong>Edit</strong></span>   
 														</button>	    							
 														</button>
 														<?php $option = ($row->status === '1' ) ? 'Disable' : 'Enable'; ?>
-														<button type="button" class="btn btn-success a-btn-slide-text btn-sm" onclick="updatestatus('<?= $row->ipID  ?>')" > <i class="fa fa-exchange" aria-hidden="true" ></i><span><strong>  <?=$option ?></strong></span>   
+														<button type="button" class="btn btn-info a-btn-slide-text btn-sm" onclick="updatestatus('<?= $row->ipID  ?>')" > <i class="fa fa-exchange" aria-hidden="true" ></i><span><strong>  <?=$option ?></strong></span>   
 														</button>
 													</td>
 												</tr>
