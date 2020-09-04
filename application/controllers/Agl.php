@@ -888,4 +888,88 @@ class Agl extends CI_Controller {
         //$data['filedata'] = $this->fileimport->getRows();			
 	    $this->common_view('importAddressValidation', $data);		
 	}
+	
+	public function cafImports() {
+		$data = array();
+		// Get messages from the session
+        if($this->session->userdata('success_msg')){
+            $data['success_msg'] = $this->session->userdata('success_msg');
+            $this->session->unset_userdata('success_msg');
+        }
+        if($this->session->userdata('error_msg')){
+            $data['error_msg'] = $this->session->userdata('error_msg');
+            $this->session->unset_userdata('error_msg');
+        }					
+		
+		if($this->session->userdata('file_exists_msg')){
+            $data['file_exists_msg'] = $this->session->userdata('file_exists_msg');
+			$this->session->unset_userdata('file_exists_msg');
+        }
+		
+		if($this->session->userdata('api_process_msg')){
+            $data['api_process_msg'] = $this->session->userdata('api_process_msg'); 
+            $this->session->unset_userdata('api_process_msg');			
+        }
+		$srh = $this->input->get('srh', '');		
+        $sort = $this->input->get('sort', '');        
+        if(!empty($sort)) {
+        	$field =  explode(':', $sort);
+			$order = trim($field[0]);		
+			$order_type = strtoupper(trim($field[1]));    	
+			if(!(!empty($order) &&  in_array($order_type, array('DESC', 'ASC')))) {
+				$order = '';
+        		$order_type = 'DESC';
+			} else {
+				if($order == 'name') {
+					$order = 'firstname';
+				}
+			}  
+        } else {
+        	$order = '';
+        	$order_type = 'DESC';
+        }
+
+        $config = array();
+	    $config['full_tag_open'] = '<nav aria-label="Page navigation example"><ul class="pagination">';
+		$config['full_tag_close'] = '</ul></nav>';
+		$config['num_tag_open'] = '<li class="page-item">';
+		$config['num_tag_close'] = '</li>';
+		$config['cur_tag_open'] = '<li class="page-item active"><a class="page-link" href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+		$config['attributes'] = array('class' => 'page-link');
+        $config["base_url"] = base_url() . "cafImports";
+        $config["total_rows"] = $this->fileimport->count_files($srh);
+		//$config['num_links'] = $this->fileimport->count_files($srh);
+        $config["use_page_numbers"] = TRUE;   
+        $config["reuse_query_string"] = TRUE;                
+        $config["per_page"] = 10;
+        $config["uri_segment"] = 2;        
+        $data['itemsPerPage'] = $config["per_page"];
+
+        $this->pagination->initialize($config);
+        $page = ($this->uri->segment(2)) ? ($this->uri->segment(2)-1)*10 : 0;
+		$data['currentUrl'] = current_url();
+        $data['srh'] = urldecode($srh);
+        $data['sort'] = $sort;
+        $data['currentPage'] =  empty($page) ? 1 : $page ;
+        $data["links"] = $this->pagination->create_links();
+		$data['javascript'][] =  base_url('assets/js/extra/aglfiles.js');
+        	
+		// Get rows
+        $data['filedata'] = $this->fileimport->get_file_data_row($srh, $order, $order_type, $config["per_page"], $page);
+		if(!empty($data['filedata'])) {
+			foreach($data['filedata'] as $iKey=>$aData) {
+                $cafStatus = $this->getCafStatus($aData['id']);			
+				$data[$iKey]['filearr'] = array(
+					'id'=>$aData['id'],
+					'filename'=>$aData['filename'],
+					'date_uploaded'=>$aData['imported_date'],
+					'addressnotfound'=>$cafStatus,
+					'recordsCount'=>$this->aglupload->getFileDataWithDataCount($aData['id'])
+				);
+			array_push($data['filedata'], $data[$iKey]['filearr']);
+			}
+		}        	
+	    $this->common_view('caf_imports', $data);
+	}
 }
