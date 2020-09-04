@@ -1,8 +1,7 @@
 <div class="content-fluid pt-2"> 
 	<div class="container-fluid breadcrumb-container lite-grey-gradient">
 		<ul id="breadcrumb">
-			<li><a href="/" title="Home">Home</a></li>
-			<li><a href="/" title="Dashboard">Dashboard</a></li>
+			<li><a href="/" title="Home">Home</a></li>			
 		</ul>
 		<div class="clearfix"></div>
 	</div>
@@ -20,7 +19,7 @@
 							  			echo '<div class="row">';
 							  		}
 							  		 
-							  		echo '<div class="col-sm-2 mb-3 dashboard-col-block"> <a href="'.base_url($row->page_url_path).'"><div class="card text-white card-dashboard-block shadow card-block d-flex"> <div class="card-body bg-danger card-body-dashboard align-items-center d-flex justify-content-center"> <h5>'.$row->name.'</h5></div></div></a></div>';
+							  		echo '<div class="col-sm-2 mb-3 dashboard-col-block"> <a href="'.base_url($row->page_url_path).'"><div class="card text-white card-dashboard-block shadow card-block d-flex"> <div class="card-body card-bg-danger card-body-dashboard align-items-center d-flex justify-content-center"> <h5>'.$row->name.'</h5></div></div></a></div>';
 							  		 
 							  		$colCount++;
 							  		if($colCount === 5) {
