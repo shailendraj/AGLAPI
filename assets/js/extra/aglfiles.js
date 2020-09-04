@@ -52,7 +52,7 @@ function search_redirect() {
 	});	
 	var loc = window.location;
 	var withoutQuery = loc.hostname + loc.pathname;
-	var currentUrl = loc.protocol + "//" + loc.hostname + '/agl';	
+	var currentUrl = loc.protocol + "//" + loc.hostname + '/cafImports';	
 	var options =  getUrlVars(); 	
 	var oldParam = '';
 	$.each(options, function( index, value ) {

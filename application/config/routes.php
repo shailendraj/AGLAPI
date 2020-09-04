@@ -65,6 +65,9 @@ $route['exportall'] = "/agl/exportall";
 $route['exportcafres'] = "/agl/exportcafres";
 $route['exportcafcallres'] = "/agl/exportcafcallres";
 $route['importaddressvalidation'] = "/agl/importaddressvalidation";
+$route['cafImports'] = "/agl/cafImports";
+$route['agl/cafImports'] = "/agl/cafImports";
+$route['cafImports/(:num)'] = '/agl/cafImports';
 
 
 //USER loign
