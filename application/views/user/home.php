@@ -63,7 +63,7 @@ if(!empty($sort)) {
 										<table cellpadding="0" cellspacing="0" border="0" class="datatable table table-sm table-striped table-bordered table-hover">
 											<thead class="table-primary">
 												<tr>
-													<th width="8%"> Sr. No</th>
+													<th width="8%"> S.N. </th>
 													<th> 
 														Name 
 														<div class="btn-group">								 

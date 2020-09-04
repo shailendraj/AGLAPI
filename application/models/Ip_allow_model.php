@@ -24,9 +24,28 @@ class Ip_allow_Model extends CI_Model {
 		$this->db->select("ipID, name, status, ipStart, ipEnd, hostname, (IF(status = 1,'Enable','Disable')) as vstatus");
 		$this->db->from('ip_allow');	
 
-		if ($search_string){
-			$this->db->like('name', $search_string);
+		if ($search_string){				
+			$arrayOpt = explode('@', $search_string) ;	
+			$searchOpt = array();
+			foreach($arrayOpt as $opt) {
+				$field =  explode(':', $opt);
+				$fieldName = trim($field[0]);		
+				$fieldVal = trim($field[1]);
+				if(!empty($fieldVal)) {
+					//$searchOpt[$fieldName] = trim($field[1]); 
+					if(strtolower($fieldName) === 'ipstart') {
+						$fieldVal = ip2long($fieldVal);
+						$this->db->like($fieldName, $fieldVal);
+					} elseif(strtolower($fieldName) === 'ipend') {
+						$fieldVal = ip2long($fieldVal);
+						$this->db->like($fieldName, $fieldVal);
+					} else {	
+						$this->db->like($fieldName, $fieldVal);					
+					}	
+				}
+			}
 		}		
+
 		if($order){
 			$this->db->order_by($order, $order_type);
 		}else{
@@ -42,9 +61,29 @@ class Ip_allow_Model extends CI_Model {
 	function count_ip_allow($search_string=null, $order=null) {
 		$this->db->select('count(*) as row_count ');
 		$this->db->from('ip_allow');
-		if($search_string){
-			$this->db->like('name', $search_string);
+
+		if ($search_string){				
+			$arrayOpt = explode('@', $search_string) ;	
+			$searchOpt = array();
+			foreach($arrayOpt as $opt) {
+				$field =  explode(':', $opt);
+				$fieldName = trim($field[0]);		
+				$fieldVal = trim($field[1]);
+				if(!empty($fieldVal)) {
+					//$searchOpt[$fieldName] = trim($field[1]); 
+					if(strtolower($fieldName) === 'ipstart') {
+						$fieldVal = ip2long($fieldVal);
+						$this->db->like($fieldName, $fieldVal);
+					} elseif(strtolower($fieldName) === 'ipstart') {
+						$fieldVal = ip2long($fieldVal);
+						$this->db->like($fieldName, $fieldVal);
+					} else {	
+						$this->db->like($fieldName, $fieldVal);					
+					}	
+				}
+			}
 		}
+
 		$query = $this->db->get();
 		$rowObj = $query->row();
 		return $rowObj->row_count;
