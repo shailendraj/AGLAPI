@@ -38,7 +38,6 @@ if(!empty($sort)) {
 	<div class="container-fluid breadcrumb-container lite-grey-gradient">
 		<ul id="breadcrumb">
 			<li><a href="/" title="Dashboard">Home &nbsp;</a></li>
-			<li><a href="/" title="Dashboard">Dashboard&nbsp;</a></li>
 			<li><a href="javascript:void(0)" title="Dashboard">Manages Users </a></li>
 		</ul>
 		<div class="clearfix"></div>
@@ -51,7 +50,7 @@ if(!empty($sort)) {
 					<div class="container-fluid pt-2 main-card-block lite-grey-gradient main-table-block">	 
 							<div class="row">
 								<div class="col-lg-12 pb-2">				 
-										<button type="button" class="btn btn-success a-btn-slide-tex float-right btn-sm" onclick="AddEditPopUp(0)"> <i class="fa fa-plus" aria-hidden="true"></i><span><strong>Add</strong></span>   
+										<button type="button" class="btn btn-success a-btn-slide-tex float-right btn-sm" onclick="AddEditPopUp(0)"> <i class="fa fa-plus" aria-hidden="true"></i> <span><strong>Add</strong></span>   
 										</button> 
 										&nbsp;
 										<button type="button" class="btn btn-info a-btn-slide-tex btn-sm" onclick="window.location.href='<?= base_url() .'user' ?>' "> <i class="fa fa-refresh" aria-hidden="true"></i><span><strong> Reset filter & Sort</strong></span>   
@@ -87,7 +86,7 @@ if(!empty($sort)) {
 																			<input type="text" class="form-control form-control-sm" id="name" name="field_name" placeholder="Enter Name">
 																			</div>
 																		</div>
-																		<button type="button" class="btn btn-primary btn-sm" onclick="search_opt('name')">  <i class="fa fa-search" aria-hidden="true"></i> Search</button>
+																		<button type="button" class="btn btn-info btn-sm" onclick="search_opt('name')">  <i class="fa fa-search" aria-hidden="true"></i> Search</button>
 																	</form>
 																</div>
 														  </div>								  
@@ -132,7 +131,7 @@ if(!empty($sort)) {
 																			<input type="text" class="form-control form-control-sm" id="username" name="field_username" placeholder="Enter Username">
 																			</div>
 																		</div>
-																		<button type="button" class="btn btn-primary btn-sm" onclick="search_opt('username')">  
+																		<button type="button" class="btn btn-info btn-sm" onclick="search_opt('username')">  
 																			<i class="fa fa-search" aria-hidden="true"></i> Search
 																		</button>
 																	</form>
@@ -179,7 +178,7 @@ if(!empty($sort)) {
 																				<input type="date" class="form-control form-control-sm" id="created" name="field_created" placeholder="Enter Created">	
 																			</div>
 																		</div>												 
-																		<button type="button" class="btn btn-primary btn-sm" onclick="search_opt('created')">  
+																		<button type="button" class="btn btn-info btn-sm" onclick="search_opt('created')">  
 																			<i class="fa fa-search" aria-hidden="true"></i> Search
 																		</button>
 																	</form>
@@ -235,10 +234,10 @@ if(!empty($sort)) {
 														<td class="align-middle"><?= $user->created ?></td>
 														<td class="align-middle"><?= $user->vstatus ?></td>
 														<td align="center" class="align-middle">                                	
-															<button type="button" class="btn btn-success a-btn-slide-text btn-sm" onclick="AddEditPopUp('<?= $user->username  ?>')" > <i class="fa fa-edit" aria-hidden="true" ></i><span><strong>Edit</strong></span>   
+															<button type="button" class="btn btn-info a-btn-slide-text btn-sm" onclick="AddEditPopUp('<?= $user->username  ?>')" > <i class="fa fa-edit" aria-hidden="true" ></i> <span><strong>Edit</strong></span>   
 															</button>	    							
 															<?php $option = ($user->status === '1' ) ? 'Disable' : 'Enable'; ?>
-															<button type="button" class="btn btn-success a-btn-slide-text btn-sm" onclick="updatestatus('<?= $user->username  ?>')" > <i class="fa fa-exchange" aria-hidden="true" ></i><span><strong>  <?=$option ?></strong></span>   
+															<button type="button" class="btn btn-info a-btn-slide-text btn-sm" onclick="updatestatus('<?= $user->username  ?>')" > <i class="fa fa-exchange" aria-hidden="true" ></i><span><strong>  <?=$option ?></strong></span>   
 															</button>
 														</td>
 													</tr>
@@ -246,7 +245,7 @@ if(!empty($sort)) {
 											</tbody>
 											<tfoot>
 												<tr class="table-secondary"  >
-													<th colspan="6"style="padding:0px 5px;"> 
+													<th colspan="6"> 
 														<?php echo $links; ?>
 													</th>							 
 												</tr>

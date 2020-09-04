@@ -165,7 +165,7 @@ body {
 .main-table-block tfoot td,
 .main-table-block tfoot th {
 	background: -webkit-gradient(linear,left top, left bottom,from(#cccccc),to(#a4a4a4));
-	padding: 7px !important;
+	padding: 10px !important;
 }
 .main-table-block thead {
 	background: -webkit-gradient(linear,left top, left bottom,from(#cccccc),to(#a4a4a4));
@@ -173,12 +173,14 @@ body {
 
 .main-table-block  .table-bordered th {
 	border: 1px solid #999999;
-	padding: 12px;
+	padding: 10px;
 	text-transform: uppercase;	
 }	
  
 .main-table-block  .table-bordered td{
 	border: 1px solid #999999;
+	padding: 10px;
+	text-transform: uppercase;	
 }
 
 .label-small {
@@ -410,4 +412,22 @@ div.ui-dialog {
 .control-label  {
 	font-weight: bold;
 	color: #808087;
+}
+
+
+.page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+.card-bg-danger {
+	transition: .4s;
+	background-color: #553c86; 
+}
+
+.card-bg-danger:hover {
+	transition: .4s;
+	background-color: rgba(3, 169, 244, 0.7) ;
 }
