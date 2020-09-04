@@ -243,10 +243,10 @@ if(!empty($sort)) {
 													</tr>
 												<?php endforeach; ?>							
 											</tbody>
-											<tfoot>
-												<tr class="table-secondary"  >
+											<tfoot class="table-secondary"  >
+												<tr>
 													<th colspan="6"> 
-														<?php echo $links; ?>
+														<?php echo $links; ?> &nbsp;
 													</th>							 
 												</tr>
 											</tfoot>
