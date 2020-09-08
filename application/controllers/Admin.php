@@ -25,6 +25,21 @@ class Admin extends CI_Controller {
 		$data = array();	 			 	    
 		$config = array();
 
+		$srh = $this->input->get('srh', '');
+		$sort = $this->input->get('sort', '');        
+		if(!empty($sort)) {
+			$field =  explode(':', $sort);
+			$order = trim($field[0]);		
+			$order_type = strtoupper(trim($field[1]));    	
+			if(!(!empty($order) &&  in_array($order_type, array('DESC', 'ASC')))) {
+				$order = '';
+				$order_type = 'DESC';
+			}  
+		} else {
+			$order = '';
+			$order_type = 'DESC';
+		}
+
 		$config['full_tag_open'] = '<nav aria-label="Page navigation example"><ul class="pagination">';
 		$config['full_tag_close'] = '</ul></nav>';
 		$config['num_tag_open'] = '<li class="page-item">';
@@ -33,7 +48,7 @@ class Admin extends CI_Controller {
 		$config['cur_tag_close'] = '</a></li>';
 		$config['attributes'] = array('class' => 'page-link');
 		$config["base_url"] = base_url() . "ipaccess";
-		$config["total_rows"] = $this->pages_model->count_pages();
+		$config["total_rows"] = $this->pages_model->count_pages($srh, $order);
 		$config["use_page_numbers"] = TRUE;        
 		$config["per_page"] = 10;
 		$config["uri_segment"] = 2;
@@ -43,8 +58,11 @@ class Admin extends CI_Controller {
 		$this->pagination->initialize($config);
 		$offset = ($this->uri->segment(2)) ? ($this->uri->segment(2)-1) * $config["per_page"] : 0;
 		$data['currentPage'] =  empty($offset) ? 0 : $offset ;
+		$data['currentUrl'] = current_url();
+        $data['srh'] = urldecode($srh);
+        $data['sort'] = $sort;
 		$data["links"] = $this->pagination->create_links();
-		$data['data'] = $this->pages_model->get_all('','', 'DESC', $config["per_page"], $offset);
+		$data['data'] = $this->pages_model->get_all($srh, $order, $order_type,  $config["per_page"], $offset);
 		$data['javascript'][] =  base_url('assets/js/extra/page.js');
 		$this->common_view('pages', $data);	
 	}
@@ -111,6 +129,21 @@ class Admin extends CI_Controller {
 		$data = array();	 	    
 		$config = array();
 
+		$srh = $this->input->get('srh', '');
+		$sort = $this->input->get('sort', '');        
+		if(!empty($sort)) {
+			$field =  explode(':', $sort);
+			$order = trim($field[0]);		
+			$order_type = strtoupper(trim($field[1]));    	
+			if(!(!empty($order) &&  in_array($order_type, array('DESC', 'ASC')))) {
+				$order = '';
+				$order_type = 'DESC';
+			}  
+		} else {
+			$order = '';
+			$order_type = 'DESC';
+		}
+
 		$config['full_tag_open'] = '<nav aria-label="Page navigation example"><ul class="pagination">';
 		$config['full_tag_close'] = '</ul></nav>';
 		$config['num_tag_open'] = '<li class="page-item">';
@@ -119,7 +152,7 @@ class Admin extends CI_Controller {
 		$config['cur_tag_close'] = '</a></li>';
 		$config['attributes'] = array('class' => 'page-link');
 		$config["base_url"] = base_url() . "ipaccess";
-		$config["total_rows"] = $this->ip_allow_model->count_ip_allow();
+		$config["total_rows"] = $this->ip_allow_model->count_ip_allow($srh, $order);
 		$config["use_page_numbers"] = TRUE;        
 		$config["per_page"] = 10;
 		$config["uri_segment"] = 2;
@@ -129,8 +162,11 @@ class Admin extends CI_Controller {
 		$this->pagination->initialize($config);
 		$offset = ($this->uri->segment(2)) ? ($this->uri->segment(2)-1) * $config["per_page"] : 0;
 		$data['currentPage'] =  empty($offset) ? 0 : $offset ;
+		$data['currentUrl'] = current_url();
+        $data['srh'] = urldecode($srh);
+        $data['sort'] = $sort;
 		$data["links"] = $this->pagination->create_links();
-		$data['data'] = $this->ip_allow_model->get_all('','', 'DESC', $config["per_page"], $offset);
+		$data['data'] = $this->ip_allow_model->get_all($srh, $order, $order_type, $config["per_page"], $offset);
 		$data['javascript'][] =  base_url('assets/js/extra/ipaccess.js');
 		$this->common_view('admin/ipaccess', $data);	
 	}
@@ -204,9 +240,25 @@ class Admin extends CI_Controller {
 	}
 
 	public function roles()	{
+
 		$this->load->model('roles_model');
 		$data = array();	 	    
 		$config = array();
+
+		$srh = $this->input->get('srh', '');
+		$sort = $this->input->get('sort', '');        
+		if(!empty($sort)) {
+			$field =  explode(':', $sort);
+			$order = trim($field[0]);		
+			$order_type = strtoupper(trim($field[1]));    	
+			if(!(!empty($order) &&  in_array($order_type, array('DESC', 'ASC')))) {
+				$order = '';
+				$order_type = 'DESC';
+			}
+		} else {
+			$order = '';
+			$order_type = 'DESC';
+		}
 
 		$config['full_tag_open'] = '<nav aria-label="Page navigation example"><ul class="pagination">';
 		$config['full_tag_close'] = '</ul></nav>';
@@ -216,7 +268,7 @@ class Admin extends CI_Controller {
 		$config['cur_tag_close'] = '</a></li>';
 		$config['attributes'] = array('class' => 'page-link');
 		$config["base_url"] = base_url() . "ipaccess";
-		$config["total_rows"] = $this->roles_model->count_roles();
+		$config["total_rows"] = $this->roles_model->count_roles($srh, $order);
 		$config["use_page_numbers"] = TRUE;        
 		$config["per_page"] = 10;
 		$config["uri_segment"] = 2;
@@ -226,8 +278,11 @@ class Admin extends CI_Controller {
 		$this->pagination->initialize($config);
 		$offset = ($this->uri->segment(2)) ? ($this->uri->segment(2)-1) * $config["per_page"] : 0;
 		$data['currentPage'] =  empty($offset) ? 0 : $offset ;
+		$data['currentUrl'] = current_url();
+		$data['srh'] = urldecode($srh);
+		$data['sort'] = $sort;
 		$data["links"] = $this->pagination->create_links();
-		$data['data'] = $this->roles_model->get_all('','', 'DESC', $config["per_page"], $offset); 		 
+		$data['data'] = $this->roles_model->get_all($srh, $order, $order_type, $config["per_page"], $offset); 		 
 		$data['javascript'][] =  base_url('assets/js/extra/roles.js');
 		$this->common_view('roles', $data);	
 	}
