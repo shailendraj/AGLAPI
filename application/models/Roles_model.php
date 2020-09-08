@@ -95,9 +95,19 @@ class Roles_Model extends CI_Model
 		$this->db->from('roles');
 		$ignore = array(1, 2);
 		$this->db->where_not_in('role_id', $ignore);
-		if($search_string){
-			$this->db->like('role_name', $search_string);
-		}
+		if ($search_string){				
+			$arrayOpt = explode('@', $search_string) ;	
+			$searchOpt = array();
+			foreach($arrayOpt as $opt) {
+				$field =  explode(':', $opt);
+				$fieldName = trim($field[0]);		
+				$fieldVal = trim($field[1]);
+				if(!empty($fieldVal)) {
+					//$searchOpt[$fieldName] = trim($field[1]); 
+					$this->db->like($fieldName, $fieldVal);					
+				}
+			}
+		}	
 		$query = $this->db->get();
 		$rowObj = $query->row();
 		return $rowObj->row_count;
@@ -108,8 +118,19 @@ class Roles_Model extends CI_Model
 		$this->db->from('roles');	
 		$ignore = array(1, 2);
 		$this->db->where_not_in('role_id', $ignore);
-		if ($search_string){
-			$this->db->like('role_name', $search_string);
+
+		if ($search_string){				
+			$arrayOpt = explode('@', $search_string) ;	
+			$searchOpt = array();
+			foreach($arrayOpt as $opt) {
+				$field =  explode(':', $opt);
+				$fieldName = trim($field[0]);		
+				$fieldVal = trim($field[1]);
+				if(!empty($fieldVal)) {
+					//$searchOpt[$fieldName] = trim($field[1]); 
+					$this->db->like($fieldName, $fieldVal);					
+				}
+			}
 		}		
 		if($order){
 			$this->db->order_by($order, $order_type);

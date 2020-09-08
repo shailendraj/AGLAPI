@@ -49,3 +49,76 @@ function updatestatus(userId) {
 		}
 	});
 }
+
+function search_opt(field_id) {
+	var val = $("#"+field_id).val();		
+	if(val !== null && val !== 'undefined' && val !== '') {		
+		$("#"+field_id+"Search").val(field_id+":"+val);
+		$("#selected"+field_id+"Search").html(" "+val+' &nbsp;<a href="javascript:void(0)" onclick="remove_serachopt(\''+ field_id + '\')" ><i class="fa fa-trash" aria-hidden="true"></i></a>');
+		search_redirect();
+	}
+}
+
+function remove_serachopt(field_id) {
+	$("#"+field_id+"Search").val('');
+	$("#selected"+field_id+"Search").html("");
+	search_redirect();
+}
+
+function search_redirect() {
+	var searchInput = $('input[name="search[]"]').map(function () {
+   		return this.value; // $(this).val()
+	}).get();
+	var serachOpt = '';
+	$.each(searchInput, function( index, value ) {		
+  		if(value != "" && value != 'undefined') {
+  			if(serachOpt === '') {
+  				serachOpt = value;
+  			} else {
+  				serachOpt += "@" + value;
+  			}
+  		}
+	});
+
+	var loc = window.location;
+	var withoutQuery = loc.hostname + loc.pathname;
+	var currentUrl = loc.protocol + "//" + loc.hostname + '/ipaccess';	
+	var options =  getUrlVars(); 
+	var oldParam = '';
+	$.each(options, function( index, value ) {
+		if(index != 'srh' && typeof index === 'string' && value != '') {
+
+			if(oldParam === '') {
+				oldParam = index + "=" + value;
+			} else {
+				oldParam += "&"+index + "=" + value;
+			}
+		}
+	});	
+	if(serachOpt !== '' ) {
+		currentUrl += "?srh=" + encodeURI(serachOpt) + "&" + oldParam; 
+	} else {
+		currentUrl += "?" + oldParam;
+	}
+	window.location.href = currentUrl;	
+}
+
+function getUrlVars()
+{
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++)
+    {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+    }
+    return vars;
+}
+
+
+
+$( document ).ready(function() {
+    $('.dropdown-toggle').dropdown()
+});
+

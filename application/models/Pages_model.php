@@ -105,8 +105,18 @@ class Pages_Model extends CI_Model
 	public function count_pages($search_string=null, $order=null) {
 		$this->db->select('count(*) as row_count ');
 		$this->db->from('pages');
-		if($search_string){
-			$this->db->like('page_name', $search_string);
+		if ($search_string){				
+			$arrayOpt = explode('@', $search_string) ;	
+			$searchOpt = array();
+			foreach($arrayOpt as $opt) {
+				$field =  explode(':', $opt);
+				$fieldName = trim($field[0]);		
+				$fieldVal = trim($field[1]);
+				if(!empty($fieldVal)) {
+					//$searchOpt[$fieldName] = trim($field[1]); 
+					$this->db->like($fieldName, $fieldVal);					
+				}
+			}
 		}
 		$query = $this->db->get();
 		$rowObj = $query->row();
@@ -117,9 +127,20 @@ class Pages_Model extends CI_Model
 		$this->db->select("page_id, page_name, page_url_path,module, parentPageId, menuStatus, (IF(menuStatus = '1','YES','NO')) as mstatus, status, (IF(status = '1','Enable','Disable')) as vstatus");
 		$this->db->from('pages');	
 
-		if ($search_string){
-			$this->db->like('page_name', $search_string);
-		}		
+		if ($search_string){				
+			$arrayOpt = explode('@', $search_string) ;	
+			$searchOpt = array();
+			foreach($arrayOpt as $opt) {
+				$field =  explode(':', $opt);
+				$fieldName = trim($field[0]);		
+				$fieldVal = trim($field[1]);
+				if(!empty($fieldVal)) {
+					//$searchOpt[$fieldName] = trim($field[1]); 
+					$this->db->like($fieldName, $fieldVal);					
+				}
+			}
+		}
+				
 		if($order){
 			$this->db->order_by($order, $order_type);
 		}else{
