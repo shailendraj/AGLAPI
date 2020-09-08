@@ -153,7 +153,9 @@ class Agl extends CI_Controller {
         // If import request is submitted
         if($this->input->post('importSubmit')){
 			$siteAddressIsTrue = $this->input->post('siteaddress');
-			$mailingAddressIsTrue = $this->input->post('mailingaddress');		
+			$mailingAddressIsTrue = $this->input->post('mailingaddress');
+			$flagToRedirect = $this->input->post('addVal') ? 1 : 0;
+			
             // Form field validation rules
             $this->form_validation->set_rules('file', 'CSV file', 'callback_file_check');              	
             // Validate submitted form data	
@@ -368,8 +370,12 @@ class Agl extends CI_Controller {
             } else {
                 $this->session->set_userdata('error_msg', 'Invalid file, please select only CSV file.');
             }
-        }	
-        redirect('/agl');
+        }
+		if($flagToRedirect == 0) {
+			redirect('/agl');
+		} else {
+			redirect('/importaddressvalidation');
+		}
     }
 	
 	// AGL API to get access token //
